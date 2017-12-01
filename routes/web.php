@@ -18,6 +18,14 @@ Route::group(['middleware' => 'User'], function(){
   Route::get('/home', 'UserController@Dashboard')->name('home');
 
   Route::group(['middleware' => 'SuperAdmin'], function(){
+    // Super Admin
+    Route::get('/data-admin', 'UserController@DataAdmin');
+    Route::get('/data-admin/tambah', 'UserController@TambahAdmin');
+    Route::POST('/data-admin/tambah', 'UserController@storeTambahAdmin');
+    Route::get('/data-admin/{id}/edit', 'UserController@EditAdmin');
+    Route::POST('/data-admin/{id}/edit', 'UserController@storeEditAdmin');
+    Route::get('/data-admin/{id}/hapus', 'UserController@HapusAdmin');
+
     // Data Kelurahan
     Route::get('/data-kelurahan', 'UserController@DataKelurahan');
     Route::get('/data-kelurahan/tambah', 'UserController@TambahKelurahan');
@@ -42,7 +50,7 @@ Route::group(['middleware' => 'User'], function(){
     Route::POST('/data-status-sekolah/{id}/edit', 'UserController@storeEditStatusSekolah');
     Route::get('/data-status-sekolah/{id}/hapus', 'UserController@HapusStatusSekolah');
 
-    // Data Admin
+    // Data Admin Sekolah
     Route::get('/data-admin-sekolah', 'UserController@DataAdminSekolah');
     Route::get('/data-admin-sekolah/tambah', 'UserController@TambahAdminSekolah');
     Route::POST('/data-admin-sekolah/tambah', 'UserController@storeTambahAdminSekolah');
