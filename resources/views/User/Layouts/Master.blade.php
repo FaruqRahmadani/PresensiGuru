@@ -221,6 +221,17 @@
                         <span data-localize="sidebar.nav.DOCUMENTATION">Dashboard</span>
                      </a>
                   </li>
+
+                  <li class="nav-heading ">
+                     <span data-localize="sidebar.heading.HEADER">Master Menu</span>
+                  </li>
+                  <li class=" ">
+                     <a href="/data-admin">
+                        <em class="icon-user"></em>
+                        <span data-localize="sidebar.nav.DOCUMENTATION">Data Admin</span>
+                     </a>
+                  </li>
+
                   <li class="nav-heading ">
                      <span data-localize="sidebar.heading.HEADER">Master Data</span>
                   </li>

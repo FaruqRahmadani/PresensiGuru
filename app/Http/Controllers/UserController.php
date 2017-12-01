@@ -23,6 +23,119 @@ class UserController extends Controller
     return view('User.Home');
   }
 
+  public function DataAdmin()
+  {
+    $User = User::with('Sekolah')
+                ->where('tipe', 1)
+                ->get();
+
+    return view('User.DataAdmin', ['User' => $User]);
+  }
+
+  public function TambahAdmin()
+  {
+    return view('User.TambahAdmin');
+  }
+
+  public function storeTambahAdmin(Request $request)
+  {
+    $User = new User;
+
+    $User = User::where('username', $request->Username)
+                ->get();
+    if (count($User) > 0) {
+      return back()->withInput();
+    }
+
+    $User = new User;
+
+    $User->nama       = $request->Nama;
+    $User->email      = $request->Email;
+    $User->username   = $request->Username;
+    $User->Password   = bcrypt($request->Password);
+    $User->sekolah_id = 0;
+    $User->tipe = 1;
+
+    // Jika Ada Inputan foto
+    if ($request->foto != null) {
+      $FotoExt  = $request->foto->getClientOriginalExtension();
+      $NamaFoto = Carbon::now()->format('dmYHis');
+      $Foto = $NamaFoto.'.'.$FotoExt;
+      $request->Foto->move(public_path('Public-User/img/user'), $Foto);
+      $User->foto = $Foto;
+    }
+
+    $User->save();
+
+    return redirect('/data-admin')->with('success', 'Data Admin '.$request->Nama.' Berhasil di Tambahkan');
+  }
+
+  public function EditAdmin($id)
+  {
+    try {
+      $idz = Crypt::decryptString($id);
+    } catch (DecryptException $e) {
+      return abort('404');
+    }
+
+    $User = User::find($idz);
+
+    return view('User.EditAdmin', ['User' => $User]);
+  }
+
+  public function storeEditAdmin(Request $request, $id)
+  {
+    try {
+      $idz = Crypt::decryptString($id);
+    } catch (DecryptException $e) {
+      return abort('404');
+    }
+    $User = User::find($idz);
+
+    // Validasi Username
+    $UserValidate = User::where('username', $request->Username)
+                        ->get();
+    if ((count($UserValidate) > 0) && ($request->Username != $User->username)) {
+      return back()->withInput();
+    }
+
+    // Foto
+    if ($request->Foto != null) {
+      if ($User->foto != 'default.png') {
+        File::delete('Public-User/img/user/'.$User->foto);
+      }
+      $FotoExt  = $request->Foto->getClientOriginalExtension();
+      $NamaFoto = Carbon::now()->format('dmYHis');
+      $Foto = $NamaFoto.'.'.$FotoExt;
+      $request->Foto->move(public_path('Public-User/img/user'), $Foto);
+      $User->foto = $Foto;
+    }
+
+    $User->nama     = $request->Nama;
+    $User->email    = $request->Email;
+    $User->username = $request->Username;
+
+    $User->save();
+
+    return redirect('/data-admin')->with('success', 'Data Admin '.$request->Nama.' Berhasil di Ubah');
+  }
+
+  public function HapusAdmin($id)
+  {
+    try {
+      $idz = Crypt::decryptString($id);
+    } catch (DecryptException $e) {
+      return abort('404');
+    }
+    $User = User::find($idz);
+
+    $NamaUser = $User->nama;
+
+    $User->delete();
+
+    return redirect('/data-admin')->with('success', 'Data Admin '.$NamaUser.' Berhasil di Hapus');
+  }
+
   public function DataKelurahan()
   {
     $Kelurahan = Kelurahan::with('Sekolah')
@@ -239,6 +352,7 @@ class UserController extends Controller
   public function DataAdminSekolah()
   {
     $User = User::with('Sekolah')
+                ->whereIn('tipe', [0,2])
                 ->get();
 
     return view('User.DataAdminSekolah', ['User' => $User]);
