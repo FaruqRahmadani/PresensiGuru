@@ -19,9 +19,10 @@ class TabelSekolah extends Migration
           $table->string('nama_sekolah')->default('-');
           $table->string('nss')->default('-');
           $table->integer('jenjang_id')->default(0);
-          $table->integer('status_id')->default(0);;
-          $table->integer('pegawai_id')->default(0);;
-          $table->integer('kelurahan_id')->default(0);;
+          $table->integer('status_id')->default(0);
+          $table->integer('pegawai_id')->default(0);
+          $table->integer('kecamatan_id')->default(0);
+          $table->integer('kelurahan_id')->default(0);
           $table->string('no_telepon')->default('-');
           $table->string('email')->default('-');
           $table->timestamps();

@@ -10,6 +10,7 @@ use Illuminate\Contracts\Encryption\DecryptException;
 
 use Illuminate\Http\Request;
 use App\Kelurahan;
+use App\Kecamatan;
 use App\Jenjang;
 use App\Sekolah;
 use App\Pegawai;
@@ -134,6 +135,76 @@ class UserController extends Controller
     $User->delete();
 
     return redirect('/data-admin')->with('success', 'Data Admin '.$NamaUser.' Berhasil di Hapus');
+  }
+
+  public function DataKecamatan()
+  {
+    $Kecamatan = Kecamatan::all();
+
+    return view('User.DataKecamatan', ['Kecamatan' => $Kecamatan]);
+  }
+
+  public function TambahKecamatan()
+  {
+    return view('User.TambahKecamatan');
+  }
+
+  public function storeTambahKecamatan(Request $request)
+  {
+    $Kecamatan = new Kecamatan;
+
+    $Kecamatan->nama_kecamatan = $request->NamaKecamatan;
+
+    $Kecamatan->save();
+
+    return redirect('/data-kecamatan')->with('success', 'Data Kecamatan '.$request->NamaKecamatan.' Berhasil di Tambahkan');
+  }
+
+  public function EditKecamatan($id)
+  {
+    try {
+      $idz = Crypt::decryptString($id);
+    } catch (DecryptException $e) {
+      return abort('404');
+    }
+
+    $Kecamatan = Kecamatan::find($idz);
+
+    return view('User.EditKecamatan', ['Kecamatan' => $Kecamatan]);
+  }
+
+  public function storeEditKecamatan(Request $request, $id)
+  {
+    try {
+      $idz = Crypt::decryptString($id);
+    } catch (DecryptException $e) {
+      return abort('404');
+    }
+
+    $Kecamatan = Kecamatan::find($idz);
+
+    $Kecamatan->nama_kecamatan = $request->NamaKecamatan;
+
+    $Kecamatan->save();
+
+    return redirect('/data-kecamatan')->with('success', 'Data Kecamatan '.$request->NamaKecamatan.' Berhasil di Ubah');
+  }
+
+  public function HapusKecamatan($id)
+  {
+    try {
+      $idz = Crypt::decryptString($id);
+    } catch (DecryptException $e) {
+      return abort('404');
+    }
+
+    $Kecamatan = Kecamatan::find($idz);
+
+    $NamaKecamatan = $Kecamatan->nama_kecamatan;
+
+    $Kecamatan->delete();
+
+    return redirect('/data-kecamatan')->with('success', 'Data Kecamatan '.$NamaKecamatan.' Berhasil di Hapus');
   }
 
   public function DataKelurahan()

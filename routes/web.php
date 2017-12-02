@@ -11,6 +11,10 @@
 |
 */
 
+// Route::get('/password', function()
+// {
+//   dd(bcrypt('123456'));
+// });
 
 // User
 Route::group(['middleware' => 'User'], function(){
@@ -25,6 +29,14 @@ Route::group(['middleware' => 'User'], function(){
     Route::get('/data-admin/{id}/edit', 'UserController@EditAdmin');
     Route::POST('/data-admin/{id}/edit', 'UserController@storeEditAdmin');
     Route::get('/data-admin/{id}/hapus', 'UserController@HapusAdmin');
+
+    // Data Kecamatan
+    Route::get('/data-kecamatan', 'UserController@DataKecamatan');
+    Route::get('/data-kecamatan/tambah', 'UserController@TambahKecamatan');
+    Route::POST('/data-kecamatan/tambah', 'UserController@storeTambahKecamatan');
+    Route::get('/data-kecamatan/{id}/edit', 'UserController@EditKecamatan');
+    Route::POST('/data-kecamatan/{id}/edit', 'UserController@storeEditKecamatan');
+    Route::get('/data-kecamatan/{id}/hapus', 'UserController@HapusKecamatan');
 
     // Data Kelurahan
     Route::get('/data-kelurahan', 'UserController@DataKelurahan');

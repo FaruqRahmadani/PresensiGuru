@@ -13,7 +13,11 @@ class TabelKecamatan extends Migration
      */
     public function up()
     {
-        //
+      Schema::create('kecamatans', function (Blueprint $table) {
+          $table->increments('id');
+          $table->string('nama_kecamatan');
+          $table->timestamps();
+      });
     }
 
     /**
@@ -23,6 +27,6 @@ class TabelKecamatan extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('kecamatans');
     }
 }
