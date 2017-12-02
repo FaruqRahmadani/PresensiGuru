@@ -97,6 +97,8 @@ Route::group(['middleware' => 'User'], function(){
   Route::POST('/pegawai-sekolah/{id}/edit', 'UserController@storeEditPegawaiSekolah');
   Route::get('/pegawai-sekolah/{id}/info', 'UserController@InfoPegawaiSekolah');
 
+  // JSON !!!!!!!!
+  Route::get('/json/kecamatan/{id}/kelurahan.json', 'UserController@JsonKelurahan');
 
 });
 

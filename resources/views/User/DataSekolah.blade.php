@@ -58,11 +58,11 @@
                           <td>{{$DataSekolah->email}}</td>
                           <td>
                             <button class="btn btn-labeled btn-info" type="button"
-                            onclick="Info('{{Crypt::encryptString($DataSekolah->id)}}', '{{$DataSekolah->nama}}')">
+                            onclick="Info('{{Crypt::encryptString($DataSekolah->id)}}', '{{$DataSekolah->nama_sekolah}}')">
                               <span class="btn-label"><i class="fa fa-info"></i>
                             </span><b>Info</b></button>
                             <button class="btn btn-labeled btn-primary" type="button"
-                            onclick="Ubah('{{Crypt::encryptString($DataSekolah->id)}}', '{{$DataSekolah->nama}}')">
+                            onclick="Ubah('{{Crypt::encryptString($DataSekolah->id)}}', '{{$DataSekolah->nama_sekolah}}')">
                               <span class="btn-label"><i class="fa fa-pencil"></i>
                             </span><b>Edit</b></button>
                             {{-- <button class="btn btn-labeled btn-danger" type="button" {{$DataSekolah->id == '0' ? 'disabled' : ''}}
@@ -140,7 +140,7 @@
     swal({
       title   : "Hapus",
       text    : "Data Status Sekolah '"+Nama+"' Tidak dapat di Hapus Karena Ada Data Sekolah",
-      icon    : "warning",
+      icon    : "error",
     })
   }
 </script>

@@ -18,7 +18,7 @@
    <!-- WHIRL (spinners)-->
    <link rel="stylesheet" href="/Public-User/vendor/whirl/dist/whirl.css">
    <!-- =============== PAGE VENDOR STYLES ===============-->
-   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
    <!-- CHOSEN-->
    <link rel="stylesheet" href="/Public-User/vendor/chosen_v1.2.0/chosen.min.css">
    <!-- SELECT2-->
@@ -28,6 +28,10 @@
    <link rel="stylesheet" href="/Public-User/css/bootstrap.css" id="bscss">
    <!-- =============== APP STYLES ===============-->
    <link rel="stylesheet" href="/Public-User/css/app.css" id="maincss">
+
+   <!-- =============== TAMBAHAN NIH ===============-->
+   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -266,15 +270,15 @@
                      <ul class="nav sidebar-subnav collapse" id="DataSekolah">
                         <li class="sidebar-subnav-header">Data Sekolah</li>
                         <li class=" ">
-                           <a href="/data-admin-sekolah">
-                              <em class="icon-user"></em>
-                              <span data-localize="sidebar.nav.DOCUMENTATION">Admin Sekolah</span>
-                           </a>
-                        </li>
-                        <li class=" ">
                            <a href="/data-sekolah">
                               <em class="icon-graduation"></em>
                               <span data-localize="sidebar.nav.DOCUMENTATION">Sekolah</span>
+                           </a>
+                        </li>
+                        <li class=" ">
+                           <a href="/data-admin-sekolah">
+                              <em class="icon-user"></em>
+                              <span data-localize="sidebar.nav.DOCUMENTATION">Admin Sekolah</span>
                            </a>
                         </li>
                         <li class=" ">

@@ -62,14 +62,33 @@
                 </div>
 
                 <div class="form-group">
+                  <label class="col-lg-3 control-label">Kecamatan</label>
+                  <div class="col-lg-8">
+                    <select class="form-control" id="select2-1" name="idKecamatan" required>
+                      <option value="" hidden>Pilih</option>
+                      @foreach ($Kecamatan as $DataKecamatan)
+                        <option value="{{$DataKecamatan->id}}" {{$Sekolah->kecamatan_id == $DataKecamatan->id ? 'selected' : ''}}> {{$DataKecamatan->nama_kecamatan}} </option>
+                      @endforeach
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
                   <label class="col-lg-3 control-label">Kelurahan</label>
                   <div class="col-lg-8">
-                    <select class="form-control" id="select2-1" name="idKelurahan" required>
+                    <select class="form-control" id="select2-2" name="idKelurahan" required>
                       <option value="" hidden>Pilih</option>
                       @foreach ($Kelurahan as $DataKelurahan)
                         <option value="{{$DataKelurahan->id}}" {{$Sekolah->kelurahan_id == $DataKelurahan->id ? 'selected' : ''}}> {{$DataKelurahan->nama_kelurahan}} </option>
                       @endforeach
                     </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-lg-3 control-label">Alamat</label>
+                  <div class="col-lg-8">
+                    <input class="form-control" type="text" name="Alamat" value="{{$Sekolah->alamat}}" required pattern=".{0,}" title="Minimal 1 Karakter" autofocus>
                   </div>
                 </div>
 
@@ -109,4 +128,21 @@
       </div>
     </div>
   </section>
+  <script>
+    $(document).ready(function() {
+      $('#select2-1').change(function()
+      {
+        $.get('/json/kecamatan/'+this.value+'/kelurahan.json', function(kelurahans)
+        {
+          var $kelurahan = $('#select2-2');
+          $kelurahan.find('option').remove().end();
+          $kelurahan.append('<option value="" hidden>Pilih</option>');
+
+          $.each(kelurahans, function(index, kelurahan) {
+            $kelurahan.append('<option value="' + kelurahan.id + '">' + kelurahan.nama_kelurahan + '</option>');
+          });
+        });
+      });
+    });
+  </script>
 @endsection

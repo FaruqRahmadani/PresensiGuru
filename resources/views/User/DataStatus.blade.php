@@ -47,7 +47,7 @@
                             onclick="Ubah('{{Crypt::encryptString($DataStatus->id)}}', '{{$DataStatus->nama_status}}')">
                               <span class="btn-label"><i class="fa fa-pencil"></i>
                             </span><b>Edit</b></button>
-                            <button class="btn btn-labeled btn-danger" type="button" style=" {{$DataKelurahan->id == '0' ? 'display:none' : ''}} "
+                            <button class="btn btn-labeled btn-danger" type="button"
                             onclick="{{count($DataStatus->Sekolah) == 0 ? 'Hapus' : 'cantHapus'}}('{{Crypt::encryptString($DataStatus->id)}}', '{{$DataStatus->nama_status}}')">
                               <span class="btn-label"><i class="fa fa-close"></i>
                             </span><b>Hapus</b></button>

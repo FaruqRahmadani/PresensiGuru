@@ -23,6 +23,7 @@ class TabelSekolah extends Migration
           $table->integer('pegawai_id')->default(0);
           $table->integer('kecamatan_id')->default(0);
           $table->integer('kelurahan_id')->default(0);
+          $table->string('alamat')->default('-');
           $table->string('no_telepon')->default('-');
           $table->string('email')->default('-');
           $table->timestamps();

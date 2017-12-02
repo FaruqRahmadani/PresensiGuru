@@ -557,7 +557,9 @@ class UserController extends Controller
     $Kelurahan  = Kelurahan::where('id', '>', '0')
                            ->get();
 
-    return view('User.TambahSekolah', ['Jenjang' => $Jenjang, 'Status' => $Status, 'Kelurahan' => $Kelurahan]);
+    $Kecamatan  = Kecamatan::all();
+
+    return view('User.TambahSekolah', ['Jenjang' => $Jenjang, 'Status' => $Status, 'Kelurahan' => $Kelurahan, 'Kecamatan' => $Kecamatan]);
   }
 
   public function storeTambahSekolah(Request $request)
@@ -569,7 +571,9 @@ class UserController extends Controller
     $Sekolah->nama_sekolah  = $request->NamaSekolah;
     $Sekolah->jenjang_id    = $request->idJenjang;
     $Sekolah->status_id     = $request->idStatus;
+    $Sekolah->kecamatan_id  = $request->idKecamatan;
     $Sekolah->kelurahan_id  = $request->idKelurahan;
+    $Sekolah->alamat        = $request->Alamat;
     $Sekolah->no_telepon    = $request->NomorTelepon;
     $Sekolah->email         = $request->Email;
     $Sekolah->pegawai_id    = 0;
@@ -593,10 +597,11 @@ class UserController extends Controller
                          ->get();
     $Status     = Status::where('id', '>', '0')
                         ->get();
-    $Kelurahan  = Kelurahan::where('id', '>', '0')
+    $Kelurahan  = Kelurahan::where('kecamatan_id', $Sekolah->kecamatan_id)
                            ->get();
 
-    return view('User.EditSekolah', ['Sekolah' => $Sekolah, 'Jenjang' => $Jenjang, 'Status' => $Status, 'Kelurahan' => $Kelurahan]);
+    $Kecamatan = Kecamatan::all();
+    return view('User.EditSekolah', ['Sekolah' => $Sekolah, 'Jenjang' => $Jenjang, 'Status' => $Status, 'Kelurahan' => $Kelurahan, 'Kecamatan' => $Kecamatan]);
   }
 
   public function storeEditSekolah(Request $request, $id)
@@ -614,7 +619,9 @@ class UserController extends Controller
     $Sekolah->nama_sekolah  = $request->NamaSekolah;
     $Sekolah->jenjang_id    = $request->idJenjang;
     $Sekolah->status_id     = $request->idStatus;
+    $Sekolah->kecamatan_id  = $request->idKecamatan;
     $Sekolah->kelurahan_id  = $request->idKelurahan;
+    $Sekolah->alamat        = $request->Alamat;
     $Sekolah->no_telepon    = $request->NomorTelepon;
     $Sekolah->email         = $request->Email;
 
@@ -861,5 +868,14 @@ class UserController extends Controller
     $Pegawai = Pegawai::find($idz);
 
     return view('User.InfoPegawaiSekolah', ['Pegawai' => $Pegawai]);
+  }
+
+  // JSON !!!!!!!!!!!!!!
+  public function JsonKelurahan($id)
+  {
+    $Kelurahan = Kelurahan::where('kecamatan_id', $id)
+                          ->get();
+
+    return $Kelurahan;
   }
 }
