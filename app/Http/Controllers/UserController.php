@@ -217,7 +217,9 @@ class UserController extends Controller
 
   public function TambahKelurahan()
   {
-    return view('User.TambahKelurahan');
+    $Kecamatan = Kecamatan::all();
+
+    return view('User.TambahKelurahan', ['Kecamatan' => $Kecamatan]);
   }
 
   public function storeTambahKelurahan(Request $request)
@@ -225,6 +227,7 @@ class UserController extends Controller
     $Kelurahan = new Kelurahan;
 
     $Kelurahan->nama_kelurahan = $request->NamaKelurahan;
+    $Kelurahan->kecamatan_id   = $request->idKecamatan;
 
     $Kelurahan->save();
 
@@ -241,7 +244,9 @@ class UserController extends Controller
 
     $Kelurahan = Kelurahan::find($idz);
 
-    return view('User.EditKelurahan', ['Kelurahan' => $Kelurahan]);
+    $Kecamatan = Kecamatan::all();
+
+    return view('User.EditKelurahan', ['Kelurahan' => $Kelurahan, 'Kecamatan' => $Kecamatan]);
   }
 
   public function storeEditKelurahan(Request $request, $id)
@@ -255,6 +260,7 @@ class UserController extends Controller
     $Kelurahan = Kelurahan::find($idz);
 
     $Kelurahan->nama_kelurahan = $request->NamaKelurahan;
+    $Kelurahan->kecamatan_id   = $request->idKecamatan;
 
     $Kelurahan->save();
 

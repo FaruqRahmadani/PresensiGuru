@@ -16,6 +16,18 @@
             <div class="panel-body">
               {!! Form::open(['url'=>Request::url(),'files'=>true,'class'=>'register-form', 'method' => 'POST', 'class' => 'form-horizontal', 'role' => 'form']) !!}
                 <div class="form-group">
+                  <label class="col-lg-3 control-label">Kecamatan</label>
+                  <div class="col-lg-8">
+                    <select class="form-control" id="select2-1" name="idKecamatan" required>
+                      <option value="" hidden> Pilih </option>
+                      @foreach ($Kecamatan as $DataKecamatan)
+                        <option value="{{$DataKecamatan->id}}" {{old('idSekolah') == $DataKecamatan->id ? 'selected' : ''}}> {{$DataKecamatan->nama_kecamatan}} </option>
+                      @endforeach
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
                   <label class="col-lg-3 control-label">Nama Kelurahan</label>
                   <div class="col-lg-8">
                     <input class="form-control" type="text" name="NamaKelurahan" value="{{old('NamaKelurahan')}}" required pattern="[a-zA-Z0-9]+.{0,}" title="Minimal 1 Karakter" autofocus>

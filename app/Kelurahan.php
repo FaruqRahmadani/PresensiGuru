@@ -10,4 +10,9 @@ class Kelurahan extends Model
   {
     return $this->hasMany('App\Sekolah');
   }
+
+  public function Kecamatan()
+  {
+    return $this->belongsTo('App\Kecamatan');
+  }
 }

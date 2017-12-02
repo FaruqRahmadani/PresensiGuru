@@ -29,6 +29,7 @@
                       <tr>
                         <th>#</th>
                         <th>Nama Kelurahan</th>
+                        <th>Kecamatan</th>
                         <th>Jumlah Sekolah</th>
                         <th style="width:25%;">Aksi</th>
                       </tr>
@@ -41,6 +42,7 @@
                         <tr>
                           <td>{{$no+=1}}</td>
                           <td>{{$DataKelurahan->nama_kelurahan}}</td>
+                          <td>{{$DataKelurahan->Kecamatan->nama_kecamatan}}</td>
                           <td>{{count($DataKelurahan->Sekolah)}}</td>
                           <td>
                             <button class="btn btn-labeled btn-primary" type="button"
@@ -112,7 +114,7 @@
     swal({
       title   : "Hapus",
       text    : "Data Kelurahan '"+Nama+"' Tidak dapat di Hapus Karena Ada Data Sekolah",
-      icon    : "warning",
+      icon    : "error",
     })
   }
 </script>
