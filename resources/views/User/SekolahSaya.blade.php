@@ -40,7 +40,7 @@
                       </tr>
                       <tr>
                          <td>Kepala Sekolah</td>
-                         <td>{{$Sekolah->Pegawai->nama}}</td>
+                         <td>{{$Sekolah->pegawai_id != 0 ? $Sekolah->Pegawai->nama : '-'}}</td>
                       </tr>
                       <tr>
                          <td>Jenjang</td>

@@ -100,7 +100,9 @@ Route::group(['middleware' => 'User'], function(){
 
   // JSON !!!!!!!!
   Route::get('/json/kecamatan/{id}/kelurahan.json', 'UserController@JsonKelurahan');
+  Route::get('/json/infosekolah/{id}/sekolah.json', 'UserController@JsonSekolah');
 
+  Route::get('/modal', 'UserController@Modal');
 });
 
 Route::get('/', function () {

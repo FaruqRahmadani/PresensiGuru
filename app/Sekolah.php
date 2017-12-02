@@ -16,6 +16,11 @@ class Sekolah extends Model
     return $this->belongsTo('App\Jenjang');
   }
 
+  public function Kecamatan()
+  {
+    return $this->belongsTo('App\Kecamatan');
+  }
+
   public function Kelurahan()
   {
     return $this->belongsTo('App\Kelurahan');

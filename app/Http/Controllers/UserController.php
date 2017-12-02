@@ -850,6 +850,15 @@ class UserController extends Controller
     $Pegawai->sidikjari_id  = $request->idSidikJari;
     $Pegawai->sekolah_id    = $Sekolah->id;
 
+    // Jika Ada Inputan foto
+    if ($request->Foto != null) {
+      $FotoExt  = $request->Foto->getClientOriginalExtension();
+      $NamaFoto = $request->NIP;
+      $Foto = $NamaFoto.'.'.$FotoExt;
+      $request->Foto->move(public_path('Public-User/img/pegawai'), $Foto);
+      $Pegawai->foto = $Foto;
+    }
+
     $Pegawai->save();
 
     return redirect('/pegawai-sekolah')->with('success', 'Data Pegawai '.$request->NamaPegawai.' Berhasil di Tambah');
@@ -889,6 +898,17 @@ class UserController extends Controller
     $Pegawai->alamat        = $request->Alamat;
     $Pegawai->sidikjari_id  = $request->idSidikJari;
 
+    if ($request->Foto != null) {
+      if ($Pegawai->foto != 'default.png') {
+        File::delete('Public-User/img/pegawai/'.$Pegawai->foto);
+      }
+      $FotoExt  = $request->Foto->getClientOriginalExtension();
+      $NamaFoto = $request->NIP;
+      $Foto = $NamaFoto.'.'.$FotoExt;
+      $request->Foto->move(public_path('Public-User/img/pegawai'), $Foto);
+      $Pegawai->foto = $Foto;
+    }
+
     $Pegawai->save();
 
     return redirect('/pegawai-sekolah')->with('success', 'Data Pegawai '.$request->NamaPegawai.' Berhasil di Ubah');
@@ -914,5 +934,23 @@ class UserController extends Controller
                           ->get();
 
     return $Kelurahan;
+  }
+
+  public function JsonSekolah($id)
+  {
+    $Sekolah = Sekolah::with('Pegawai', 'Jenjang', 'Status', 'Kecamatan', 'Kelurahan')
+                      ->where('id', $id)
+                      ->first();
+
+    return $Sekolah;
+  }
+
+  public function Modal()
+  {
+    $Sekolah = Sekolah::with('Jenjang', 'Status', 'Kelurahan', 'Pegawai', 'AllPegawai')
+                      ->where('id', '1')
+                      ->first();
+
+    return view('User.InfoSekolah', ['Sekolah' => $Sekolah]);
   }
 }

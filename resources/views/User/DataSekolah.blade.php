@@ -57,10 +57,17 @@
                           <td>{{$DataSekolah->no_telepon}}</td>
                           <td>{{$DataSekolah->email}}</td>
                           <td>
-                            <button class="btn btn-labeled btn-info" type="button"
-                            onclick="Info('{{Crypt::encryptString($DataSekolah->id)}}', '{{$DataSekolah->nama_sekolah}}')">
+
+                            <button class="btn btn-labeled btn-info" type="button" data-toggle="modal" data-target="#exampleModal"
+                            onclick="idSekolah({{$DataSekolah->id}})">
                               <span class="btn-label"><i class="fa fa-info"></i>
                             </span><b>Info</b></button>
+
+                            {{-- <button class="btn btn-labeled btn-info" type="button"
+                            onclick="Info('{{Crypt::encryptString($DataSekolah->id)}}', '{{$DataSekolah->nama_sekolah}}')">
+                              <span class="btn-label"><i class="fa fa-info"></i>
+                            </span><b>Info</b></button> --}}
+
                             <button class="btn btn-labeled btn-primary" type="button"
                             onclick="Ubah('{{Crypt::encryptString($DataSekolah->id)}}', '{{$DataSekolah->nama_sekolah}}')">
                               <span class="btn-label"><i class="fa fa-pencil"></i>
@@ -82,6 +89,30 @@
         </div>
      </div>
   </section>
+  <script>
+    function idSekolah(id)
+    {
+      $.get('/json/infosekolah/'+id+'/sekolah.json', function(sekolahs)
+      {
+        $( "div" ).data( "data", sekolahs );
+        $( "tr > #npsn" ).text( $( "div" ).data( "data" ).npsn );
+        $( "tr > #nss" ).text( $( "div" ).data( "data" ).nss );
+        $( "tr > #nama_sekolah" ).text( $( "div" ).data( "data" ).nama_sekolah );
+        if ($( "div" ).data( "data" ).pegawai_id == '0') {
+          $( "tr > #kepalasekolah" ).text( '-' );
+        }else{
+          $( "tr > #kepalasekolah" ).text( $( "div" ).data( "data" ).pegawai.nama );
+        }
+        $( "tr > #jenjang" ).text( $( "div" ).data( "data" ).jenjang.nama_jenjang );
+        $( "tr > #status" ).text( $( "div" ).data( "data" ).status.nama_status );
+        $( "tr > #kecamatan" ).text( $( "div" ).data( "data" ).kecamatan.nama_kecamatan );
+        $( "tr > #kelurahan" ).text( $( "div" ).data( "data" ).kelurahan.nama_kelurahan );
+        $( "tr > #alamat" ).text( $( "div" ).data( "data" ).alamat );
+        $( "tr > #nomortelepon" ).text( $( "div" ).data( "data" ).no_telepon );
+        $( "tr > #email" ).text( $( "div" ).data( "data" ).email );
+      });
+    }
+</script>
 @endsection
 <script>
   function Info(id,Nama)
@@ -144,3 +175,67 @@
     })
   }
 </script>
+
+   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        {{-- <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="exampleModalLabel"></h4>
+        </div> --}}
+        <div class="modal-body">
+          <table class="table table-hover">
+            <tbody>
+              <tr>
+                 <td>NPSN</td>
+                 <td id="npsn"></td>
+              </tr>
+              <tr>
+                 <td>NSS</td>
+                 <td id="nss"></td>
+              </tr>
+              <tr>
+                 <td>Nama Sekolah</td>
+                 <td id="nama_sekolah"></td>
+              </tr>
+              <tr>
+                 <td>Kepala Sekolah</td>
+                 <td id="kepalasekolah"></td>
+              </tr>
+              <tr>
+                 <td>Jenjang</td>
+                 <td id="jenjang"></td>
+              </tr>
+              <tr>
+                 <td>Status</td>
+                 <td id="status"></td>
+              </tr>
+              <tr>
+                 <td>Kecamatan</td>
+                 <td id="kecamatan"></td>
+              </tr>
+              <tr>
+                 <td>Kelurahan</td>
+                 <td id="kelurahan"></td>
+              </tr>
+              <tr>
+                 <td>Alamat</td>
+                 <td id="alamat"></td>
+              </tr>
+              <tr>
+                 <td>Nomor Telepon</td>
+                 <td id="nomortelepon"></td>
+              </tr>
+              <tr>
+                 <td>E-Mail</td>
+                 <td id="email"></td>
+              </tr>
+            </tbody>
+         </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -228,7 +227,7 @@
 
                   <li class=" ">
                      <a href="#MasterData" data-toggle="collapse">
-                        <div class="pull-right label label-primary"><em class="icon-arrow-down"></em></div>
+                        <div class="pull-right"><em class="icon-arrow-down"></em></div>
                         <em class="icon-layers"></em>
                         <span data-localize="sidebar.nav.DASHBOARD">Master Data</span>
                      </a>
@@ -263,7 +262,7 @@
 
                   <li class=" ">
                      <a href="#DataSekolah" data-toggle="collapse">
-                        <div class="pull-right label label-primary"><em class="icon-arrow-down"></em></div>
+                        <div class="pull-right"><em class="icon-arrow-down"></em></div>
                         <em class="fa fa-university"></em>
                         <span data-localize="sidebar.nav.DASHBOARD">Data Sekolah</span>
                      </a>
@@ -292,7 +291,7 @@
 
                   <li class=" ">
                      <a href="#DataSekolahSaya" data-toggle="collapse">
-                        <div class="pull-right label label-primary"><em class="icon-arrow-down"></em></div>
+                        <div class="pull-right"><em class="icon-arrow-down"></em></div>
                         <em class="fa fa-institution"></em>
                         <span data-localize="sidebar.nav.DASHBOARD">Data Sekolah Saya</span>
                      </a>
