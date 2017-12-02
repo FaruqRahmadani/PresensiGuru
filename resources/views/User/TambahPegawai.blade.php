@@ -102,6 +102,15 @@
                 </div>
 
                 <div class="form-group">
+                  <label class="col-lg-3 control-label">Foto
+                    <br><small>Boleh di Kosongkan</small>
+                  </label>
+                  <div class="col-lg-8">
+                    <input class="form-control" type="file" name="Foto" value="{{old('Foto')}}" accept="image/*">
+                  </div>
+                </div>
+
+                <div class="form-group">
                   <label class="col-md-3 control-label"></label>
                   <div class="row">
                     <div class="col-md-2">

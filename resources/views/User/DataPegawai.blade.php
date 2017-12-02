@@ -36,7 +36,7 @@
                         <th>Jenis Kelamin</th>
                         {{-- <th>Nomor Telepon</th> --}}
                         {{-- <th>E-mail</th> --}}
-                        <th>Asal Sekolah</th>
+                        <th>Sekolah Induk</th>
                         {{-- <th>ID Sidik Jari</th> --}}
                         <th>Aksi</th>
                       </tr>
@@ -50,7 +50,10 @@
                           <td>{{$no+=1}}</td>
                           <td>{{$DataPegawai->nip}}</td>
                           <td>{{$DataPegawai->nuptk}}</td>
-                          <td>{{$DataPegawai->nama}}</td>
+                          <td>
+                            <img class="img-thumbnail img-circle" src="/Public-User/img/pegawai/{{$DataPegawai->foto}}" style="max-width : 25px; max-height : 25px;">
+                            {{$DataPegawai->nama}}
+                          </td>
                           {{-- <td>{{$DataPegawai->tempat_lahir}}, {{Carbon\Carbon::parse($DataPegawai->tanggal_lahir)->format('d-m-Y')}}</td> --}}
                           <td>{{$DataPegawai->jenis_kelamin == '1' ? 'Laki - Laki' : 'Perempuan'}}</td>
                           {{-- <td>{{$DataPegawai->no_handphone}}</td> --}}

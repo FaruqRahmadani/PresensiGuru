@@ -693,6 +693,15 @@ class UserController extends Controller
     $Pegawai->alamat        = $request->Alamat;
     $Pegawai->sidikjari_id  = $request->idSidikJari;
 
+    // Jika Ada Inputan foto
+    if ($request->Foto != null) {
+      $FotoExt  = $request->Foto->getClientOriginalExtension();
+      $NamaFoto = $request->NIP;
+      $Foto = $NamaFoto.'.'.$FotoExt;
+      $request->Foto->move(public_path('Public-User/img/pegawai'), $Foto);
+      $Pegawai->foto = $Foto;
+    }
+
     $Pegawai->save();
 
     return redirect('/data-pegawai')->with('success', 'Data Pegawai '.$request->NamaPegawai.' Berhasil di Tambah');
@@ -733,6 +742,17 @@ class UserController extends Controller
     $Pegawai->email         = $request->Email;
     $Pegawai->alamat        = $request->Alamat;
     $Pegawai->sidikjari_id  = $request->idSidikJari;
+
+    if ($request->Foto != null) {
+      if ($Pegawai->foto != 'default.png') {
+        File::delete('Public-User/img/pegawai/'.$Pegawai->foto);
+      }
+      $FotoExt  = $request->Foto->getClientOriginalExtension();
+      $NamaFoto = $request->NIP;
+      $Foto = $NamaFoto.'.'.$FotoExt;
+      $request->Foto->move(public_path('Public-User/img/pegawai'), $Foto);
+      $Pegawai->foto = $Foto;
+    }
 
     $Pegawai->save();
 

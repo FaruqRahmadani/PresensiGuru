@@ -42,7 +42,10 @@
                       @foreach ($User as $DataUser)
                         <tr>
                           <td>{{$no+=1}}</td>
-                          <td><img class="img-thumbnail img-circle" src="/Public-User/img/user/{{$DataUser->foto}}" style="max-width : 25px; max-height : 25px;"> {{$DataUser->nama}}</td>
+                          <td>
+                            <img class="img-thumbnail img-circle" src="/Public-User/img/user/{{$DataUser->foto}}" style="max-width : 25px; max-height : 25px;"> 
+                            {{$DataUser->nama}}
+                          </td>
                           <td>{{$DataUser->Sekolah->nama_sekolah}}</td>
                           <td>{{$DataUser->email}}</td>
                           <td>
