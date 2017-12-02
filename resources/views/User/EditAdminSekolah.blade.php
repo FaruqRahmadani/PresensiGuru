@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="col-lg-3 control-label">Asal Sekolah</label>
+                  <label class="col-lg-3 control-label">Sekolah Induk</label>
                   <div class="col-lg-8">
                     <select class="form-control" id="select2-1" name="idSekolah" required>
                       @foreach ($Sekolah as $DataSekolah)

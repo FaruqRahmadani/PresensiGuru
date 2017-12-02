@@ -68,6 +68,7 @@ Route::group(['middleware' => 'User'], function(){
     Route::POST('/data-admin-sekolah/tambah', 'UserController@storeTambahAdminSekolah');
     Route::get('/data-admin-sekolah/{id}/edit', 'UserController@EditAdminSekolah');
     Route::POST('/data-admin-sekolah/{id}/edit', 'UserController@storeEditAdminSekolah');
+    Route::get('/data-admin-sekolah/{id}/hapus', 'UserController@HapusAdminSekolah');
 
     // Data Sekolah
     Route::get('/data-sekolah', 'UserController@DataSekolah');

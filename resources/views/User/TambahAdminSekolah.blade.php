@@ -30,11 +30,10 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="col-lg-3 control-label">Asal Sekolah</label>
+                  <label class="col-lg-3 control-label">Sekolah Induk</label>
                   <div class="col-lg-8">
                     <select class="form-control" id="select2-1" name="idSekolah" required>
                       <option value="" hidden> Pilih </option>
-                      <option value="0" {{old('idSekolah') == '0' ? 'selected' : ''}}> Buat Data Sekolah Kosong </option>
                       @foreach ($Sekolah as $DataSekolah)
                         <option value="{{$DataSekolah->id}}" {{old('idSekolah') == $DataSekolah->id ? 'selected' : ''}}> {{$DataSekolah->nama_sekolah}} </option>
                       @endforeach

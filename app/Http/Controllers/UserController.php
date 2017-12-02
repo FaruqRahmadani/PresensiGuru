@@ -459,27 +459,28 @@ class UserController extends Controller
     $User->Password = bcrypt($request->Password);
 
     // Jika Ada Inputan foto
-    if ($request->foto != null) {
-      $FotoExt  = $request->foto->getClientOriginalExtension();
+    if ($request->Foto != null) {
+      $FotoExt  = $request->Foto->getClientOriginalExtension();
       $NamaFoto = Carbon::now()->format('dmYHis');
       $Foto = $NamaFoto.'.'.$FotoExt;
       $request->Foto->move(public_path('Public-User/img/user'), $Foto);
       $User->foto = $Foto;
     }
 
-    // Jika Asal Sekolah Buat Baru
-    if ($request->idSekolah == '0') {
-      $Sekolah = new Sekolah;
-      $Sekolah->save();
+    // Jika Asal Sekolah Buat Baru (Disable Sementara)
+    // if ($request->idSekolah == '0') {
+    //   $Sekolah = new Sekolah;
+    //   $Sekolah->save();
+    //
+    //   $Sekolah = Sekolah::all()
+    //                     ->last();
+    //
+    //   $User->sekolah_id = $Sekolah->id;
+    // }else {
+    //   $User->sekolah_id = $request->idSekolah;
+    // }
 
-      $Sekolah = Sekolah::all()
-                        ->last();
-
-      $User->sekolah_id = $Sekolah->id;
-    }else {
-      $User->sekolah_id = $request->idSekolah;
-    }
-
+    $User->sekolah_id = $request->idSekolah;
     $User->tipe = 2;
     $User->save();
 
@@ -529,15 +530,31 @@ class UserController extends Controller
       $User->foto = $Foto;
     }
 
-    $User->nama     = $request->Nama;
-    $User->email    = $request->Email;
-    $User->username = $request->Username;
-    $User->tipe     = $request->Tipe;
+    $User->nama       = $request->Nama;
+    $User->email      = $request->Email;
+    $User->username   = $request->Username;
+    $User->tipe       = $request->Tipe;
     $User->sekolah_id = $request->idSekolah;
 
     $User->save();
 
     return redirect('/data-admin-sekolah')->with('success', 'Data Admin Sekolah '.$request->Nama.' Berhasil di Ubah');
+  }
+
+  public function HapusAdminSekolah($id)
+  {
+    try {
+      $idz = Crypt::decryptString($id);
+    } catch (DecryptException $e) {
+      return abort('404');
+    }
+    $User = User::find($idz);
+
+    $NamaUser = $User->nama;
+
+    $User->delete();
+
+    return redirect('/data-admin-sekolah')->with('success', 'Data Admin Sekolah '.$NamaUser.' Berhasil di Hapus');
   }
 
   public function DataSekolah()

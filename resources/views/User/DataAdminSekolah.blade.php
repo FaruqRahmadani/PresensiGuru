@@ -29,7 +29,7 @@
                       <tr>
                         <th>#</th>
                         <th>Nama</th>
-                        <th>Asal Sekolah</th>
+                        <th>Sekolah Induk</th>
                         <th>E-Mail</th>
                         <th>Status</th>
                         <th style="width:25%;">Aksi</th>
@@ -42,7 +42,7 @@
                       @foreach ($User as $DataUser)
                         <tr>
                           <td>{{$no+=1}}</td>
-                          <td>{{$DataUser->nama}}</td>
+                          <td><img class="img-thumbnail img-circle" src="/Public-User/img/user/{{$DataUser->foto}}" style="max-width : 25px; max-height : 25px;"> {{$DataUser->nama}}</td>
                           <td>{{$DataUser->Sekolah->nama_sekolah}}</td>
                           <td>{{$DataUser->email}}</td>
                           <td>
@@ -57,10 +57,10 @@
                             onclick="Ubah('{{Crypt::encryptString($DataUser->id)}}', '{{$DataUser->nama}}')">
                               <span class="btn-label"><i class="fa fa-pencil"></i>
                             </span><b>Edit</b></button>
-                            {{-- <button class="btn btn-labeled btn-danger" type="button"
-                            onclick="{{count($DataStatus->Sekolah) == 0 ? 'Hapus' : 'cantHapus'}}('{{Crypt::encryptString($DataStatus->id)}}', '{{$DataStatus->nama_status}}')">
+                            <button class="btn btn-labeled btn-danger" type="button"
+                            onclick="Hapus('{{Crypt::encryptString($DataUser->id)}}', '{{$DataUser->nama}}')">
                               <span class="btn-label"><i class="fa fa-close"></i>
-                            </span><b>Hapus</b></button> --}}
+                            </span><b>Hapus</b></button>
                           </td>
                         </tr>
                       @endforeach
@@ -90,7 +90,7 @@
   {
     swal({
       title   : "Hapus",
-      text    : "Yakin Ingin Menghapus Data Status Sekolah '"+Nama+"' ?",
+      text    : "Yakin Ingin Menghapus Data Admin Sekolah '"+Nama+"' ?",
       icon    : "warning",
       buttons : [
         "Batal",
@@ -101,15 +101,15 @@
       if (hapus) {
         swal({
           title  : "Hapus",
-          text   : "Data Status Sekolah '"+Nama+"' Akan di Hapus",
+          text   : "Data Admin Sekolah '"+Nama+"' Akan di Hapus",
           icon   : "info",
           timer  : 2500,
         });
-        window.location = "/data-status-sekolah/"+id+"/hapus";
+        window.location = "/data-admin-sekolah/"+id+"/hapus";
       } else {
         swal({
           title  : "Batal Hapus",
-          text   : "Data Status Sekolah '"+Nama+"' Batal di Hapus",
+          text   : "Data Admin Sekolah '"+Nama+"' Batal di Hapus",
           icon   : "info",
           timer  : 2500,
         })
