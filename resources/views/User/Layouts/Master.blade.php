@@ -215,11 +215,98 @@
                   </li>
                   <!-- END user info-->
                   <!-- Iterates over all sidebar items-->
-                  <li class=" ">
+                  <li class="active">
                      <a href="/home">
                         <em class="icon-home"></em>
                         <span data-localize="sidebar.nav.DOCUMENTATION">Dashboard</span>
                      </a>
+                  </li>
+
+                  <li class=" ">
+                     <a href="#MasterData" data-toggle="collapse">
+                        <div class="pull-right label label-primary"><em class="icon-arrow-down"></em></div>
+                        <em class="icon-speedometer"></em>
+                        <span data-localize="sidebar.nav.DASHBOARD">Master Data</span>
+                     </a>
+                     <ul class="nav sidebar-subnav collapse" id="MasterData">
+                        <li class="sidebar-subnav-header">Master Data</li>
+                        <li class=" ">
+                           <a href="/data-kecamatan">
+                              <em class="icon-map"></em>
+                              <span data-localize="sidebar.nav.DOCUMENTATION">Kecamatan</span>
+                           </a>
+                        </li>
+                        <li class=" ">
+                           <a href="/data-kelurahan">
+                              <em class="icon-map"></em>
+                              <span data-localize="sidebar.nav.DOCUMENTATION">Kelurahan</span>
+                           </a>
+                        </li>
+                        <li class=" ">
+                           <a href="/data-jenjang">
+                              <em class="icon-menu"></em>
+                              <span data-localize="sidebar.nav.DOCUMENTATION">Jenjang</span>
+                           </a>
+                        </li>
+                        <li class=" ">
+                           <a href="/data-status-sekolah">
+                              <em class="icon-drawer"></em>
+                              <span data-localize="sidebar.nav.DOCUMENTATION">Status Sekolah</span>
+                           </a>
+                        </li>
+                     </ul>
+                  </li>
+
+                  <li class=" ">
+                     <a href="#DataSekolah" data-toggle="collapse">
+                        <div class="pull-right label label-primary"><em class="icon-arrow-down"></em></div>
+                        <em class="icon-speedometer"></em>
+                        <span data-localize="sidebar.nav.DASHBOARD">Data Sekolah</span>
+                     </a>
+                     <ul class="nav sidebar-subnav collapse" id="DataSekolah">
+                        <li class="sidebar-subnav-header">Data Sekolah</li>
+                        <li class=" ">
+                           <a href="/data-admin-sekolah">
+                              <em class="icon-user"></em>
+                              <span data-localize="sidebar.nav.DOCUMENTATION">Admin Sekolah</span>
+                           </a>
+                        </li>
+                        <li class=" ">
+                           <a href="/data-sekolah">
+                              <em class="icon-graduation"></em>
+                              <span data-localize="sidebar.nav.DOCUMENTATION">Sekolah</span>
+                           </a>
+                        </li>
+                        <li class=" ">
+                           <a href="/data-pegawai">
+                              <em class="icon-people"></em>
+                              <span data-localize="sidebar.nav.DOCUMENTATION">Pegawai</span>
+                           </a>
+                        </li>
+                     </ul>
+                  </li>
+
+                  <li class=" ">
+                     <a href="#DataSekolahSaya" data-toggle="collapse">
+                        <div class="pull-right label label-primary"><em class="icon-arrow-down"></em></div>
+                        <em class="icon-speedometer"></em>
+                        <span data-localize="sidebar.nav.DASHBOARD">Data Sekolah Saya</span>
+                     </a>
+                     <ul class="nav sidebar-subnav collapse" id="DataSekolahSaya">
+                        <li class="sidebar-subnav-header">Data Sekolah Saya</li>
+                        <li class=" ">
+                           <a href="/pegawai-sekolah">
+                              <em class="icon-people"></em>
+                              <span data-localize="sidebar.nav.DOCUMENTATION">Pegawai</span>
+                           </a>
+                        </li>
+                        <li class=" ">
+                           <a href="/sekolah-saya">
+                              <em class="icon-graduation"></em>
+                              <span data-localize="sidebar.nav.DOCUMENTATION">Sekolah</span>
+                           </a>
+                        </li>
+                     </ul>
                   </li>
 
                   <li class="nav-heading ">
@@ -232,65 +319,6 @@
                      </a>
                   </li>
 
-                  <li class="nav-heading ">
-                     <span data-localize="sidebar.heading.HEADER">Master Data</span>
-                  </li>
-                  <li class=" ">
-                     <a href="/data-kelurahan">
-                        <em class="icon-map"></em>
-                        <span data-localize="sidebar.nav.DOCUMENTATION">Kelurahan</span>
-                     </a>
-                  </li>
-                  <li class=" ">
-                     <a href="/data-jenjang">
-                        <em class="icon-menu"></em>
-                        <span data-localize="sidebar.nav.DOCUMENTATION">Jenjang</span>
-                     </a>
-                  </li>
-                  <li class=" ">
-                     <a href="/data-status-sekolah">
-                        <em class="icon-drawer"></em>
-                        <span data-localize="sidebar.nav.DOCUMENTATION">Status Sekolah</span>
-                     </a>
-                  </li>
-
-                  <li class="nav-heading ">
-                     <span data-localize="sidebar.heading.HEADER">Data Sekolah</span>
-                  </li>
-                  <li class=" ">
-                     <a href="/data-admin-sekolah">
-                        <em class="icon-user"></em>
-                        <span data-localize="sidebar.nav.DOCUMENTATION">Admin Sekolah</span>
-                     </a>
-                  </li>
-                  <li class=" ">
-                     <a href="/data-sekolah">
-                        <em class="icon-graduation"></em>
-                        <span data-localize="sidebar.nav.DOCUMENTATION">Sekolah</span>
-                     </a>
-                  </li>
-                  <li class=" ">
-                     <a href="/data-pegawai">
-                        <em class="icon-people"></em>
-                        <span data-localize="sidebar.nav.DOCUMENTATION">Pegawai</span>
-                     </a>
-                  </li>
-
-                  <li class="nav-heading ">
-                     <span data-localize="sidebar.heading.HEADER">Data Sekolah Saya</span>
-                  </li>
-                  <li class=" ">
-                     <a href="/pegawai-sekolah">
-                        <em class="icon-people"></em>
-                        <span data-localize="sidebar.nav.DOCUMENTATION">Pegawai</span>
-                     </a>
-                  </li>
-                  <li class=" ">
-                     <a href="/sekolah-saya">
-                        <em class="icon-graduation"></em>
-                        <span data-localize="sidebar.nav.DOCUMENTATION">Sekolah</span>
-                     </a>
-                  </li>
 
                   <li class="nav-heading ">
                      <span data-localize="sidebar.heading.HEADER">Main Navigation</span>
