@@ -3,7 +3,11 @@
   <section>
     <!-- Page content-->
     <div class="content-wrapper">
-      <h3>Ubah Data Kecamatan
+      <h3>
+        @section('title')
+          {{$Title = 'Ubah Data Kecamatan'}}
+        @endsection
+        {{$Title}}
         <small>{{$Kecamatan->nama_kecamatan}}</small>
       </h3>
       <div class="row">

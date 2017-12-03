@@ -12,7 +12,12 @@
   <section>
     <!-- Page content-->
     <div class="content-wrapper">
-      <h3>Data Sekolah</h3>
+      <h3>
+        @section('title')
+          {{$Title = 'Data Sekolah'}}
+        @endsection
+        {{$Title}}
+      </h3>
         <div class="row">
           <div class="col-lg-12">
 
@@ -59,7 +64,7 @@
                           <td>
 
                             <button class="btn btn-labeled btn-info" type="button" data-toggle="modal" data-target="#exampleModal"
-                            onclick="idSekolah({{$DataSekolah->id}})">
+                            onmouseover="idSekolah({{$DataSekolah->id}})">
                               <span class="btn-label"><i class="fa fa-info"></i>
                             </span><b>Info</b></button>
 
@@ -112,7 +117,7 @@
         $( "tr > #email" ).text( $( "div" ).data( "data" ).email );
       });
     }
-</script>
+  </script>
 @endsection
 <script>
   function Info(id,Nama)

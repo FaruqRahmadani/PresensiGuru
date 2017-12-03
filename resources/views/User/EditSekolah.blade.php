@@ -3,8 +3,12 @@
   <section>
     <!-- Page content-->
     <div class="content-wrapper">
-      <h3>Edit Data Sekolah
-      <small>{{$Sekolah->nama_sekolah}}</small>
+      <h3>
+        @section('title')
+          {{$Title = 'Ubah Data Sekolah'}}
+        @endsection
+        {{$Title}}
+        <small>{{$Sekolah->nama_sekolah}}</small>
       </h3>
       <div class="row">
         <div class="col-lg-12">

@@ -3,7 +3,11 @@
   <section>
     <!-- Page content-->
     <div class="content-wrapper">
-      <h3>Ubah Data Status Sekolah
+      <h3>
+        @section('title')
+          {{$Title = 'Ubah Data Status Sekolah'}}
+        @endsection
+        {{$Title}}
         <small>{{$Status->nama_status}}</small>
       </h3>
       <div class="row">

@@ -3,8 +3,12 @@
   <section>
     <!-- Page content-->
     <div class="content-wrapper">
-      <h3>Edit Data Admin
-      <small>{{$User->nama}}</small>
+      <h3>
+        @section('title')
+          {{$Title = 'Ubah Data Admin'}}
+        @endsection
+        {{$Title}}
+        <small>{{$User->nama}}</small>
       </h3>
       <div class="row">
         <div class="col-lg-12">

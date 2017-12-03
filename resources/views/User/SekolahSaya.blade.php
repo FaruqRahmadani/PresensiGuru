@@ -12,7 +12,12 @@
   <section>
     <!-- Page content-->
     <div class="content-wrapper">
-      <h3>Data Sekolah Saya</h3>
+      <h3>
+        @section('title')
+          {{$Title = 'Data Sekolah Saya'}}
+        @endsection
+        {{$Title}}
+      </h3>
         <div class="row">
           <div class="col-lg-12">
 
@@ -51,8 +56,16 @@
                          <td>{{$Sekolah->Status->nama_status}}</td>
                       </tr>
                       <tr>
+                         <td>Kecamatan</td>
+                         <td>{{$Sekolah->Kecamatan->nama_kecamatan}}</td>
+                      </tr>
+                      <tr>
                          <td>Kelurahan</td>
                          <td>{{$Sekolah->Kelurahan->nama_kelurahan}}</td>
+                      </tr>
+                      <tr>
+                         <td>Alamat</td>
+                         <td>{{$Sekolah->alamat}}</td>
                       </tr>
                       <tr>
                          <td>Nomor Telepon</td>

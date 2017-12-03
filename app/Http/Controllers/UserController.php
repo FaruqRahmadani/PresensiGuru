@@ -945,6 +945,15 @@ class UserController extends Controller
     return $Sekolah;
   }
 
+  public function JsonPegawai($id)
+  {
+    $Pegawai = Pegawai::with('Sekolah')
+                      ->where('id', $id)
+                      ->first();
+
+    return $Pegawai;
+  }
+
   public function Modal()
   {
     $Sekolah = Sekolah::with('Jenjang', 'Status', 'Kelurahan', 'Pegawai', 'AllPegawai')

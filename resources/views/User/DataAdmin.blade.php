@@ -12,7 +12,12 @@
   <section>
     <!-- Page content-->
     <div class="content-wrapper">
-      <h3>Data Admin</h3>
+      <h3>
+        @section('title')
+          {{$Title = 'Data Admin'}}
+        @endsection
+        {{$Title}}
+      </h3>
         <div class="row">
           <div class="col-lg-12">
 

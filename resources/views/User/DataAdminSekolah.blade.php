@@ -12,7 +12,12 @@
   <section>
     <!-- Page content-->
     <div class="content-wrapper">
-      <h3>Data Admin Sekolah</h3>
+      <h3>
+        @section('title')
+          {{$Title = 'Data Admin Sekolah'}}
+        @endsection
+        {{$Title}}
+      </h3>
         <div class="row">
           <div class="col-lg-12">
 
@@ -43,7 +48,7 @@
                         <tr>
                           <td>{{$no+=1}}</td>
                           <td>
-                            <img class="img-thumbnail img-circle" src="/Public-User/img/user/{{$DataUser->foto}}" style="max-width : 25px; max-height : 25px;"> 
+                            <img class="img-thumbnail img-circle" src="/Public-User/img/user/{{$DataUser->foto}}" style="max-width : 25px; max-height : 25px;">
                             {{$DataUser->nama}}
                           </td>
                           <td>{{$DataUser->Sekolah->nama_sekolah}}</td>

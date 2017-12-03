@@ -3,8 +3,12 @@
   <section>
     <!-- Page content-->
     <div class="content-wrapper">
-      <h3>Edit Pegawai
-      <small>{{$Pegawai->nama}}</small>
+      <h3>
+        @section('title')
+          {{$Title = 'Ubah Pegawai'}}
+        @endsection
+        {{$Title}}
+        <small>{{$Pegawai->nama}}</small>
       </h3>
       <div class="row">
         <div class="col-lg-12">

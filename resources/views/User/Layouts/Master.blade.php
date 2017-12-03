@@ -6,7 +6,9 @@
    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
    <meta name="description" content="Bootstrap Admin App + jQuery">
    <meta name="keywords" content="app, responsive, jquery, bootstrap, dashboard, admin">
-   <title>Presensi Guru</title>
+   <title>
+    @yield('title') - Presensi Guru
+   </title>
    <!-- =============== VENDOR STYLES ===============-->
    <!-- FONT AWESOME-->
    <link rel="stylesheet" href="/Public-User/vendor/fontawesome/css/font-awesome.min.css">
@@ -218,7 +220,7 @@
                   </li>
                   <!-- END user info-->
                   <!-- Iterates over all sidebar items-->
-                  <li class="active">
+                  <li class="{{$Title == 'Dashboard' ? 'active' : ''}}">
                      <a href="/home">
                         <em class="icon-home"></em>
                         <span data-localize="sidebar.nav.DOCUMENTATION">Dashboard</span>
@@ -233,25 +235,25 @@
                      </a>
                      <ul class="nav sidebar-subnav collapse" id="MasterData">
                         <li class="sidebar-subnav-header">Master Data</li>
-                        <li class=" ">
+                        <li class="{{$Title == 'Data Kecamatan' ? 'active' : ''}}">
                            <a href="/data-kecamatan">
                               <em class="icon-map"></em>
                               <span data-localize="sidebar.nav.DOCUMENTATION">Kecamatan</span>
                            </a>
                         </li>
-                        <li class=" ">
+                        <li class="{{$Title == 'Data Kelurahan' ? 'active' : ''}}">
                            <a href="/data-kelurahan">
                               <em class="icon-map"></em>
                               <span data-localize="sidebar.nav.DOCUMENTATION">Kelurahan</span>
                            </a>
                         </li>
-                        <li class=" ">
+                        <li class="{{$Title == 'Data Jenjang' ? 'active' : ''}}">
                            <a href="/data-jenjang">
                               <em class="icon-menu"></em>
                               <span data-localize="sidebar.nav.DOCUMENTATION">Jenjang</span>
                            </a>
                         </li>
-                        <li class=" ">
+                        <li class="{{$Title == 'Data Status Sekolah' ? 'active' : ''}}">
                            <a href="/data-status-sekolah">
                               <em class="icon-drawer"></em>
                               <span data-localize="sidebar.nav.DOCUMENTATION">Status Sekolah</span>
@@ -268,19 +270,19 @@
                      </a>
                      <ul class="nav sidebar-subnav collapse" id="DataSekolah">
                         <li class="sidebar-subnav-header">Data Sekolah</li>
-                        <li class=" ">
+                        <li class="{{$Title == 'Data Sekolah' ? 'active' : ''}}">
                            <a href="/data-sekolah">
                               <em class="icon-graduation"></em>
                               <span data-localize="sidebar.nav.DOCUMENTATION">Sekolah</span>
                            </a>
                         </li>
-                        <li class=" ">
+                        <li class="{{$Title == 'Data Admin Sekolah' ? 'active' : ''}}">
                            <a href="/data-admin-sekolah">
                               <em class="icon-user"></em>
                               <span data-localize="sidebar.nav.DOCUMENTATION">Admin Sekolah</span>
                            </a>
                         </li>
-                        <li class=" ">
+                        <li class="{{$Title == 'Data Pegawai' ? 'active' : ''}}">
                            <a href="/data-pegawai">
                               <em class="icon-people"></em>
                               <span data-localize="sidebar.nav.DOCUMENTATION">Pegawai</span>
@@ -297,13 +299,13 @@
                      </a>
                      <ul class="nav sidebar-subnav collapse" id="DataSekolahSaya">
                         <li class="sidebar-subnav-header">Data Sekolah Saya</li>
-                        <li class=" ">
+                        <li class="{{$Title == 'Data Pegawai Sekolah' ? 'active' : ''}}">
                            <a href="/pegawai-sekolah">
                               <em class="icon-people"></em>
                               <span data-localize="sidebar.nav.DOCUMENTATION">Pegawai</span>
                            </a>
                         </li>
-                        <li class=" ">
+                        <li class="{{$Title == 'Data Sekolah Saya' ? 'active' : ''}}">
                            <a href="/sekolah-saya">
                               <em class="icon-graduation"></em>
                               <span data-localize="sidebar.nav.DOCUMENTATION">Sekolah</span>
