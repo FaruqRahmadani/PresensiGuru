@@ -2,26 +2,160 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Response;
 use Carbon\Carbon;
+use Storage;
+use Excel;
 use Crypt;
 use File;
 use Auth;
+use Mail;
+use PDF;
 use Illuminate\Contracts\Encryption\DecryptException;
 
 use Illuminate\Http\Request;
+use App\KategoriAbsen;
+use App\PasswordReset;
 use App\Kelurahan;
 use App\Kecamatan;
+use App\JamKerja;
 use App\Jenjang;
 use App\Sekolah;
 use App\Pegawai;
+use App\Absensi;
 use App\Status;
 use App\User;
 
 class UserController extends Controller
 {
+  public function LupaPassword()
+  {
+    return view('Depan.LupaPassword');
+  }
+
+  public function PostLupaPassword(Request $request)
+  {
+    $User = User::where('email', $request->email)
+                ->first();
+
+    if (count($User) == 0) {
+      return redirect('/lupa-password')->with('warning', 'Data Tidak di Temukan');
+    }
+
+    $Token = ((Carbon::now()->format('dmYHisvuU')));
+
+    $PasswordReset = new PasswordReset;
+    $PasswordReset->email   = $request->email;
+    $PasswordReset->token   = $Token;
+    $PasswordReset->user_id = $User->id;
+    $PasswordReset->save();
+
+    $Link = $request->url().'/'.Crypt::encryptString($User->id).'/'.Crypt::encryptString($Token);
+
+    Mail::send('Mail.LupaPassword', ['User' => $User, 'Link' => $Link], function($mail) use($User) {
+        $mail->from('faruq@aleeva.id', 'Aplikasi Presensi');
+        $mail->to($User->email, $User->nama);
+        $mail->subject('Lupa Password | Aplikasi Presensi');
+    });
+
+    return redirect('/')->with('success', 'E-Mail Instruksi Lupa Password Telah di Kirimkan ke Alamat '.$request->email);
+  }
+
+  public function GetLupaPassword($id, $token)
+  {
+    try {
+      $idz    = Crypt::decryptString($id);
+      $tokenz = Crypt::decryptString($token);
+    } catch (DecryptException $e) {
+      return abort('404');
+    }
+
+    $PasswordReset = PasswordReset::where('token', $tokenz)
+                                  ->where('user_id', $idz)
+                                  ->first();
+
+    if (count($PasswordReset) <= 0) {
+      return abort(404);
+    } elseif ((Carbon::parse($PasswordReset->created_at)->diffInMinutes(Carbon::now()) > 30) or (($PasswordReset->status) == 0)) {
+      return redirect('/')->with('error', 'Link Ganti Password Sudah Expired');
+    }
+
+    $User = User::find($PasswordReset->user_id);
+
+    return view('Depan.PostLupaPassword', ['User' => $User]);
+  }
+
+  public function postGetLupaPassword(Request $request, $id, $token)
+  {
+    try {
+      $idz    = Crypt::decryptString($id);
+      $tokenz = Crypt::decryptString($token);
+    } catch (DecryptException $e) {
+      return abort('404');
+    }
+
+    $PasswordReset = PasswordReset::where('token', $tokenz)
+                                  ->where('user_id', $idz)
+                                  ->first();
+
+    $PasswordReset->status = 0;
+
+    $PasswordReset->save();
+
+    $User = User::find($PasswordReset->user_id);
+
+    $User->password = bcrypt($request->password);
+
+    $User->save();
+
+    return redirect('/')->with('success', 'Password Anda Berhasil di Ganti');
+  }
+
   public function Dashboard()
   {
-    return view('User.Home');
+    $Pegawai = Pegawai::all();
+    $Sekolah = Sekolah::all();
+
+    return view('User.Home', ['Pegawai' => $Pegawai, 'Sekolah' => $Sekolah]);
+  }
+
+  public function EditProfil()
+  {
+    $User = User::find(Auth::user()->id);
+
+    return view('User.EditProfil', ['User' => $User]);
+  }
+
+  public function storeEditProfil(Request $request)
+  {
+    $User = User::find(Auth::user()->id);
+
+    // Validasi Username
+    $UserValidate = User::where('username', $request->Username)
+                        ->get();
+    if ((count($UserValidate) > 0) && ($request->Username != $User->username)) {
+      return back()->withInput();
+    }
+
+    // Foto
+    if ($request->Foto != null) {
+      if ($User->foto != 'default.png') {
+        File::delete('Public/img/user/'.$User->foto);
+      }
+      $FotoExt  = $request->Foto->getClientOriginalExtension();
+      $NamaFoto = Carbon::now()->format('dmYHis');
+      $Foto = $NamaFoto.'.'.$FotoExt;
+      $request->Foto->move(public_path('Public/img/user'), $Foto);
+      $User->foto = $Foto;
+    }
+
+    $User->nama     = $request->Nama;
+    $User->email    = $request->Email;
+    $User->username = $request->Username;
+
+    $User->save();
+
+    return redirect('/home')->with('success', 'Data Profil Anda Berhasil di Ubah');
   }
 
   public function DataAdmin()
@@ -58,11 +192,11 @@ class UserController extends Controller
     $User->tipe = 1;
 
     // Jika Ada Inputan foto
-    if ($request->foto != null) {
-      $FotoExt  = $request->foto->getClientOriginalExtension();
+    if ($request->Foto != null) {
+      $FotoExt  = $request->Foto->getClientOriginalExtension();
       $NamaFoto = Carbon::now()->format('dmYHis');
       $Foto = $NamaFoto.'.'.$FotoExt;
-      $request->Foto->move(public_path('Public-User/img/user'), $Foto);
+      $request->Foto->move(public_path('Public/img/user'), $Foto);
       $User->foto = $Foto;
     }
 
@@ -103,12 +237,12 @@ class UserController extends Controller
     // Foto
     if ($request->Foto != null) {
       if ($User->foto != 'default.png') {
-        File::delete('Public-User/img/user/'.$User->foto);
+        File::delete('Public/img/user/'.$User->foto);
       }
       $FotoExt  = $request->Foto->getClientOriginalExtension();
       $NamaFoto = Carbon::now()->format('dmYHis');
       $Foto = $NamaFoto.'.'.$FotoExt;
-      $request->Foto->move(public_path('Public-User/img/user'), $Foto);
+      $request->Foto->move(public_path('Public/img/user'), $Foto);
       $User->foto = $Foto;
     }
 
@@ -463,7 +597,7 @@ class UserController extends Controller
       $FotoExt  = $request->Foto->getClientOriginalExtension();
       $NamaFoto = Carbon::now()->format('dmYHis');
       $Foto = $NamaFoto.'.'.$FotoExt;
-      $request->Foto->move(public_path('Public-User/img/user'), $Foto);
+      $request->Foto->move(public_path('Public/img/user'), $Foto);
       $User->foto = $Foto;
     }
 
@@ -521,13 +655,18 @@ class UserController extends Controller
     // Foto
     if ($request->Foto != null) {
       if ($User->foto != 'default.png') {
-        File::delete('Public-User/img/user/'.$User->foto);
+        File::delete('Public/img/user/'.$User->foto);
       }
       $FotoExt  = $request->Foto->getClientOriginalExtension();
       $NamaFoto = Carbon::now()->format('dmYHis');
       $Foto = $NamaFoto.'.'.$FotoExt;
-      $request->Foto->move(public_path('Public-User/img/user'), $Foto);
+      $request->Foto->move(public_path('Public/img/user'), $Foto);
       $User->foto = $Foto;
+    }
+
+    // Password
+    if ($request->Password != null) {
+      $User->password = bcrypt($request->Password);
     }
 
     $User->nama       = $request->Nama;
@@ -698,7 +837,7 @@ class UserController extends Controller
       $FotoExt  = $request->Foto->getClientOriginalExtension();
       $NamaFoto = $request->NIP;
       $Foto = $NamaFoto.'.'.$FotoExt;
-      $request->Foto->move(public_path('Public-User/img/pegawai'), $Foto);
+      $request->Foto->move(public_path('Public/img/pegawai'), $Foto);
       $Pegawai->foto = $Foto;
     }
 
@@ -745,12 +884,12 @@ class UserController extends Controller
 
     if ($request->Foto != null) {
       if ($Pegawai->foto != 'default.png') {
-        File::delete('Public-User/img/pegawai/'.$Pegawai->foto);
+        File::delete(public_path('/Public/img/pegawai/'.$Pegawai->foto));
       }
       $FotoExt  = $request->Foto->getClientOriginalExtension();
       $NamaFoto = $request->NIP;
       $Foto = $NamaFoto.'.'.$FotoExt;
-      $request->Foto->move(public_path('Public-User/img/pegawai'), $Foto);
+      $request->Foto->move(public_path('/Public/img/pegawai'), $Foto);
       $Pegawai->foto = $Foto;
     }
 
@@ -772,6 +911,27 @@ class UserController extends Controller
     return view('User.InfoPegawai', ['Pegawai' => $Pegawai]);
   }
 
+  public function DataPresensi()
+  {
+    $Absensi = Absensi::where('sekolah_id', '01012011')
+                      ->get();
+    $Sekolah = Sekolah::all();
+
+    return view('User.DataPresensi', ['Absensi' => $Absensi, 'Sekolah' => $Sekolah, 'idSekolah' => 0]);
+  }
+
+  public function PostDataPresensi(Request $request)
+  {
+    $Absensi = Absensi::where('sekolah_id', $request->idSekolah)
+                      ->whereDate('tanggal', '>=', $request->TanggalAwal)
+                      ->whereDate('tanggal', '<=', $request->TanggalAkhir)
+                      ->get();
+
+    $Sekolah = Sekolah::all();
+
+    return view('User.DataPresensi', ['Absensi' => $Absensi, 'Sekolah' => $Sekolah, 'idSekolah' => $request->idSekolah, 'TanggalAwal' => $request->TanggalAwal, 'TanggalAkhir' => $request->TanggalAkhir]);
+  }
+
   public function SekolahSaya()
   {
     $Sekolah = Sekolah::with('Jenjang', 'Status', 'Kelurahan')
@@ -791,9 +951,11 @@ class UserController extends Controller
                          ->get();
     $Jenjang    = Jenjang::all();
     $Status     = Status::all();
-    $Kelurahan  = Kelurahan::all();
+    $Kecamatan  = Kecamatan::all();
+    $Kelurahan  = Kelurahan::where('kecamatan_id', $Sekolah->kecamatan_id)
+                           ->get();
 
-    return view('User.EditSekolahSaya', ['Sekolah' => $Sekolah, 'Pegawai' => $Pegawai, 'Jenjang' => $Jenjang, 'Status' => $Status, 'Kelurahan' => $Kelurahan]);
+    return view('User.EditSekolahSaya', ['Sekolah' => $Sekolah, 'Pegawai' => $Pegawai, 'Jenjang' => $Jenjang, 'Status' => $Status, 'Kecamatan' => $Kecamatan, 'Kelurahan' => $Kelurahan]);
   }
 
   public function storeEditSekolahSaya(Request $request)
@@ -806,6 +968,7 @@ class UserController extends Controller
     $Sekolah->nama_sekolah = $request->NamaSekolah;
     $Sekolah->jenjang_id   = $request->idJenjang;
     $Sekolah->status_id    = $request->idStatus;
+    $Sekolah->kecamatan_id = $request->idKecamatan;
     $Sekolah->kelurahan_id = $request->idKelurahan;
     $Sekolah->pegawai_id   = $request->idKepSek;
     $Sekolah->no_telepon   = $request->NomorTelepon;
@@ -855,7 +1018,7 @@ class UserController extends Controller
       $FotoExt  = $request->Foto->getClientOriginalExtension();
       $NamaFoto = $request->NIP;
       $Foto = $NamaFoto.'.'.$FotoExt;
-      $request->Foto->move(public_path('Public-User/img/pegawai'), $Foto);
+      $request->Foto->move(public_path('Public/img/pegawai'), $Foto);
       $Pegawai->foto = $Foto;
     }
 
@@ -900,12 +1063,12 @@ class UserController extends Controller
 
     if ($request->Foto != null) {
       if ($Pegawai->foto != 'default.png') {
-        File::delete('Public-User/img/pegawai/'.$Pegawai->foto);
+        File::delete('Public/img/pegawai/'.$Pegawai->foto);
       }
       $FotoExt  = $request->Foto->getClientOriginalExtension();
       $NamaFoto = $request->NIP;
       $Foto = $NamaFoto.'.'.$FotoExt;
-      $request->Foto->move(public_path('Public-User/img/pegawai'), $Foto);
+      $request->Foto->move(public_path('Public/img/pegawai'), $Foto);
       $Pegawai->foto = $Foto;
     }
 
@@ -925,6 +1088,290 @@ class UserController extends Controller
     $Pegawai = Pegawai::find($idz);
 
     return view('User.InfoPegawaiSekolah', ['Pegawai' => $Pegawai]);
+  }
+
+  public function InputPresensiSekolah()
+  {
+    return view('User.InputPresensiSekolah');
+  }
+
+  public function PostInputPresensiSekolah(Request $request)
+  {
+    $Presensi = Excel::load($request->FilePresensi)
+                     ->get();
+
+
+    try {
+      $TestValidate = $Presensi->first()->jammasuk;
+    } catch (\Exception $e) {
+      return back()->withInput()->with('error', 'Input File Yang Telah di Tentukan');
+    }
+
+    if ($TestValidate == null) {
+      return back()->withInput()->with('error', 'Input File Yang Telah di Tentukan');
+    }
+
+    $KategoriAbsen = KategoriAbsen::all();
+
+    return view('User.PostInputPresensiSekolah', ['Presensi' => $Presensi, 'KategoriAbsen' => $KategoriAbsen]);
+  }
+
+  public function StorePostInputPresensiSekolah(Request $request)
+  {
+    foreach ($request->Post as $DataRequest) {
+      $Keterangan = $DataRequest['Keterangan'] != null ? $DataRequest['Keterangan'] : '-';
+      $Pegawai    = Pegawai::where('sidikjari_id', $DataRequest['idSidikJari'])
+                           ->where('sekolah_id', Auth::user()->sekolah_id)
+                           ->first();
+      $IdPegawai  = $Pegawai != null ? $Pegawai->id : '0';
+
+      $Absensi = new Absensi;
+
+      $Absensi->pegawai_id   = $IdPegawai;
+      $Absensi->tanggal      = $DataRequest['tanggal'];
+      $Absensi->sidikjari_id = $DataRequest['idSidikJari'];
+      $Absensi->sekolah_id   = Auth::user()->sekolah_id;
+      $Absensi->jam_masuk    = $DataRequest['JamMasuk'];
+      $Absensi->jam_pulang   = $DataRequest['JamKeluar'];
+      $Absensi->absensi      = $DataRequest['Absensi'];
+      $Absensi->keterangan   = $Keterangan;
+
+      $Absensi->save();
+    }
+
+    return redirect('/data-presensi-sekolah')->with('success', 'Data Presensi Berhasil di Tambahkan');
+  }
+
+  public function DataPresensiSekolah()
+  {
+    $Sekolah = Sekolah::find(Auth::user()->sekolah_id);
+    $Absensi = Absensi::where('sekolah_id', Auth::user()->sekolah_id)
+                      ->get();
+    return view('User.DataPresensiSekolah', ['Absensi' => $Absensi, 'Sekolah' => $Sekolah]);
+  }
+
+  public function DetailDataPresensiSekolah($idSekolah, $tanggal)
+  {
+    try {
+      $idSekolahz = Crypt::decryptString($idSekolah);
+      $tanggalz = Crypt::decryptString($tanggal);
+    } catch (DecryptException $e) {
+      return abort('404');
+    }
+
+    $Absensi = Absensi::where('sekolah_id', $idSekolahz)
+                      ->where('tanggal', $tanggalz)
+                      ->get();
+
+    return view('User.DetailDataPresensiSekolah', ['Absensi' => $Absensi]);
+  }
+
+  public function DataJamKerja()
+  {
+    $JamKerja = JamKerja::where('sekolah_id', Auth::user()->sekolah_id)
+                        ->orderBy('hari', 'asc')
+                        ->get();
+
+    return view('User.DataJamKerja', ['JamKerja' => $JamKerja]);
+  }
+
+  public function TambahDataJamKerja()
+  {
+    return view('User.TambahDataJamKerja');
+  }
+
+  public function storeTambahDataJamKerja(Request $request)
+  {
+    // Validasi Hari
+    $JamKerja = JamKerja::where('sekolah_id', Auth::user()->sekolah_id)
+                        ->where('hari', $request->hari)
+                        ->get();
+
+    if (count($JamKerja) > 0) {
+      return back()->withInput()->with('error', 'Data Jam Kerja Hari Tersebut Sudah Ada');
+    }
+
+    $JamKerja = new JamKerja;
+
+    $JamKerja->sekolah_id = Auth::user()->sekolah_id;
+    $JamKerja->hari       = $request->hari;
+    $JamKerja->jam_masuk  = $request->JamMasuk;
+    $JamKerja->jam_pulang = $request->JamPulang;
+
+    $JamKerja->save();
+
+    return redirect('/pengaturan-jam-kerja')->with('success', 'Data Jam Kerja Berhasil di Tambahkan');
+  }
+
+  public function EditDataJamKerja($id)
+  {
+    try {
+      $idz = Crypt::decryptString($id);
+    } catch (DecryptException $e) {
+      return abort('404');
+    }
+
+    $JamKerja = JamKerja::find($idz);
+
+    return view('User.EditDataJamKerja', ['JamKerja' => $JamKerja]);
+  }
+
+  public function storeEditDataJamKerja(Request $request, $id)
+  {
+    try {
+      $idz = Crypt::decryptString($id);
+    } catch (DecryptException $e) {
+      return abort('404');
+    }
+
+    $JamKerja = JamKerja::find($idz);
+
+    // Validasi Hari
+    $ValidasiHari = JamKerja::where('sekolah_id', Auth::user()->sekolah_id)
+                            ->where('hari', $request->hari)
+                            ->get();
+
+    if ((count($ValidasiHari)) > 0 && ($ValidasiHari->first()->hari != $JamKerja->hari)) {
+      return back()->withInput()->with('error', 'Data Jam Kerja Hari Tersebut Sudah Ada');
+    }
+
+    $JamKerja->hari       = $request->hari;
+    $JamKerja->jam_masuk  = $request->JamMasuk;
+    $JamKerja->jam_pulang = $request->JamPulang;
+
+    $JamKerja->save();
+
+    return redirect('/pengaturan-jam-kerja')->with('success', 'Data Jam Kerja Berhasil di Ubah');
+  }
+
+  public function DataKategoriPresensi()
+  {
+    $KategoriAbsen = KategoriAbsen::all();
+
+    return view('User.DataKategoriPresensi', ['KategoriAbsen' => $KategoriAbsen]);
+  }
+
+  public function TambahKategoriPresensi()
+  {
+    return view('User.TambahKategoriPresensi');
+  }
+
+  public function storeTambahKategoriPresensi(Request $request)
+  {
+    $KategoriAbsen = new KategoriAbsen;
+
+    $KategoriAbsen->kode       = $request->Kode;
+    $KategoriAbsen->keterangan = $request->Keterangan;
+    $KategoriAbsen->kode_warna = $request->KodeWarna;
+
+    $KategoriAbsen->save();
+
+    return redirect('/data-kategori-presensi')->with('success', 'Kategori Presensi '.$request->Keterangan.' Berhasil di Tambahkan');
+  }
+
+  public function EditKategoriPresensi($id)
+  {
+    try {
+      $idz    = Crypt::decryptString($id);
+    } catch (DecryptException $e) {
+      return abort('404');
+    }
+
+    $KategoriAbsen = KategoriAbsen::find($idz);
+
+    return view('User.EditKategoriPresensi', ['KategoriAbsen' => $KategoriAbsen]);
+  }
+
+  public function storeEditKategoriPresensi(Request $request, $id)
+  {
+    try {
+      $idz    = Crypt::decryptString($id);
+    } catch (DecryptException $e) {
+      return abort('404');
+    }
+
+    $KategoriAbsen = KategoriAbsen::find($idz);
+
+    $KategoriAbsen->kode       = $request->Kode;
+    $KategoriAbsen->keterangan = $request->Keterangan;
+    $KategoriAbsen->kode_warna = $request->KodeWarna;
+
+    $KategoriAbsen->save();
+
+    return redirect('/data-kategori-presensi')->with('success', 'Kategori Presensi '.$request->Keterangan.' Berhasil di Ubah');
+  }
+
+  public function LaporanRekapPresensi()
+  {
+    $KategoriAbsen = KategoriAbsen::all();
+
+    $PeriodeAbsensi = Absensi::where('sekolah_id', Auth::user()->sekolah_id)
+                             ->orderBy('tanggal', 'desc')
+                             ->get();
+
+    $PeriodeLastTahun = Carbon::parse($PeriodeAbsensi->first()->tanggal)->format('Y');
+    $PeriodeLastBulan = Carbon::parse($PeriodeAbsensi->first()->tanggal)->format('m');
+    $PeriodeLast      = Carbon::parse($PeriodeAbsensi->first()->tanggal)->format('F Y');
+
+    $Absensi        = Absensi::where('sekolah_id', Auth::user()->sekolah_id)
+                             ->whereYear('tanggal', $PeriodeLastTahun)
+                             ->whereMonth('tanggal', $PeriodeLastBulan)
+                             ->orderBy('tanggal', 'asc');
+
+    $Pegawai = Pegawai::where('sekolah_id', Auth::user()->sekolah_id)
+                      ->get();
+
+    return view('User.LaporanRekapPresensi', ['Pegawai' => $Pegawai, 'Absensi' => $Absensi, 'PeriodeAbsensi' => $PeriodeAbsensi, 'SelectedPeriode' => $PeriodeLast, 'KategoriAbsen' => $KategoriAbsen]);
+  }
+
+  public function LaporanRekapPresensiFilter(Request $request)
+  {
+    $KategoriAbsen = KategoriAbsen::all();
+
+    $PeriodeAbsensi = Absensi::where('sekolah_id', Auth::user()->sekolah_id)
+                             ->orderBy('tanggal', 'desc')
+                             ->get();
+
+    $PeriodeLastTahun = Carbon::parse($request->Periode)->format('Y');
+    $PeriodeLastBulan = Carbon::parse($request->Periode)->format('m');
+
+    $Absensi        = Absensi::where('sekolah_id', Auth::user()->sekolah_id)
+                             ->whereYear('tanggal', $PeriodeLastTahun)
+                             ->whereMonth('tanggal', $PeriodeLastBulan)
+                             ->orderBy('tanggal', 'asc');
+
+    $Pegawai = Pegawai::where('sekolah_id', Auth::user()->sekolah_id)
+                      ->get();
+
+    return view('User.LaporanRekapPresensi', ['Pegawai' => $Pegawai, 'Absensi' => $Absensi, 'PeriodeAbsensi' => $PeriodeAbsensi, 'SelectedPeriode' => $request->Periode, 'KategoriAbsen' => $KategoriAbsen]);
+  }
+
+  public function PrintLaporanRekapPresensi($periode)
+  {
+    try {
+      $periodez    = Crypt::decryptString($periode);
+    } catch (DecryptException $e) {
+      return abort('404');
+    }
+
+    $KategoriAbsen = KategoriAbsen::all();
+
+    $PeriodeLastTahun = Carbon::parse($periodez)->format('Y');
+    $PeriodeLastBulan = Carbon::parse($periodez)->format('m');
+
+    $Absensi        = Absensi::where('sekolah_id', Auth::user()->sekolah_id)
+                             ->whereYear('tanggal', $PeriodeLastTahun)
+                             ->whereMonth('tanggal', $PeriodeLastBulan)
+                             ->orderBy('tanggal', 'asc');
+
+    $Pegawai = Pegawai::where('sekolah_id', Auth::user()->sekolah_id)
+                      ->get();
+
+    $Sekolah = Sekolah::find(Auth::user()->sekolah_id);
+
+    $pdf = PDF::loadView('Laporan.RekapPresensi', ['Pegawai' => $Pegawai, 'Absensi' => $Absensi, 'Periode' => $periodez, 'Sekolah' => $Sekolah, 'KategoriAbsen' => $KategoriAbsen]);
+    $pdf->setPaper('a4', 'potrait');
+    return $pdf->stream('Rekap Presensi.pdf', ['Attachment' => 0]);
   }
 
   // JSON !!!!!!!!!!!!!!
@@ -947,13 +1394,26 @@ class UserController extends Controller
 
   public function JsonPegawai($id)
   {
+    $idz = Crypt::decryptString($id);
     $Pegawai = Pegawai::with('Sekolah')
-                      ->where('id', $id)
+                      ->where('id', $idz)
                       ->first();
 
     return $Pegawai;
   }
 
+  public function JsonAbsensi($tanggal, $idSekolah)
+  {
+    $Absensi = Absensi::with('Pegawai', 'KategoriAbsen')
+                      ->whereDate('tanggal', $tanggal)
+                      ->where('sekolah_id', $idSekolah)
+                      ->get();
+
+    return $Absensi;
+  }
+
+
+  // Aman di hapus
   public function Modal()
   {
     $Sekolah = Sekolah::with('Jenjang', 'Status', 'Kelurahan', 'Pegawai', 'AllPegawai')
@@ -961,5 +1421,10 @@ class UserController extends Controller
                       ->first();
 
     return view('User.InfoSekolah', ['Sekolah' => $Sekolah]);
+  }
+
+  public function asd()
+  {
+    return view('User.ablank');
   }
 }

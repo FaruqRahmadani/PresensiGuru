@@ -21,27 +21,30 @@
         <div class="row">
           <div class="col-lg-12">
 
-            <div class="panel well">
-              <a href="/data-pegawai/tambah">
-                <button class="btn btn-labeled btn-info" type="button">
-                  <span class="btn-label"><i class="fa fa-plus"></i>
-                </span><b>Tambah Data</b></button>
-              </a>
-              <div class="panel-body">
+            <div class="well well-sm">
+              <div class="panel-heading">
+                <a href="/data-pegawai/tambah">
+                  <button class="btn btn-labeled btn-info" type="button">
+                    <span class="btn-label"><i class="fa fa-plus"></i>
+                  </span><b>Tambah Data</b></button>
+                </a>
+              </div>
+              <div class="panel-body no-padding">
+
                 <div class="table-responsive">
-                  <table class="table table-striped table-hover" id="datatable2">
+                  <table class="table table-striped table-bordered table-hover table-nonfluid tabel-data-custom" id="datatable2">
                     <thead>
                       <tr>
                         <th>#</th>
                         <th>NIP</th>
                         <th>NUPTK</th>
                         <th>Nama</th>
-                        {{-- <th>Tempat, Tanggal Lahir</th> --}}
+                        <th>Tempat, Tanggal Lahir</th>
                         <th>Jenis Kelamin</th>
-                        {{-- <th>Nomor Telepon</th> --}}
-                        {{-- <th>E-mail</th> --}}
+                        <th>Nomor Telepon</th>
+                        <th>E-mail</th>
                         <th>Sekolah Induk</th>
-                        {{-- <th>ID Sidik Jari</th> --}}
+                        <th>ID Sidik Jari</th>
                         <th>Aksi</th>
                       </tr>
                     </thead>
@@ -55,22 +58,22 @@
                           <td>{{$DataPegawai->nip}}</td>
                           <td>{{$DataPegawai->nuptk}}</td>
                           <td>
-                            <img class="img-thumbnail img-circle" src="/Public-User/img/pegawai/{{$DataPegawai->foto}}" style="max-width : 25px; max-height : 25px;">
+                            <img class="img-thumbnail img-circle thumb30" src="/Public/img/pegawai/{{$DataPegawai->foto}}">
                             {{$DataPegawai->nama}}
                           </td>
-                          {{-- <td>{{$DataPegawai->tempat_lahir}}, {{Carbon\Carbon::parse($DataPegawai->tanggal_lahir)->format('d-m-Y')}}</td> --}}
+                          <td>{{$DataPegawai->tempat_lahir}}, {{Carbon\Carbon::parse($DataPegawai->tanggal_lahir)->format('d-m-Y')}}</td>
                           <td>{{$DataPegawai->jenis_kelamin == '1' ? 'Laki - Laki' : 'Perempuan'}}</td>
-                          {{-- <td>{{$DataPegawai->no_handphone}}</td> --}}
-                          {{-- <td>{{$DataPegawai->email}}</td> --}}
+                          <td>{{$DataPegawai->no_handphone}}</td>
+                          <td>{{$DataPegawai->email}}</td>
                           <td>{{$DataPegawai->Sekolah->nama_sekolah}}</td>
-                          {{-- <td>{{$DataPegawai->sidikjari_id}}</td> --}}
+                          <td>{{$DataPegawai->sidikjari_id}}</td>
                           <td>
-                            <button class="btn btn-labeled btn-info" type="button" data-toggle="modal" data-target="#exampleModal"
-                            onmouseover="idPegawai({{$DataPegawai->id}})">
+                            <button class="btn btn-labeled btn-info btn-xs" type="button" data-toggle="modal" data-target="#exampleModal"
+                            onmouseover="idPegawai('{{Crypt::encryptString($DataPegawai->id)}}')">
                               <span class="btn-label"><i class="fa fa-info"></i>
                             </span><b>Info</b></button>
 
-                            <button class="btn btn-labeled btn-primary" type="button"
+                            <button class="btn btn-labeled btn-primary btn-xs" type="button"
                             onclick="Ubah('{{Crypt::encryptString($DataPegawai->id)}}', '{{$DataPegawai->nama}}')">
                               <span class="btn-label"><i class="fa fa-pencil"></i>
                             </span><b>Edit</b></button>
@@ -97,6 +100,8 @@
       $.get('/json/infopegawai/'+id+'/pegawai.json', function(pegawais)
       {
         $( "div" ).data( "data", pegawais );
+        $( "#FotoPegawai" ).attr('src', '/Public/img/pegawai/'+ $( "div" ).data( "data" ).foto );
+        $( "#ButtonEdit" ).attr('href', '/data-pegawai/'+id+'/edit' );
         $( "tr > #nip" ).text( $( "div" ).data( "data" ).nip );
         $( "tr > #nuptk" ).text( $( "div" ).data( "data" ).nuptk );
         $( "tr > #nama" ).text( $( "div" ).data( "data" ).nama );
@@ -116,8 +121,7 @@
       });
     }
   </script>
-@endsection
-<script>
+  <script>
   function Info(id,Nama)
   {
     swal({
@@ -130,11 +134,11 @@
 
   function Ubah(id,Nama)
   {
-    swal({
-      title   : "Ubah",
-      text    : "Anda Akan di Arahkan ke Halaman Ubah Data Sekolah '"+Nama+"'",
-      icon    : "info",
-    })
+    // swal({
+    //   title   : "Ubah",
+    //   text    : "Anda Akan di Arahkan ke Halaman Ubah Data Sekolah '"+Nama+"'",
+    //   icon    : "info",
+    // })
     window.location = "/data-pegawai/"+id+"/edit";
   }
 
@@ -151,20 +155,20 @@
     })
     .then((hapus) => {
       if (hapus) {
-        swal({
-          title  : "Hapus",
-          text   : "Data Status Sekolah '"+Nama+"' Akan di Hapus",
-          icon   : "info",
-          timer  : 2500,
-        });
+        // swal({
+        //   title  : "Hapus",
+        //   text   : "Data Status Sekolah '"+Nama+"' Akan di Hapus",
+        //   icon   : "info",
+        //   timer  : 2500,
+        // });
         window.location = "/data-status-sekolah/"+id+"/hapus";
       } else {
-        swal({
-          title  : "Batal Hapus",
-          text   : "Data Status Sekolah '"+Nama+"' Batal di Hapus",
-          icon   : "info",
-          timer  : 2500,
-        })
+        // swal({
+        //   title  : "Batal Hapus",
+        //   text   : "Data Status Sekolah '"+Nama+"' Batal di Hapus",
+        //   icon   : "info",
+        //   timer  : 2500,
+        // })
       }
     });
   }
@@ -179,62 +183,77 @@
   }
 </script>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
- <div class="modal-dialog" role="document">
-   <div class="modal-content">
-     {{-- <div class="modal-header">
-       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-       <h4 class="modal-title" id="exampleModalLabel"></h4>
-     </div> --}}
-     <div class="modal-body">
-       <table class="table table-hover">
-         <tbody>
-           <tr>
-              <td style="width:35%;">NIP</td>
-              <td id="nip"></td>
-           </tr>
-           <tr>
-              <td>NUPTK</td>
-              <td id="nuptk"></td>
-           </tr>
-           <tr>
-              <td>Nama</td>
-              <td id="nama"></td>
-           </tr>
-           <tr>
-              <td>Tempat, Tanggal Lahir</td>
-              <td id="tempattanggallahir"></td>
-           </tr>
-           <tr>
-              <td>Sekolah Induk</td>
-              <td id="sekolahinduk"></td>
-           </tr>
-           <tr>
-              <td>Alamat</td>
-              <td id="alamat"></td>
-           </tr>
-           <tr>
-              <td>Jenis Kelamin</td>
-              <td id="jeniskelamin"></td>
-           </tr>
-           <tr>
-              <td>No Telepon</td>
-              <td id="nomortelepon"></td>
-           </tr>
-           <tr>
-              <td>E-Mail</td>
-              <td id="email"></td>
-           </tr>
-           <tr>
-              <td>ID Sidik Jari</td>
-              <td id="idsidikjari"></td>
-           </tr>
-         </tbody>
-      </table>
-     </div>
-     <div class="modal-footer">
-       <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-     </div>
-   </div>
- </div>
-</div>
+@endsection
+@section('bawahan')
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        {{-- <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel"></h4>
+      </div> --}}
+        <div class="modal-body">
+          <div class="text-center">
+            <img id="FotoPegawai" class="img-thumbnail img-circle" src="/Public/img/pegawai/default.png" style="max-width : 120px; max-height : 120px;">
+          </div> <br>
+          <table class="table table-hover" style="border:1px !important;">
+            <tbody>
+              <tr>
+                <td style="width:35%;">NIP</td>
+                <td id="nip"></td>
+              </tr>
+              <tr>
+                <td>NUPTK</td>
+                <td id="nuptk"></td>
+              </tr>
+              <tr>
+                <td>Nama</td>
+                <td id="nama"></td>
+              </tr>
+              <tr>
+                <td>Tempat, Tanggal Lahir</td>
+                <td id="tempattanggallahir"></td>
+              </tr>
+              <tr>
+                <td>Sekolah Induk</td>
+                <td id="sekolahinduk"></td>
+              </tr>
+              <tr>
+                <td>Alamat</td>
+                <td id="alamat"></td>
+              </tr>
+              <tr>
+                <td>Jenis Kelamin</td>
+                <td id="jeniskelamin"></td>
+              </tr>
+              <tr>
+                <td>No Telepon</td>
+                <td id="nomortelepon"></td>
+              </tr>
+              <tr>
+                <td>E-Mail</td>
+                <td id="email"></td>
+              </tr>
+              <tr>
+                <td>ID Sidik Jari</td>
+                <td id="idsidikjari"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <a id="ButtonEdit">
+            <button class="btn btn-labeled btn-primary" type="button" onclick="">
+              <span class="btn-label"><i class="fa fa-pencil"></i>
+              </span><b>Edit</b></button>
+          </a>
+          <button class="btn btn-labeled btn-warning" type="button" data-dismiss="modal">
+            <span class="btn-label"><i class="fa fa-close"></i>
+          </span><b>Keluar</b></button>
+        </div>
+      </div>
+    </div>
+  </div>
+@endsection
+{{-- @section('jscustom')
+@endsection --}}

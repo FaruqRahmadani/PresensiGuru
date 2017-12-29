@@ -21,15 +21,17 @@
         <div class="row">
           <div class="col-lg-12">
 
-            <div class="panel well">
-              <a href="/data-jenjang/tambah">
-                <button class="btn btn-labeled btn-info" type="button">
-                  <span class="btn-label"><i class="fa fa-plus"></i>
-                </span><b>Tambah Data</b></button>
-              </a>
-              <div class="panel-body">
+            <div class="well well-sm">
+              <div class="panel-heading">
+                <a href="/data-jenjang/tambah">
+                  <button class="btn btn-labeled btn-info" type="button">
+                    <span class="btn-label"><i class="fa fa-plus"></i>
+                  </span><b>Tambah Data</b></button>
+                </a>
+              </div>
+              <div class="panel-body no-padding">
                 <div class="table-responsive">
-                  <table class="table table-striped table-hover" id="datatable2">
+                  <table class="table table-striped table-bordered table-hover tabel-data-custom" id="datatable2">
                     <thead>
                       <tr>
                         <th>#</th>
@@ -48,11 +50,11 @@
                           <td>{{$DataJenjang->nama_jenjang}}</td>
                           <td>{{count($DataJenjang->Sekolah)}}</td>
                           <td>
-                            <button class="btn btn-labeled btn-primary" type="button"
+                            <button class="btn btn-labeled btn-primary btn-xs" type="button"
                             onclick="Ubah('{{Crypt::encryptString($DataJenjang->id)}}', '{{$DataJenjang->nama_jenjang}}')">
                               <span class="btn-label"><i class="fa fa-pencil"></i>
                             </span><b>Edit</b></button>
-                            <button class="btn btn-labeled btn-danger" type="button"
+                            <button class="btn btn-labeled btn-danger btn-xs" type="button"
                             onclick="{{count($DataJenjang->Sekolah) == 0 ? 'Hapus' : 'cantHapus'}}('{{Crypt::encryptString($DataJenjang->id)}}', '{{$DataJenjang->nama_jenjang}}')">
                               <span class="btn-label"><i class="fa fa-close"></i>
                             </span><b>Hapus</b></button>
@@ -70,14 +72,15 @@
      </div>
   </section>
 @endsection
-<script>
+@section('bawahan')
+  <script>
   function Ubah(id,Nama)
   {
-    swal({
-      title   : "Ubah",
-      text    : "Anda Akan di Arahkan ke Halaman Ubah Data Jenjang '"+Nama+"'",
-      icon    : "info",
-    })
+    // swal({
+    //   title   : "Ubah",
+    //   text    : "Anda Akan di Arahkan ke Halaman Ubah Data Jenjang '"+Nama+"'",
+    //   icon    : "info",
+    // })
     window.location = "/data-jenjang/"+id+"/edit";
   }
 
@@ -94,20 +97,20 @@
     })
     .then((hapus) => {
       if (hapus) {
-        swal({
-          title  : "Hapus",
-          text   : "Data Jenjang '"+Nama+"' Akan di Hapus",
-          icon   : "info",
-          timer  : 2500,
-        });
+        // swal({
+        //   title  : "Hapus",
+        //   text   : "Data Jenjang '"+Nama+"' Akan di Hapus",
+        //   icon   : "info",
+        //   timer  : 2500,
+        // });
         window.location = "/data-jenjang/"+id+"/hapus";
       } else {
-        swal({
-          title  : "Batal Hapus",
-          text   : "Data Jenjang '"+Nama+"' Batal di Hapus",
-          icon   : "info",
-          timer  : 2500,
-        })
+        // swal({
+        //   title  : "Batal Hapus",
+        //   text   : "Data Jenjang '"+Nama+"' Batal di Hapus",
+        //   icon   : "info",
+        //   timer  : 2500,
+        // })
       }
     });
   }
@@ -121,3 +124,4 @@
     })
   }
 </script>
+@endsection

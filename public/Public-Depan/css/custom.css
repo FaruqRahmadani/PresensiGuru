@@ -1,0 +1,15 @@
+.panel-login {
+  padding-top: 30px;
+  height: 100vh;
+  background: #f5f7fa;
+
+}
+
+.no-padding {
+  padding : 0;
+}
+
+.thumb25 {
+   width: 25px !important;
+   height: 25px !important;
+}

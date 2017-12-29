@@ -21,25 +21,28 @@
         <div class="row">
           <div class="col-lg-12">
 
-            <div class="panel well">
-              <a href="/data-sekolah/tambah">
-                <button class="btn btn-labeled btn-info" type="button">
-                  <span class="btn-label"><i class="fa fa-plus"></i>
-                </span><b>Tambah Data</b></button>
-              </a>
-              <div class="panel-body">
+            <div class="well well-sm">
+              <div class="panel-heading">
+                <a href="/data-sekolah/tambah">
+                  <button class="btn btn-labeled btn-info" type="button">
+                    <span class="btn-label"><i class="fa fa-plus"></i>
+                  </span><b>Tambah Data</b></button>
+                </a>
+              </div>
+              <div class="panel-body no-padding">
                 <div class="table-responsive">
-                  <table class="table table-striped table-hover" id="datatable2">
+                  <table class="table table-striped table-bordered table-hover tabel-data-custom" id="datatable2">
                     <thead>
                       <tr>
                         <th>#</th>
                         <th>NPSN</th>
                         <th>NSS</th>
                         <th>Nama Sekolah</th>
-                        {{-- <th>Kepala Sekolah</th> --}}
+                        <th>Kepala Sekolah</th>
                         <th>Jenjang</th>
                         <th>Status</th>
-                        {{-- <th>Kelurahan</th> --}}
+                        <th>Kelurahan</th>
+                        <th>kecamatan</th>
                         <th>Nomor Telepon</th>
                         <th>E-Mail</th>
                         <th>Aksi</th>
@@ -55,15 +58,16 @@
                           <td>{{$DataSekolah->npsn}}</td>
                           <td>{{$DataSekolah->nss}}</td>
                           <td>{{$DataSekolah->nama_sekolah}}</td>
-                          {{-- <td>{{$DataSekolah->Pegawai->nama}}</td> --}}
+                          <td>{{$DataSekolah->pegawai_id != '0' ? $DataSekolah->Pegawai->nama : '-'}}</td>
                           <td>{{$DataSekolah->Jenjang->nama_jenjang}}</td>
                           <td>{{$DataSekolah->Status->nama_status}}</td>
-                          {{-- <td>{{$DataSekolah->Kelurahan->nama_kelurahan}}</td> --}}
+                          <td>{{$DataSekolah->Kelurahan->nama_kelurahan}}</td>
+                          <td>{{$DataSekolah->Kecamatan->nama_kecamatan}}</td>
                           <td>{{$DataSekolah->no_telepon}}</td>
                           <td>{{$DataSekolah->email}}</td>
                           <td>
 
-                            <button class="btn btn-labeled btn-info" type="button" data-toggle="modal" data-target="#exampleModal"
+                            <button class="btn btn-labeled btn-info btn-xs" type="button" data-toggle="modal" data-target="#exampleModal"
                             onmouseover="idSekolah({{$DataSekolah->id}})">
                               <span class="btn-label"><i class="fa fa-info"></i>
                             </span><b>Info</b></button>
@@ -73,7 +77,7 @@
                               <span class="btn-label"><i class="fa fa-info"></i>
                             </span><b>Info</b></button> --}}
 
-                            <button class="btn btn-labeled btn-primary" type="button"
+                            <button class="btn btn-labeled btn-primary btn-xs" type="button"
                             onclick="Ubah('{{Crypt::encryptString($DataSekolah->id)}}', '{{$DataSekolah->nama_sekolah}}')">
                               <span class="btn-label"><i class="fa fa-pencil"></i>
                             </span><b>Edit</b></button>
@@ -119,7 +123,8 @@
     }
   </script>
 @endsection
-<script>
+@section('bawahan')
+  <script>
   function Info(id,Nama)
   {
     swal({
@@ -132,11 +137,11 @@
 
   function Ubah(id,Nama)
   {
-    swal({
-      title   : "Ubah",
-      text    : "Anda Akan di Arahkan ke Halaman Ubah Data Sekolah '"+Nama+"'",
-      icon    : "info",
-    })
+    // swal({
+    //   title   : "Ubah",
+    //   text    : "Anda Akan di Arahkan ke Halaman Ubah Data Sekolah '"+Nama+"'",
+    //   icon    : "info",
+    // })
     window.location = "/data-sekolah/"+id+"/edit";
   }
 
@@ -153,20 +158,20 @@
     })
     .then((hapus) => {
       if (hapus) {
-        swal({
-          title  : "Hapus",
-          text   : "Data Status Sekolah '"+Nama+"' Akan di Hapus",
-          icon   : "info",
-          timer  : 2500,
-        });
+        // swal({
+        //   title  : "Hapus",
+        //   text   : "Data Status Sekolah '"+Nama+"' Akan di Hapus",
+        //   icon   : "info",
+        //   timer  : 2500,
+        // });
         window.location = "/data-status-sekolah/"+id+"/hapus";
       } else {
-        swal({
-          title  : "Batal Hapus",
-          text   : "Data Status Sekolah '"+Nama+"' Batal di Hapus",
-          icon   : "info",
-          timer  : 2500,
-        })
+        // swal({
+        //   title  : "Batal Hapus",
+        //   text   : "Data Status Sekolah '"+Nama+"' Batal di Hapus",
+        //   icon   : "info",
+        //   timer  : 2500,
+        // })
       }
     });
   }
@@ -180,67 +185,69 @@
     })
   }
 </script>
-
-   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         {{-- <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="exampleModalLabel"></h4>
-        </div> --}}
-        <div class="modal-body">
-          <table class="table table-hover">
-            <tbody>
-              <tr>
-                 <td>NPSN</td>
-                 <td id="npsn"></td>
-              </tr>
-              <tr>
-                 <td>NSS</td>
-                 <td id="nss"></td>
-              </tr>
-              <tr>
-                 <td>Nama Sekolah</td>
-                 <td id="nama_sekolah"></td>
-              </tr>
-              <tr>
-                 <td>Kepala Sekolah</td>
-                 <td id="kepalasekolah"></td>
-              </tr>
-              <tr>
-                 <td>Jenjang</td>
-                 <td id="jenjang"></td>
-              </tr>
-              <tr>
-                 <td>Status</td>
-                 <td id="status"></td>
-              </tr>
-              <tr>
-                 <td>Kecamatan</td>
-                 <td id="kecamatan"></td>
-              </tr>
-              <tr>
-                 <td>Kelurahan</td>
-                 <td id="kelurahan"></td>
-              </tr>
-              <tr>
-                 <td>Alamat</td>
-                 <td id="alamat"></td>
-              </tr>
-              <tr>
-                 <td>Nomor Telepon</td>
-                 <td id="nomortelepon"></td>
-              </tr>
-              <tr>
-                 <td>E-Mail</td>
-                 <td id="email"></td>
-              </tr>
-            </tbody>
-         </table>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel"></h4>
+      </div> --}}
+      <div class="modal-body">
+        <table class="table table-hover">
+          <tbody>
+            <tr>
+              <td>NPSN</td>
+              <td id="npsn"></td>
+            </tr>
+            <tr>
+              <td>NSS</td>
+              <td id="nss"></td>
+            </tr>
+            <tr>
+              <td>Nama Sekolah</td>
+              <td id="nama_sekolah"></td>
+            </tr>
+            <tr>
+              <td>Kepala Sekolah</td>
+              <td id="kepalasekolah"></td>
+            </tr>
+            <tr>
+              <td>Jenjang</td>
+              <td id="jenjang"></td>
+            </tr>
+            <tr>
+              <td>Status</td>
+              <td id="status"></td>
+            </tr>
+            <tr>
+              <td>Kecamatan</td>
+              <td id="kecamatan"></td>
+            </tr>
+            <tr>
+              <td>Kelurahan</td>
+              <td id="kelurahan"></td>
+            </tr>
+            <tr>
+              <td>Alamat</td>
+              <td id="alamat"></td>
+            </tr>
+            <tr>
+              <td>Nomor Telepon</td>
+              <td id="nomortelepon"></td>
+            </tr>
+            <tr>
+              <td>E-Mail</td>
+              <td id="email"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-labeled btn-warning" type="button" data-dismiss="modal">
+          <span class="btn-label"><i class="fa fa-close"></i>
+          </span><b>Keluar</b></button>
         </div>
       </div>
     </div>
   </div>
+@endsection

@@ -21,15 +21,17 @@
         <div class="row">
           <div class="col-lg-12">
 
-            <div class="panel well">
-              <a href="/data-admin-sekolah/tambah">
-                <button class="btn btn-labeled btn-info" type="button">
-                  <span class="btn-label"><i class="fa fa-plus"></i>
-                </span><b>Tambah Data</b></button>
-              </a>
+            <div class="well well-sm">
+              <div class="panel-heading no-padding">
+                <a href="/data-admin-sekolah/tambah">
+                  <button class="btn btn-labeled btn-info" type="button">
+                    <span class="btn-label"><i class="fa fa-plus"></i>
+                  </span><b>Tambah Data</b></button>
+                </a>
+              </div>
               <div class="panel-body">
                 <div class="table-responsive">
-                  <table class="table table-striped table-hover" id="datatable2">
+                  <table class="table table-striped table-bordered table-hover tabel-data-custom" id="datatable2">
                     <thead>
                       <tr>
                         <th>#</th>
@@ -48,7 +50,7 @@
                         <tr>
                           <td>{{$no+=1}}</td>
                           <td>
-                            <img class="img-thumbnail img-circle" src="/Public-User/img/user/{{$DataUser->foto}}" style="max-width : 25px; max-height : 25px;">
+                            <img class="img-thumbnail img-circle thumb30" src="/Public/img/user/{{$DataUser->foto}}">
                             {{$DataUser->nama}}
                           </td>
                           <td>{{$DataUser->Sekolah->nama_sekolah}}</td>
@@ -61,11 +63,11 @@
                             @endif
                           </td>
                           <td>
-                            <button class="btn btn-labeled btn-primary" type="button"
+                            <button class="btn btn-labeled btn-primary btn-xs" type="button"
                             onclick="Ubah('{{Crypt::encryptString($DataUser->id)}}', '{{$DataUser->nama}}')">
                               <span class="btn-label"><i class="fa fa-pencil"></i>
                             </span><b>Edit</b></button>
-                            <button class="btn btn-labeled btn-danger" type="button"
+                            <button class="btn btn-labeled btn-danger btn-xs" type="button"
                             onclick="Hapus('{{Crypt::encryptString($DataUser->id)}}', '{{$DataUser->nama}}')">
                               <span class="btn-label"><i class="fa fa-close"></i>
                             </span><b>Hapus</b></button>
@@ -83,14 +85,15 @@
      </div>
   </section>
 @endsection
-<script>
+@section('bawahan')
+  <script>
   function Ubah(id,Nama)
   {
-    swal({
-      title   : "Ubah",
-      text    : "Anda Akan di Arahkan ke Halaman Ubah Data Admin Sekolah '"+Nama+"'",
-      icon    : "info",
-    })
+    // swal({
+    //   title   : "Ubah",
+    //   text    : "Anda Akan di Arahkan ke Halaman Ubah Data Admin Sekolah '"+Nama+"'",
+    //   icon    : "info",
+    // })
     window.location = "/data-admin-sekolah/"+id+"/edit";
   }
 
@@ -107,20 +110,20 @@
     })
     .then((hapus) => {
       if (hapus) {
-        swal({
-          title  : "Hapus",
-          text   : "Data Admin Sekolah '"+Nama+"' Akan di Hapus",
-          icon   : "info",
-          timer  : 2500,
-        });
+        // swal({
+        //   title  : "Hapus",
+        //   text   : "Data Admin Sekolah '"+Nama+"' Akan di Hapus",
+        //   icon   : "info",
+        //   timer  : 2500,
+        // });
         window.location = "/data-admin-sekolah/"+id+"/hapus";
       } else {
-        swal({
-          title  : "Batal Hapus",
-          text   : "Data Admin Sekolah '"+Nama+"' Batal di Hapus",
-          icon   : "info",
-          timer  : 2500,
-        })
+        // swal({
+        //   title  : "Batal Hapus",
+        //   text   : "Data Admin Sekolah '"+Nama+"' Batal di Hapus",
+        //   icon   : "info",
+        //   timer  : 2500,
+        // })
       }
     });
   }
@@ -134,3 +137,4 @@
     })
   }
 </script>
+@endsection

@@ -13,6 +13,11 @@ class Pegawai extends Model
     return $this->belongsTo('App\Sekolah');
   }
 
+  public function Absensi()
+  {
+    return $this->hasMany('App\Absensi');
+  }
+
   public function getTanggalLahirAttribute($value)
   {
     return Carbon::parse($value)->format('d F Y');

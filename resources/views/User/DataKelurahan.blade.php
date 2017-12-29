@@ -28,8 +28,8 @@
                 </span><b>Tambah Data</b></button>
               </a>
               <div class="panel-body">
-                <div class="table-responsive">
-                  <table class="table table-striped table-hover" id="datatable2">
+                <div class="table-responsive no-padding">
+                  <table class="table table-striped table-bordered table-hover tabel-data-custom" id="datatable2">
                     <thead>
                       <tr>
                         <th>#</th>
@@ -50,11 +50,11 @@
                           <td>{{$DataKelurahan->Kecamatan->nama_kecamatan}}</td>
                           <td>{{count($DataKelurahan->Sekolah)}}</td>
                           <td>
-                            <button class="btn btn-labeled btn-primary" type="button"
+                            <button class="btn btn-labeled btn-primary btn-xs" type="button"
                             onclick="Ubah('{{Crypt::encryptString($DataKelurahan->id)}}', '{{$DataKelurahan->nama_kelurahan}}')">
                               <span class="btn-label"><i class="fa fa-pencil"></i>
                             </span><b>Edit</b></button>
-                            <button class="btn btn-labeled btn-danger" type="button" style=" {{$DataKelurahan->id == '0' ? 'display:none' : ''}} "
+                            <button class="btn btn-labeled btn-danger btn-xs" type="button"
                             onclick="{{count($DataKelurahan->Sekolah) == 0 ? 'Hapus' : 'cantHapus'}}('{{Crypt::encryptString($DataKelurahan->id)}}', '{{$DataKelurahan->nama_kelurahan}}')">
                               <span class="btn-label"><i class="fa fa-close"></i>
                             </span><b>Hapus</b></button>
@@ -75,11 +75,11 @@
 <script>
   function Ubah(id,Nama)
   {
-    swal({
-      title   : "Ubah",
-      text    : "Anda Akan di Arahkan ke Halaman Ubah Data Kelurahan '"+Nama+"'",
-      icon    : "info",
-    })
+    // swal({
+    //   title   : "Ubah",
+    //   text    : "Anda Akan di Arahkan ke Halaman Ubah Data Kelurahan '"+Nama+"'",
+    //   icon    : "info",
+    // })
     window.location = "/data-kelurahan/"+id+"/edit";
   }
 
@@ -96,20 +96,20 @@
     })
     .then((hapus) => {
       if (hapus) {
-        swal({
-          title  : "Hapus",
-          text   : "Data Kelurahan '"+Nama+"' Akan di Hapus",
-          icon   : "info",
-          timer  : 2500,
-        });
+        // swal({
+        //   title  : "Hapus",
+        //   text   : "Data Kelurahan '"+Nama+"' Akan di Hapus",
+        //   icon   : "info",
+        //   timer  : 2500,
+        // });
         window.location = "/data-kelurahan/"+id+"/hapus";
       } else {
-        swal({
-          title  : "Batal Hapus",
-          text   : "Data Kelurahan '"+Nama+"' Batal di Hapus",
-          icon   : "info",
-          timer  : 2500,
-        })
+        // swal({
+        //   title  : "Batal Hapus",
+        //   text   : "Data Kelurahan '"+Nama+"' Batal di Hapus",
+        //   icon   : "info",
+        //   timer  : 2500,
+        // })
       }
     });
   }
