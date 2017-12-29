@@ -255,7 +255,7 @@
                           <li class="{{$Title == 'Data Presensi' ? 'active' : ''}}">
                              <a href="/data-presensi">
                                 {{-- <em class="icon-graduation"></em> --}}
-                                <span data-localize="sidebar.nav.DOCUMENTATION">Data Presensi ---</span>
+                                <span data-localize="sidebar.nav.DOCUMENTATION">Data Presensi</span>
                              </a>
                           </li>
                        </ul>
