@@ -16,6 +16,7 @@ class TabelKelurahan extends Migration
       Schema::create('kelurahans', function (Blueprint $table) {
           $table->increments('id');
           $table->string('nama_kelurahan');
+          $table->integer('kecamatan_id');
           $table->timestamps();
       });
     }

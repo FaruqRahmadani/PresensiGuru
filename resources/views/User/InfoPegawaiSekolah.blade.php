@@ -12,8 +12,12 @@
   <section>
     <!-- Page content-->
     <div class="content-wrapper">
-      <h3>Info Pegawai
-      <small>{{$Pegawai->nama}}</small>
+      <h3>
+        @section('title')
+          {{$Title = 'Info Pegawai'}}
+        @endsection
+        {{$Title}}
+        <small>{{$Pegawai->nama}}</small>
       </h3>
         <div class="row">
           <div class="col-lg-12">

@@ -20,6 +20,6 @@ class UserMiddleware
       if ($User) {
         return $next($request);
       }
-      return abort(404);
+      return redirect('/');
     }
 }

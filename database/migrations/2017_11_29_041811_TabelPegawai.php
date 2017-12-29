@@ -25,6 +25,7 @@ class TabelPegawai extends Migration
           $table->string('no_handphone')->default('-');
           $table->string('email')->default('-');
           $table->string('alamat')->default('-');
+          $table->string('foto')->default('default.png');
           $table->integer('sidikjari_id');
           $table->timestamps();
       });
