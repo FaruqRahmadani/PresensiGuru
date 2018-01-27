@@ -78,11 +78,6 @@
   <script>
   function Ubah(id,Nama)
   {
-    // swal({
-    //   title   : "Ubah",
-    //   text    : "Anda Akan di Arahkan ke Halaman Ubah Data Admin '"+Nama+"'",
-    //   icon    : "info",
-    // })
     window.location = "/data-admin/"+id+"/edit";
   }
 
@@ -99,20 +94,7 @@
     })
     .then((hapus) => {
       if (hapus) {
-        // swal({
-        //   title  : "Hapus",
-        //   text   : "Data Admin '"+Nama+"' Akan di Hapus",
-        //   icon   : "info",
-        //   timer  : 2500,
-        // });
         window.location = "/data-admin/"+id+"/hapus";
-      } else {
-        // swal({
-        //   title  : "Batal Hapus",
-        //   text   : "Data Admin '"+Nama+"' Batal di Hapus",
-        //   icon   : "info",
-        //   timer  : 2500,
-        // })
       }
     });
   }

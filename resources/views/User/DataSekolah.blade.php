@@ -41,8 +41,8 @@
                         <th>Kepala Sekolah</th>
                         <th>Jenjang</th>
                         <th>Status</th>
-                        <th>Kelurahan</th>
                         <th>kecamatan</th>
+                        <th>Kelurahan</th>
                         <th>Nomor Telepon</th>
                         <th>E-Mail</th>
                         <th>Aksi</th>
@@ -61,30 +61,20 @@
                           <td>{{$DataSekolah->pegawai_id != '0' ? $DataSekolah->Pegawai->nama : '-'}}</td>
                           <td>{{$DataSekolah->Jenjang->nama_jenjang}}</td>
                           <td>{{$DataSekolah->Status->nama_status}}</td>
-                          <td>{{$DataSekolah->Kelurahan->nama_kelurahan}}</td>
                           <td>{{$DataSekolah->Kecamatan->nama_kecamatan}}</td>
+                          <td>{{$DataSekolah->Kelurahan->nama_kelurahan}}</td>
                           <td>{{$DataSekolah->no_telepon}}</td>
                           <td>{{$DataSekolah->email}}</td>
                           <td>
-
                             <button class="btn btn-labeled btn-info btn-xs" type="button" data-toggle="modal" data-target="#exampleModal"
-                            onmouseover="idSekolah({{$DataSekolah->id}})">
+                            onclick="idSekolah({{$DataSekolah->id}})">
                               <span class="btn-label"><i class="fa fa-info"></i>
                             </span><b>Info</b></button>
-
-                            {{-- <button class="btn btn-labeled btn-info" type="button"
-                            onclick="Info('{{Crypt::encryptString($DataSekolah->id)}}', '{{$DataSekolah->nama_sekolah}}')">
-                              <span class="btn-label"><i class="fa fa-info"></i>
-                            </span><b>Info</b></button> --}}
 
                             <button class="btn btn-labeled btn-primary btn-xs" type="button"
                             onclick="Ubah('{{Crypt::encryptString($DataSekolah->id)}}', '{{$DataSekolah->nama_sekolah}}')">
                               <span class="btn-label"><i class="fa fa-pencil"></i>
                             </span><b>Edit</b></button>
-                            {{-- <button class="btn btn-labeled btn-danger" type="button" {{$DataSekolah->id == '0' ? 'disabled' : ''}}
-                            onclick="{{count($DataSekolah->Sekolah) == 0 ? 'Hapus' : 'cantHapus'}}('{{Crypt::encryptString($DataSekolah->id)}}', '{{$DataStatus->nama_status}}')">
-                              <span class="btn-label"><i class="fa fa-close"></i>
-                            </span><b>Hapus</b></button> --}}
                           </td>
                         </tr>
                       @endforeach
@@ -101,6 +91,8 @@
   <script>
     function idSekolah(id)
     {
+      $( "#TabelModal > tr > td:odd" ).text( '-' );
+
       $.get('/json/infosekolah/'+id+'/sekolah.json', function(sekolahs)
       {
         $( "div" ).data( "data", sekolahs );
@@ -125,76 +117,17 @@
 @endsection
 @section('bawahan')
   <script>
-  function Info(id,Nama)
-  {
-    swal({
-      title   : "Ubah",
-      text    : "Anda Akan di Arahkan ke Halaman Info Sekolah '"+Nama+"'",
-      icon    : "info",
-    })
-    window.location = "/data-sekolah/"+id+"/info";
-  }
-
   function Ubah(id,Nama)
   {
-    // swal({
-    //   title   : "Ubah",
-    //   text    : "Anda Akan di Arahkan ke Halaman Ubah Data Sekolah '"+Nama+"'",
-    //   icon    : "info",
-    // })
     window.location = "/data-sekolah/"+id+"/edit";
-  }
-
-  function Hapus(id,Nama)
-  {
-    swal({
-      title   : "Hapus",
-      text    : "Yakin Ingin Menghapus Data Status Sekolah '"+Nama+"' ?",
-      icon    : "warning",
-      buttons : [
-        "Batal",
-        "Hapus",
-      ],
-    })
-    .then((hapus) => {
-      if (hapus) {
-        // swal({
-        //   title  : "Hapus",
-        //   text   : "Data Status Sekolah '"+Nama+"' Akan di Hapus",
-        //   icon   : "info",
-        //   timer  : 2500,
-        // });
-        window.location = "/data-status-sekolah/"+id+"/hapus";
-      } else {
-        // swal({
-        //   title  : "Batal Hapus",
-        //   text   : "Data Status Sekolah '"+Nama+"' Batal di Hapus",
-        //   icon   : "info",
-        //   timer  : 2500,
-        // })
-      }
-    });
-  }
-
-  function cantHapus(id,Nama)
-  {
-    swal({
-      title   : "Hapus",
-      text    : "Data Status Sekolah '"+Nama+"' Tidak dapat di Hapus Karena Ada Data Sekolah",
-      icon    : "error",
-    })
   }
 </script>
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        {{-- <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel"></h4>
-      </div> --}}
       <div class="modal-body">
         <table class="table table-hover">
-          <tbody>
+          <tbody id="TabelModal">
             <tr>
               <td>NPSN</td>
               <td id="npsn"></td>

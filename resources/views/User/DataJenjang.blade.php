@@ -76,11 +76,6 @@
   <script>
   function Ubah(id,Nama)
   {
-    // swal({
-    //   title   : "Ubah",
-    //   text    : "Anda Akan di Arahkan ke Halaman Ubah Data Jenjang '"+Nama+"'",
-    //   icon    : "info",
-    // })
     window.location = "/data-jenjang/"+id+"/edit";
   }
 
@@ -97,20 +92,7 @@
     })
     .then((hapus) => {
       if (hapus) {
-        // swal({
-        //   title  : "Hapus",
-        //   text   : "Data Jenjang '"+Nama+"' Akan di Hapus",
-        //   icon   : "info",
-        //   timer  : 2500,
-        // });
         window.location = "/data-jenjang/"+id+"/hapus";
-      } else {
-        // swal({
-        //   title  : "Batal Hapus",
-        //   text   : "Data Jenjang '"+Nama+"' Batal di Hapus",
-        //   icon   : "info",
-        //   timer  : 2500,
-        // })
       }
     });
   }

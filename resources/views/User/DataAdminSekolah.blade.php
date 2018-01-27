@@ -89,11 +89,6 @@
   <script>
   function Ubah(id,Nama)
   {
-    // swal({
-    //   title   : "Ubah",
-    //   text    : "Anda Akan di Arahkan ke Halaman Ubah Data Admin Sekolah '"+Nama+"'",
-    //   icon    : "info",
-    // })
     window.location = "/data-admin-sekolah/"+id+"/edit";
   }
 
@@ -110,31 +105,9 @@
     })
     .then((hapus) => {
       if (hapus) {
-        // swal({
-        //   title  : "Hapus",
-        //   text   : "Data Admin Sekolah '"+Nama+"' Akan di Hapus",
-        //   icon   : "info",
-        //   timer  : 2500,
-        // });
         window.location = "/data-admin-sekolah/"+id+"/hapus";
-      } else {
-        // swal({
-        //   title  : "Batal Hapus",
-        //   text   : "Data Admin Sekolah '"+Nama+"' Batal di Hapus",
-        //   icon   : "info",
-        //   timer  : 2500,
-        // })
       }
     });
-  }
-
-  function cantHapus(id,Nama)
-  {
-    swal({
-      title   : "Hapus",
-      text    : "Data Status Sekolah '"+Nama+"' Tidak dapat di Hapus Karena Ada Data Sekolah",
-      icon    : "warning",
-    })
   }
 </script>
 @endsection

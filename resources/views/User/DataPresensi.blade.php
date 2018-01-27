@@ -43,7 +43,7 @@
                       <input class="form-control" type="date" name="TanggalAkhir" value="{{isset($TanggalAkhir) ? $TanggalAkhir : Carbon\Carbon::now()->format('Y-m-d')}}" required max="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" pattern="[a-zA-Z0-9]+.{0,}" title="Minimal 1 Karakter">
                     </div>
                     <div class="col-lg-3">
-                      <button type="submit" class="btn btn-labeled btn-info btn">
+                      <button type="submit" class="btn btn-labeled btn-info btn" style="margin-top: 25px;">
                         <span class="btn-label"><i class="fa fa-filter"></i>
                         </span><b>Filter</b>
                       </button>
@@ -97,10 +97,6 @@
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog modal95" role="document">
       <div class="modal-content">
-        {{-- <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel"></h4>
-      </div> --}}
         <div class="modal-body">
           <table class="table table-striped table-bordered table-hover tabel-data-custom" id="table-modal">
             <thead>
@@ -172,44 +168,5 @@
     });
   }
 
-  function Hapus(id,Nama)
-  {
-    swal({
-      title   : "Hapus",
-      text    : "Yakin Ingin Menghapus Data Admin '"+Nama+"' ?",
-      icon    : "warning",
-      buttons : [
-        "Batal",
-        "Hapus",
-      ],
-    })
-    .then((hapus) => {
-      if (hapus) {
-        // swal({
-        //   title  : "Hapus",
-        //   text   : "Data Admin '"+Nama+"' Akan di Hapus",
-        //   icon   : "info",
-        //   timer  : 2500,
-        // });
-        window.location = "/data-admin/"+id+"/hapus";
-      } else {
-        // swal({
-        //   title  : "Batal Hapus",
-        //   text   : "Data Admin '"+Nama+"' Batal di Hapus",
-        //   icon   : "info",
-        //   timer  : 2500,
-        // })
-      }
-    });
-  }
-
-  function cantHapus(id,Nama)
-  {
-    swal({
-      title   : "Hapus",
-      text    : "Tidak Dapat Menghapus Data Sendiri",
-      icon    : "error",
-    })
-  }
 </script>
 @endsection

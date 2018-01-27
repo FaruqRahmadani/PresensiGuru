@@ -74,11 +74,6 @@
   <script>
   function Ubah(id)
   {
-    // swal({
-    //   title   : "Ubah",
-    //   text    : "Anda Akan di Arahkan ke Halaman Ubah Data Status Sekolah '"+Nama+"'",
-    //   icon    : "info",
-    // })
     window.location = "/data-kategori-presensi/"+id+"/edit";
   }
 
@@ -95,20 +90,7 @@
     })
     .then((hapus) => {
       if (hapus) {
-        // swal({
-        //   title  : "Hapus",
-        //   text   : "Data Status Sekolah '"+Nama+"' Akan di Hapus",
-        //   icon   : "info",
-        //   timer  : 2500,
-        // });
         window.location = "/data-status-sekolah/"+id+"/hapus";
-      } else {
-        // swal({
-        //   title  : "Batal Hapus",
-        //   text   : "Data Status Sekolah '"+Nama+"' Batal di Hapus",
-        //   icon   : "info",
-        //   timer  : 2500,
-        // })
       }
     });
   }

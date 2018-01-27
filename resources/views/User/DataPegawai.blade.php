@@ -69,7 +69,7 @@
                           <td>{{$DataPegawai->sidikjari_id}}</td>
                           <td>
                             <button class="btn btn-labeled btn-info btn-xs" type="button" data-toggle="modal" data-target="#exampleModal"
-                            onmouseover="idPegawai('{{Crypt::encryptString($DataPegawai->id)}}')">
+                            onclick="idPegawai('{{Crypt::encryptString($DataPegawai->id)}}')">
                               <span class="btn-label"><i class="fa fa-info"></i>
                             </span><b>Info</b></button>
 
@@ -77,10 +77,6 @@
                             onclick="Ubah('{{Crypt::encryptString($DataPegawai->id)}}', '{{$DataPegawai->nama}}')">
                               <span class="btn-label"><i class="fa fa-pencil"></i>
                             </span><b>Edit</b></button>
-                            {{-- <button class="btn btn-labeled btn-danger" type="button" {{$DataSekolah->id == '0' ? 'disabled' : ''}}
-                            onclick="{{count($DataSekolah->Sekolah) == 0 ? 'Hapus' : 'cantHapus'}}('{{Crypt::encryptString($DataSekolah->id)}}', '{{$DataStatus->nama_status}}')">
-                              <span class="btn-label"><i class="fa fa-close"></i>
-                            </span><b>Hapus</b></button> --}}
                           </td>
                         </tr>
                       @endforeach
@@ -97,6 +93,10 @@
   <script>
     function idPegawai(id)
     {
+      $( "#FotoPegawai" ).attr('src', '/Public/img/pegawai/default.png');
+      $( "#ButtonEdit" ).attr('href', '#');
+      $( "#TabelModal > tr > td:odd" ).text( '-' );
+
       $.get('/json/infopegawai/'+id+'/pegawai.json', function(pegawais)
       {
         $( "div" ).data( "data", pegawais );
@@ -122,82 +122,25 @@
     }
   </script>
   <script>
-  function Info(id,Nama)
-  {
-    swal({
-      title   : "Ubah",
-      text    : "Anda Akan di Arahkan ke Halaman Info Pegawai '"+Nama+"'",
-      icon    : "info",
-    })
-    window.location = "/data-pegawai/"+id+"/info";
-  }
 
-  function Ubah(id,Nama)
-  {
-    // swal({
-    //   title   : "Ubah",
-    //   text    : "Anda Akan di Arahkan ke Halaman Ubah Data Sekolah '"+Nama+"'",
-    //   icon    : "info",
-    // })
-    window.location = "/data-pegawai/"+id+"/edit";
-  }
+    function Ubah(id,Nama)
+    {
+      window.location = "/data-pegawai/"+id+"/edit";
+    }
 
-  function Hapus(id,Nama)
-  {
-    swal({
-      title   : "Hapus",
-      text    : "Yakin Ingin Menghapus Data Status Sekolah '"+Nama+"' ?",
-      icon    : "warning",
-      buttons : [
-        "Batal",
-        "Hapus",
-      ],
-    })
-    .then((hapus) => {
-      if (hapus) {
-        // swal({
-        //   title  : "Hapus",
-        //   text   : "Data Status Sekolah '"+Nama+"' Akan di Hapus",
-        //   icon   : "info",
-        //   timer  : 2500,
-        // });
-        window.location = "/data-status-sekolah/"+id+"/hapus";
-      } else {
-        // swal({
-        //   title  : "Batal Hapus",
-        //   text   : "Data Status Sekolah '"+Nama+"' Batal di Hapus",
-        //   icon   : "info",
-        //   timer  : 2500,
-        // })
-      }
-    });
-  }
-
-  function cantHapus(id,Nama)
-  {
-    swal({
-      title   : "Hapus",
-      text    : "Data Status Sekolah '"+Nama+"' Tidak dapat di Hapus Karena Ada Data Sekolah",
-      icon    : "warning",
-    })
-  }
-</script>
+  </script>
 
 @endsection
 @section('bawahan')
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        {{-- <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel"></h4>
-      </div> --}}
         <div class="modal-body">
           <div class="text-center">
             <img id="FotoPegawai" class="img-thumbnail img-circle" src="/Public/img/pegawai/default.png" style="max-width : 120px; max-height : 120px;">
           </div> <br>
           <table class="table table-hover" style="border:1px !important;">
-            <tbody>
+            <tbody id="TabelModal">
               <tr>
                 <td style="width:35%;">NIP</td>
                 <td id="nip"></td>
@@ -249,11 +192,9 @@
           </a>
           <button class="btn btn-labeled btn-warning" type="button" data-dismiss="modal">
             <span class="btn-label"><i class="fa fa-close"></i>
-          </span><b>Keluar</b></button>
+          </span><b>Tutup</b></button>
         </div>
       </div>
     </div>
   </div>
 @endsection
-{{-- @section('jscustom')
-@endsection --}}
