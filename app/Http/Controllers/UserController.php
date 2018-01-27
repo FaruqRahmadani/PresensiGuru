@@ -1127,14 +1127,14 @@ class UserController extends Controller
 
       $Absensi = new Absensi;
 
-      $Absensi->pegawai_id   = $IdPegawai;
-      $Absensi->tanggal      = $DataRequest['tanggal'];
-      $Absensi->sidikjari_id = $DataRequest['idSidikJari'];
-      $Absensi->sekolah_id   = Auth::user()->sekolah_id;
-      $Absensi->jam_masuk    = $DataRequest['JamMasuk'];
-      $Absensi->jam_pulang   = $DataRequest['JamKeluar'];
-      $Absensi->absensi      = $DataRequest['Absensi'];
-      $Absensi->keterangan   = $Keterangan;
+      $Absensi->pegawai_id        = $IdPegawai;
+      $Absensi->tanggal           = $DataRequest['tanggal'];
+      $Absensi->sidikjari_id      = $DataRequest['idSidikJari'];
+      $Absensi->sekolah_id        = Auth::user()->sekolah_id;
+      $Absensi->jam_masuk         = $DataRequest['JamMasuk'];
+      $Absensi->jam_pulang        = $DataRequest['JamKeluar'];
+      $Absensi->kategori_absen_id = $DataRequest['Absensi'];
+      $Absensi->keterangan        = $Keterangan;
 
       $Absensi->save();
     }
@@ -1309,19 +1309,20 @@ class UserController extends Controller
                              ->orderBy('tanggal', 'desc')
                              ->get();
 
-    $PeriodeLastTahun = Carbon::parse($PeriodeAbsensi->first()->tanggal)->format('Y');
-    $PeriodeLastBulan = Carbon::parse($PeriodeAbsensi->first()->tanggal)->format('m');
-    $PeriodeLast      = Carbon::parse($PeriodeAbsensi->first()->tanggal)->format('F Y');
+    if (count($PeriodeAbsensi) == 0) {
+      $Periode = Carbon::now();
+    } else {
+      $Periode = $PeriodeAbsensi->first()->tanggal;
+    }
 
-    $Absensi        = Absensi::where('sekolah_id', Auth::user()->sekolah_id)
-                             ->whereYear('tanggal', $PeriodeLastTahun)
-                             ->whereMonth('tanggal', $PeriodeLastBulan)
-                             ->orderBy('tanggal', 'asc');
+    $PeriodeLastTahun = Carbon::parse($Periode)->format('Y');
+    $PeriodeLastBulan = Carbon::parse($Periode)->format('m');
+    $PeriodeLast      = Carbon::parse($Periode)->format('F Y');
 
     $Pegawai = Pegawai::where('sekolah_id', Auth::user()->sekolah_id)
                       ->get();
 
-    return view('User.LaporanRekapPresensi', ['Pegawai' => $Pegawai, 'Absensi' => $Absensi, 'PeriodeAbsensi' => $PeriodeAbsensi, 'SelectedPeriode' => $PeriodeLast, 'KategoriAbsen' => $KategoriAbsen]);
+    return view('User.LaporanRekapPresensi', ['Pegawai' => $Pegawai, 'PeriodeAbsensi' => $PeriodeAbsensi, 'SelectedPeriode' => $PeriodeLast, 'PeriodeLastTahun' => $PeriodeLastTahun, 'PeriodeLastBulan' => $PeriodeLastBulan,  'KategoriAbsen' => $KategoriAbsen, 'Periode' => $Periode]);
   }
 
   public function LaporanRekapPresensiFilter(Request $request)
@@ -1335,15 +1336,10 @@ class UserController extends Controller
     $PeriodeLastTahun = Carbon::parse($request->Periode)->format('Y');
     $PeriodeLastBulan = Carbon::parse($request->Periode)->format('m');
 
-    $Absensi        = Absensi::where('sekolah_id', Auth::user()->sekolah_id)
-                             ->whereYear('tanggal', $PeriodeLastTahun)
-                             ->whereMonth('tanggal', $PeriodeLastBulan)
-                             ->orderBy('tanggal', 'asc');
-
     $Pegawai = Pegawai::where('sekolah_id', Auth::user()->sekolah_id)
                       ->get();
 
-    return view('User.LaporanRekapPresensi', ['Pegawai' => $Pegawai, 'Absensi' => $Absensi, 'PeriodeAbsensi' => $PeriodeAbsensi, 'SelectedPeriode' => $request->Periode, 'KategoriAbsen' => $KategoriAbsen]);
+    return view('User.LaporanRekapPresensi', ['Pegawai' => $Pegawai, 'PeriodeAbsensi' => $PeriodeAbsensi, 'SelectedPeriode' => $request->Periode, 'PeriodeLastTahun' => $PeriodeLastTahun, 'PeriodeLastBulan' => $PeriodeLastBulan,  'KategoriAbsen' => $KategoriAbsen]);
   }
 
   public function PrintLaporanRekapPresensi($periode)
@@ -1369,7 +1365,7 @@ class UserController extends Controller
 
     $Sekolah = Sekolah::find(Auth::user()->sekolah_id);
 
-    $pdf = PDF::loadView('Laporan.RekapPresensi', ['Pegawai' => $Pegawai, 'Absensi' => $Absensi, 'Periode' => $periodez, 'Sekolah' => $Sekolah, 'KategoriAbsen' => $KategoriAbsen]);
+    $pdf = PDF::loadView('Laporan.RekapPresensi', ['Pegawai' => $Pegawai, 'Absensi' => $Absensi, 'Periode' => $periodez, 'PeriodeLastTahun' => $PeriodeLastTahun, 'PeriodeLastBulan' => $PeriodeLastBulan, 'Sekolah' => $Sekolah, 'KategoriAbsen' => $KategoriAbsen]);
     $pdf->setPaper('a4', 'potrait');
     return $pdf->stream('Rekap Presensi.pdf', ['Attachment' => 0]);
   }

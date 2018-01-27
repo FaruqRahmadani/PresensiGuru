@@ -67,26 +67,32 @@
                       </tr>
                     </thead>
                     <tbody>
-                      @foreach ($Pegawai as $DataPegawai)
-                        <tr>
-                          <td>{{$no+=1}}</td>
-                          <td>{{$DataPegawai->nip}}</td>
-                          <td>{{$DataPegawai->nama}}</td>
-                          @foreach ($KategoriAbsen as $DataKategoriAbsen)
-                            <th class="text-center">{{count($Absensi->where('pegawai_id', $DataPegawai->id)->where('kategori_absen_id', $DataKategoriAbsen->id)->get())}}</th>
-                          @endforeach
-                        </tr>
-                      @endforeach
+                      @if (count($PeriodeAbsensi) != 0)
+                        @foreach ($Pegawai as $DataPegawai)
+                          <tr>
+                            <td>{{$no+=1}}</td>
+                            <td>{{$DataPegawai->nip}}</td>
+                            <td>{{$DataPegawai->nama}}</td>
+                            @foreach ($KategoriAbsen as $DataKategoriAbsen)
+                              <th class="text-center">
+                                {{RekapAbsensi::Count(Auth::user()->sekolah_id, $PeriodeLastTahun, $PeriodeLastBulan, $DataPegawai->id, $DataKategoriAbsen->id)}}
+                              </th>
+                            @endforeach
+                          </tr>
+                        @endforeach
+                      @endif
                     </tbody>
                   </table>
                 </div>
-                <div class="panel pull-right">
-                  <a href="/laporan-rekap-presensi/{{Crypt::encryptString(Carbon\Carbon::parse($DataPeriodeAbsensi->tanggal)->format('F Y'))}}/cetak" target="_blank">
-                    <button class="btn btn-labeled btn-primary" type="button">
-                      <span class="btn-label"><i class="fa fa-print"></i>
-                    </span><b>Cetak</b></button>
-                  </a>
-                </div>
+                @if (count($PeriodeAbsensi) != 0)
+                  <div class="panel pull-right">
+                    <a href="/laporan-rekap-presensi/{{Crypt::encryptString(Carbon\Carbon::parse($DataPeriodeAbsensi->tanggal)->format('F Y'))}}/cetak" target="_blank">
+                      <button class="btn btn-labeled btn-primary" type="button">
+                        <span class="btn-label"><i class="fa fa-print"></i>
+                      </span><b>Cetak</b></button>
+                    </a>
+                  </div>
+                @endif
               </div>
             </div>
 

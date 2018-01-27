@@ -45,13 +45,13 @@
                           <tr>
                             <td>{{$no+=1}}</td>
                             <td>{{$DataPresensi->nama}}</td>
-                            <td>{{Carbon\Carbon::parse($DataPresensi->tanggal)->format('d-m-Y')}}</td>
+                            <td>{{$DataPresensi->jammasuk != null ? Carbon\Carbon::parse($DataPresensi->jammasuk)->format('d-m-Y') : '-'}}</td>
                             <input class="form-control" type="text" name="Post[{{$no}}][idSidikJari]" value="{{$DataPresensi->sidikjari_id}}" style="display:none;">
-                            <input class="form-control" type="text" name="Post[{{$no}}][tanggal]" value="{{$DataPresensi->tanggal}}" style="display:none;">
+                            <input class="form-control" type="date" name="Post[{{$no}}][tanggal]" value="{{Carbon\Carbon::parse($DataPresensi->jammasuk)->format('Y-m-d')}}" style="display:none">
                             <td>{{$DataPresensi->jammasuk != null ? Carbon\Carbon::parse($DataPresensi->jammasuk)->format('h:i:s A') : '-'}}</td>
-                            <input class="form-control" type="text" name="Post[{{$no}}][JamMasuk]" value="{{$DataPresensi->jammasuk != null ? Carbon\Carbon::parse($DataPresensi->jammasuk)->format('Y-m-d h:i:s') : ''}}" style="display:none;">
+                            <input class="form-control" type="text" name="Post[{{$no}}][JamMasuk]" value="{{$DataPresensi->jammasuk != null ? Carbon\Carbon::parse($DataPresensi->jammasuk)->format('H:i:s') : ''}}" style="display:none">
                             <td>{{$DataPresensi->jamkeluar != null ? Carbon\Carbon::parse($DataPresensi->jamkeluar)->format('h:i:s A') : '-'}}</td>
-                            <input class="form-control" type="text" name="Post[{{$no}}][JamKeluar]" value="{{$DataPresensi->jamkeluar != null ? Carbon\Carbon::parse($DataPresensi->jamkeluar)->format('Y-m-d h:i:s') : ''}}" style="display:none;">
+                            <input class="form-control" type="text" name="Post[{{$no}}][JamKeluar]" value="{{$DataPresensi->jamkeluar != null ? Carbon\Carbon::parse($DataPresensi->jamkeluar)->format('H:i:s') : ''}}" style="display:none">
                             <td>
                               <select class="form-control" name="Post[{{$no}}][Absensi]" style="width:100% !important" required>
                                 <option value="" hidden>Pilih</option>

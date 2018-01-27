@@ -4,16 +4,19 @@
      <div class="wrapper">
        <!-- <div class="row"> -->
          <div class="col-lg-8 panel-menu">
-           <div class="block-center mt-xl">
-            <h3>
-               Syarat dan Ketentuan Aplikasi Presensi :
-            </h3>
-             <ol>
-               <li>Lorem ipsum dolor sit amet.</li>
-               <li>Lorem ipsum dolor sit amet, consectetur adipisicing.</li>
-               <li>Lorem ipsum dolor sit.</li>
-             </ol>
+           <div class="col-lg-2 panel-menu">
+             <img src="/Public/img/logo-banjar.png" style="max-width: 100%;" alt="">
            </div>
+           <div class="col-lg-10 panel-menu">
+               <h3 class="no-margin">
+                 Syarat dan Ketentuan Aplikasi Presensi :
+               </h3>
+               <ol>
+                 <li>Lorem ipsum dolor sit amet.</li>
+                 <li>Lorem ipsum dolor sit amet, consectetur adipisicing.</li>
+                 <li>Lorem ipsum dolor sit.</li>
+               </ol>
+             </div>
          </div>
 
          <div class="col-lg-4 panel-login">

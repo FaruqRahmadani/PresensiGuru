@@ -2,14 +2,18 @@
   <style media="screen">
     body {
       margin: 20px;
+      font-size: 12px;
     }
     .header-info > * {
-      margin-bottom: -20px;
+      /* margin-bottom: -20px; */
+    }
+    .header-info > h4, p {
+      margin: 0;
     }
     .header > img {
-      bottom : 10px; 
-      height: 80px;
+      height: 60px;
       float : left;
+      display: block;
       margin-right: 10px;
     }
     table {
@@ -17,7 +21,7 @@
       margin: 5px;
     }
     table, th, td {
-      border: 2px solid #000000;
+      border: 1px solid #000000;
       border-collapse: collapse;
     }
   </style>
@@ -30,23 +34,20 @@
     <img src="Public/img/logo-banjar.png">
     <div class="header-info">
       <h4><strong>Dinas Pendidikan Kabupaten Banjar</strong></h4>
-      <br>
-      <span>Laporan Presensi Guru</span>
-      <br>
-      <span>Periode : {{$Periode}}</span>
-      <br>
-      <span>Unit Kerja : {{$Sekolah->nama_sekolah}}</span>
+      <p>Laporan Presensi Guru</p>
+      <p>Periode : {{$Periode}}</p>
+      <p>Unit Kerja : {{$Sekolah->nama_sekolah}}</p>
     </div>
   </div>
-  <hr>
+  <br><hr><br>
   <table>
     <thead>
       <tr>
-        <th style="width: 30px;">No</th>
-        <th style="width: 230px;">NIP</th>
-        <th>Nama Pegawai</th>
+        <th style="text-align: center; width: 5%;">No</th>
+        <th style="width: 20%;">NIP</th>
+        <th style="width: 45%">Nama Pegawai</th>
         @foreach ($KategoriAbsen as $DataKategoriAbsen)
-          <th style="background-color:{{$DataKategoriAbsen->kode_warna}}; width: 40px; text-align: center;">{{$DataKategoriAbsen->kode}}</th>
+          <th style="background-color:{{$DataKategoriAbsen->kode_warna}}; width: 5%; text-align: center;">{{$DataKategoriAbsen->kode}}</th>
         @endforeach
       </tr>
     </thead>
@@ -57,10 +58,10 @@
       @foreach ($Pegawai as $DataPegawai)
         <tr>
           <td style="text-align: center;">{{$No+=1}}</td>
-          <td>{{$DataPegawai->nip}}</td>
+          <td style="text-align: center;">{{$DataPegawai->nip}}</td>
           <td>{{$DataPegawai->nama}}</td>
           @foreach ($KategoriAbsen as $DataKategoriAbsen)
-            <th>{{count($Absensi->where('pegawai_id', $DataPegawai->id)->where('kategori_absen_id', $DataKategoriAbsen->id)->get())}}</th>
+            <th style="text-align: center; font-weight:300;">{{RekapAbsensi::Count(Auth::user()->sekolah_id, $PeriodeLastTahun, $PeriodeLastBulan, $DataPegawai->id, $DataKategoriAbsen->id)}}</th>
           @endforeach
         </tr>
       @endforeach
