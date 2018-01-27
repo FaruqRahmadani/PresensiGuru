@@ -52,10 +52,10 @@
                       <td>Jenjang</td>
                       <td>{{$Sekolah->Jenjang->nama_jenjang}}</td>
                     </tr>
-                    {{-- <tr>
+                    <tr>
                       <td>Status</td>
                       <td>{{$Sekolah->Status->nama_status}}</td>
-                    </tr> --}}
+                    </tr>
                     <tr>
                       <td>Kecamatan</td>
                       <td>{{$Sekolah->Kecamatan->nama_kecamatan}}</td>
@@ -86,54 +86,3 @@
     </div>
   </section>
 @endsection
-{{-- <script>
-  function Ubah(id,Nama)
-  {
-    swal({
-      title   : "Ubah",
-      text    : "Anda Akan di Arahkan ke Halaman Ubah Data Kelurahan '"+Nama+"'",
-      icon    : "info",
-    })
-    window.location = "/data-kelurahan/"+id+"/edit";
-  }
-
-  function Hapus(id,Nama)
-  {
-    swal({
-      title   : "Hapus",
-      text    : "Yakin Ingin Menghapus Data Kelurahan '"+Nama+"' ?",
-      icon    : "warning",
-      buttons : [
-        "Batal",
-        "Hapus",
-      ],
-    })
-    .then((hapus) => {
-      if (hapus) {
-        swal({
-          title  : "Hapus",
-          text   : "Data Kelurahan '"+Nama+"' Akan di Hapus",
-          icon   : "info",
-          timer  : 2500,
-        });
-        window.location = "/data-kelurahan/"+id+"/hapus";
-      } else {
-        swal({
-          title  : "Batal Hapus",
-          text   : "Data Kelurahan '"+Nama+"' Batal di Hapus",
-          icon   : "info",
-          timer  : 2500,
-        })
-      }
-    });
-  }
-
-  function cantHapus(id,Nama)
-  {
-    swal({
-      title   : "Hapus",
-      text    : "Data Kelurahan '"+Nama+"' Tidak dapat di Hapus Karena Ada Data Sekolah",
-      icon    : "warning",
-    })
-  }
-</script> --}}

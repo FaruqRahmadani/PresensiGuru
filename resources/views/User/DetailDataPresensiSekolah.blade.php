@@ -22,9 +22,6 @@
           <div class="col-lg-12">
 
             <div class="well well-sm">
-              {{-- <div class="panel-heading">
-                <label class="control-label">{{$Tanggal}} (Sementara)</label>
-              </div> --}}
               <div class="panel-body">
                 <div class="table-responsive no-padding">
                   <table class="table table-striped table-bordered table-hover tabel-data-custom">
@@ -70,57 +67,4 @@
         </div>
      </div>
   </section>
-@endsection
-@section('bawahan')
-  <script>
-  function Ubah(id,Nama)
-  {
-    // swal({
-    //   title   : "Ubah",
-    //   text    : "Anda Akan di Arahkan ke Halaman Ubah Data Admin '"+Nama+"'",
-    //   icon    : "info",
-    // })
-    window.location = "/data-admin/"+id+"/edit";
-  }
-
-  function Hapus(id,Nama)
-  {
-    swal({
-      title   : "Hapus",
-      text    : "Yakin Ingin Menghapus Data Admin '"+Nama+"' ?",
-      icon    : "warning",
-      buttons : [
-        "Batal",
-        "Hapus",
-      ],
-    })
-    .then((hapus) => {
-      if (hapus) {
-        // swal({
-        //   title  : "Hapus",
-        //   text   : "Data Admin '"+Nama+"' Akan di Hapus",
-        //   icon   : "info",
-        //   timer  : 2500,
-        // });
-        window.location = "/data-admin/"+id+"/hapus";
-      } else {
-        // swal({
-        //   title  : "Batal Hapus",
-        //   text   : "Data Admin '"+Nama+"' Batal di Hapus",
-        //   icon   : "info",
-        //   timer  : 2500,
-        // })
-      }
-    });
-  }
-
-  function cantHapus(id,Nama)
-  {
-    swal({
-      title   : "Hapus",
-      text    : "Tidak Dapat Menghapus Data Sendiri",
-      icon    : "error",
-    })
-  }
-</script>
 @endsection

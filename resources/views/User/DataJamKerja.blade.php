@@ -56,10 +56,6 @@
                             onclick="Ubah('{{Crypt::encryptString($DataJamKerja->id)}}')">
                               <span class="btn-label"><i class="fa fa-pencil"></i>
                             </span><b>Edit</b></button>
-                            {{-- <button class="btn btn-labeled btn-danger btn-xs" type="button"
-                            onclick="{{$DataUser->id == Auth::user()->id ? 'cantHapus' : 'Hapus'}}('{{Crypt::encryptString($DataJamKerja->id)}}', '{{$DataJamKerja->nama}}')">
-                              <span class="btn-label"><i class="fa fa-close"></i>
-                            </span><b>Hapus</b></button> --}}
                           </td>
                         </tr>
                       @endforeach
@@ -75,55 +71,10 @@
   </section>
 @endsection
 @section('bawahan')
-  <script>
+<script>
   function Ubah(id)
   {
-    // swal({
-    //   title   : "Ubah",
-    //   text    : "Anda Akan di Arahkan ke Halaman Ubah Data Admin '"+Nama+"'",
-    //   icon    : "info",
-    // })
     window.location = "/pengaturan-jam-kerja/"+id+"/edit";
-  }
-
-  function Hapus(id,Nama)
-  {
-    swal({
-      title   : "Hapus",
-      text    : "Yakin Ingin Menghapus Data Admin '"+Nama+"' ?",
-      icon    : "warning",
-      buttons : [
-        "Batal",
-        "Hapus",
-      ],
-    })
-    .then((hapus) => {
-      if (hapus) {
-        // swal({
-        //   title  : "Hapus",
-        //   text   : "Data Admin '"+Nama+"' Akan di Hapus",
-        //   icon   : "info",
-        //   timer  : 2500,
-        // });
-        window.location = "/data-admin/"+id+"/hapus";
-      } else {
-        // swal({
-        //   title  : "Batal Hapus",
-        //   text   : "Data Admin '"+Nama+"' Batal di Hapus",
-        //   icon   : "info",
-        //   timer  : 2500,
-        // })
-      }
-    });
-  }
-
-  function cantHapus(id,Nama)
-  {
-    swal({
-      title   : "Hapus",
-      text    : "Tidak Dapat Menghapus Data Sendiri",
-      icon    : "error",
-    })
   }
 </script>
 @endsection

@@ -78,45 +78,5 @@
   {
     window.location = "/data-presensi-sekolah/"+idSekolah+"/"+tanggal;
   }
-
-  function Hapus(id,Nama)
-  {
-    swal({
-      title   : "Hapus",
-      text    : "Yakin Ingin Menghapus Data Admin '"+Nama+"' ?",
-      icon    : "warning",
-      buttons : [
-        "Batal",
-        "Hapus",
-      ],
-    })
-    .then((hapus) => {
-      if (hapus) {
-        // swal({
-        //   title  : "Hapus",
-        //   text   : "Data Admin '"+Nama+"' Akan di Hapus",
-        //   icon   : "info",
-        //   timer  : 2500,
-        // });
-        window.location = "/data-admin/"+id+"/hapus";
-      } else {
-        // swal({
-        //   title  : "Batal Hapus",
-        //   text   : "Data Admin '"+Nama+"' Batal di Hapus",
-        //   icon   : "info",
-        //   timer  : 2500,
-        // })
-      }
-    });
-  }
-
-  function cantHapus(id,Nama)
-  {
-    swal({
-      title   : "Hapus",
-      text    : "Tidak Dapat Menghapus Data Sendiri",
-      icon    : "error",
-    })
-  }
 </script>
 @endsection
