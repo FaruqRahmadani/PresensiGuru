@@ -333,8 +333,6 @@
 <!-- SELECT2-->
 <script src="/Public/vendor/select2/dist/js/select2.js"></script>
 <!-- DATATABLES-->
-<script src="/Public/vendor/datatables-responsive/js/responsive.bootstrap.js"></script>
-<script src="/Public/vendor/datatables-responsive/js/dataTables.responsive.js"></script>
 <script src="/Public/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
 <script src="/Public/vendor/datatables-colvis/js/dataTables.colVis.js"></script>
 <script src="/Public/vendor/datatables/media/js/dataTables.bootstrap.js"></script>
@@ -349,7 +347,11 @@
 <script src="/Public/js/app.js"></script>
 {{-- Color Picker --}}
 <script type="text/javascript" src="/Public/vendor/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js"></script>
-<script src="/Public/js/demo/demo-forms.js"></script>
+
+
+{{-- <script src="/Public/vendor/datatables-responsive/js/dataTables.responsive.js"></script> --}}
+{{-- <script src="/Public/vendor/datatables-responsive/js/responsive.bootstrap.js"></script> --}}
+{{-- <script src="/Public/js/demo/demo-forms.js"></script> --}}
 
 <script>
   function logout()
