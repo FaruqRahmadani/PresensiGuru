@@ -2,6 +2,7 @@
 namespace App\Helpers;
 
 use App\Absensi;
+use Carbon;
 
 class RekapAbsensi {
     public static function Count($IdSekolah, $Tahun, $Bulan, $IdPegawai, $IdKategoriAbsensi){
@@ -13,5 +14,10 @@ class RekapAbsensi {
                               ->where('kategori_absen_id', $IdKategoriAbsensi)
                               ->get()
                   );
+    }
+
+    public static function Tanggal($Tanggal)
+    {
+      return Carbon\Carbon::parse($Tanggal)->format('F Y');
     }
 }
