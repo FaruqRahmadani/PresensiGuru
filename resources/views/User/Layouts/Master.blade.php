@@ -44,11 +44,8 @@
 
 <body>
    <div class="wrapper">
-      <!-- top navbar-->
       <header class="topnavbar-wrapper">
-         <!-- START Top Navbar-->
          <nav class="navbar topnavbar" role="navigation">
-            <!-- START navbar header-->
             <div class="navbar-header">
                <a class="navbar-brand" href="#/">
                   <div class="brand-logo">
@@ -59,26 +56,18 @@
                   </div>
                </a>
             </div>
-            <!-- END navbar header-->
-            <!-- START Nav wrapper-->
             <div class="nav-wrapper">
-               <!-- START Left navbar-->
                <ul class="nav navbar-nav">
                   <li>
-                     <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
                      <a class="hidden-xs" href="#" data-trigger-resize="" data-toggle-state="aside-collapsed">
                         <em class="fa fa-navicon"></em>
                      </a>
-                     <!-- Button to show/hide the sidebar on mobile. Visible on mobile only.-->
                      <a class="visible-xs sidebar-toggle" href="#" data-toggle-state="aside-toggled" data-no-persist="true">
                         <em class="fa fa-navicon"></em>
                      </a>
                   </li>
                </ul>
-               <!-- END Left navbar-->
-               <!-- START Right Navbar-->
                <ul class="nav navbar-nav navbar-right">
-                  <!-- START Alert menu-->
                   <li class="dropdown dropdown-list">
                      <a href="#" data-toggle="dropdown" style="padding : 15px;">
                        <div class="media-box">
@@ -90,12 +79,9 @@
                          </div>
                        </div>
                      </a>
-                     <!-- START Dropdown menu-->
                      <ul class="dropdown-menu animated flipInX">
                         <li>
-                           <!-- START list group-->
                            <div class="list-group">
-                              <!-- list item-->
                               <a class="list-group-item" href="/edit-profil">
                                  <div class="media-box">
                                     <div class="pull-left">
@@ -106,7 +92,6 @@
                                     </div>
                                  </div>
                               </a>
-                              <!-- list item-->
                               <a class="list-group-item" onclick="logout()">
                                  <div class="media-box">
                                     <div class="pull-left">
@@ -118,54 +103,35 @@
                                  </div>
                               </a>
                            </div>
-                           <!-- END list group-->
                         </li>
                      </ul>
-                     <!-- END Dropdown menu-->
                   </li>
-                  <!-- END Alert menu-->
-                  {{-- LOGOUT --}}
-                  {{-- <li>
-                     <a href="#" onclick="logout()">
-                        <em class="fa fa-power-off"></em>
-                     </a>
-                  </li> --}}
                </ul>
-               <!-- END Right Navbar-->
             </div>
          </nav>
-         <!-- END Top Navbar-->
       </header>
-      <!-- sidebar-->
       <aside class="aside">
-         <!-- START Sidebar (left)-->
          <div class="aside-inner">
             <nav class="sidebar" data-sidebar-anyclick-close="">
-               <!-- START sidebar nav-->
                <ul class="nav">
-                  <!-- START user info-->
                   <li class="nav-heading">
                     Menu Navigasi
                   </li>
                   <li class="has-user-block">
                      <div class="collapse" id="user-block">
                         <div class="item user-block">
-                           <!-- User picture-->
                            <div class="user-block-picture">
                               <div class="user-block-status">
                                  <img class="img-thumbnail img-circle" src="/Public/img/user/{{Auth::user()->foto}}" alt="Avatar" width="60" height="60">
                                  <div class="circle circle-success circle-lg"></div>
                               </div>
                            </div>
-                           <!-- Name and Job-->
                            <div class="user-block-info">
                               <span class="user-block-name">{{Auth::user()->nama}}</span>
                            </div>
                         </div>
                      </div>
                   </li>
-                  <!-- END user info-->
-                  <!-- Iterates over all sidebar items-->
                   <li class="{{$Title == 'Dashboard' ? 'active' : ''}}">
                      <a href="/home">
                         <em class="icon-home"></em>
@@ -182,33 +148,18 @@
                        </a>
                        <ul class="nav sidebar-subnav collapse" id="MasterData">
                           <li class="sidebar-subnav-header">Master Data</li>
-                          {{-- <li class="{{$Title == 'Data Kecamatan' ? 'active' : ''}}">
-                             <a href="/data-kecamatan">
-                                <em class="icon-map"></em>
-                                <span data-localize="sidebar.nav.DOCUMENTATION">Kecamatan</span>
-                             </a>
-                          </li>
-                          <li class="{{$Title == 'Data Kelurahan' ? 'active' : ''}}">
-                             <a href="/data-kelurahan">
-                                <em class="icon-map"></em>
-                                <span data-localize="sidebar.nav.DOCUMENTATION">Kelurahan</span>
-                             </a>
-                          </li> --}}
                           <li class="{{$Title == 'Data Jenjang' ? 'active' : ''}}">
                              <a href="/data-jenjang">
-                                {{-- <em class="icon-menu"></em> --}}
                                 <span data-localize="sidebar.nav.DOCUMENTATION">Jenjang</span>
                              </a>
                           </li>
                           <li class="{{$Title == 'Data Status Sekolah' ? 'active' : ''}}">
                              <a href="/data-status-sekolah">
-                                {{-- <em class="icon-drawer"></em> --}}
                                 <span data-localize="sidebar.nav.DOCUMENTATION">Status Sekolah</span>
                              </a>
                           </li>
                           <li class="{{$Title == 'Data Kategori Presensi' ? 'active' : ''}}">
                              <a href="/data-kategori-presensi">
-                                {{-- <em class="icon-drawer"></em> --}}
                                 <span data-localize="sidebar.nav.DOCUMENTATION">Kategori Presensi</span>
                              </a>
                           </li>
@@ -225,19 +176,16 @@
                           <li class="sidebar-subnav-header">Data Sekolah</li>
                           <li class="{{$Title == 'Data Sekolah' ? 'active' : ''}}">
                              <a href="/data-sekolah">
-                                {{-- <em class="icon-graduation"></em> --}}
                                 <span data-localize="sidebar.nav.DOCUMENTATION">Sekolah</span>
                              </a>
                           </li>
                           <li class="{{$Title == 'Data Admin Sekolah' ? 'active' : ''}}">
                              <a href="/data-admin-sekolah">
-                                {{-- <em class="icon-user"></em> --}}
                                 <span data-localize="sidebar.nav.DOCUMENTATION">Admin Sekolah</span>
                              </a>
                           </li>
                           <li class="{{$Title == 'Data Pegawai' ? 'active' : ''}}">
                              <a href="/data-pegawai">
-                                {{-- <em class="icon-people"></em> --}}
                                 <span data-localize="sidebar.nav.DOCUMENTATION">Pegawai</span>
                              </a>
                           </li>
@@ -279,13 +227,11 @@
                           <li class="sidebar-subnav-header">Data Sekolah</li>
                           <li class="{{$Title == 'Data Pegawai Sekolah' ? 'active' : ''}}">
                              <a href="/pegawai-sekolah">
-                                {{-- <em class="icon-people"></em> --}}
                                 <span data-localize="sidebar.nav.DOCUMENTATION">Pegawai</span>
                              </a>
                           </li>
                           <li class="{{$Title == 'Data Sekolah Saya' ? 'active' : ''}}">
                              <a href="/sekolah-saya">
-                                {{-- <em class="icon-graduation"></em> --}}
                                 <span data-localize="sidebar.nav.DOCUMENTATION">Sekolah</span>
                              </a>
                           </li>
@@ -302,13 +248,11 @@
                           <li class="sidebar-subnav-header">Data Presensi</li>
                           <li class="{{$Title == 'Input Presensi Sekolah' ? 'active' : ''}}">
                              <a href="/input-presensi-sekolah">
-                                {{-- <em class="icon-people"></em> --}}
                                 <span data-localize="sidebar.nav.DOCUMENTATION">Input Presensi</span>
                              </a>
                           </li>
                           <li class="{{$Title == 'Data Presensi Sekolah' ? 'active' : ''}}">
                              <a href="/data-presensi-sekolah">
-                                {{-- <em class="icon-graduation"></em> --}}
                                 <span data-localize="sidebar.nav.DOCUMENTATION">Data Presensi</span>
                              </a>
                           </li>
@@ -325,7 +269,6 @@
                           <li class="sidebar-subnav-header">Pengaturan</li>
                           <li class="{{$Title == 'Data Jam Kerja' ? 'active' : ''}}">
                              <a href="/pengaturan-jam-kerja">
-                                {{-- <em class="icon-people"></em> --}}
                                 <span data-localize="sidebar.nav.DOCUMENTATION">Jam Kerja</span>
                              </a>
                           </li>
@@ -349,17 +292,13 @@
                     </li>
                   @endif
                </ul>
-               <!-- END sidebar nav-->
             </nav>
          </div>
-         <!-- END Sidebar (left)-->
       </aside>
-      <!-- offsidebar-->
 
 
 @yield('content')
 
-<!-- Page footer-->
 <footer>
    <span>&copy; 2018 - Dinas Pendidikan <strong>Kab. Banjar</strong></span>
 </footer>
