@@ -147,12 +147,4 @@ Route::group(['middleware' => 'User'], function(){
   Route::get('/json/infoabsen/{tanggal}/{idSekolah}/absensi.json', 'UserController@JsonAbsensi');
 });
 
-Route::get('/asd', 'UserController@asd');
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Auth::routes();
-
-// Route::get('/home', 'HomeController@index')->name('home');
