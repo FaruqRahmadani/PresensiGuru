@@ -1370,7 +1370,7 @@ class UserController extends Controller
     return $pdf->stream('Rekap Presensi.pdf', ['Attachment' => 0]);
   }
 
-  // JSON !!!!!!!!!!!!!!
+  // DARI SINI KEBAWAH ADALAH JSON !!!!!!!!!!!!!!
   public function JsonKelurahan($id)
   {
     $Kelurahan = Kelurahan::where('kecamatan_id', $id)
@@ -1408,19 +1408,4 @@ class UserController extends Controller
     return $Absensi;
   }
 
-
-  // Aman di hapus
-  public function Modal()
-  {
-    $Sekolah = Sekolah::with('Jenjang', 'Status', 'Kelurahan', 'Pegawai', 'AllPegawai')
-                      ->where('id', '1')
-                      ->first();
-
-    return view('User.InfoSekolah', ['Sekolah' => $Sekolah]);
-  }
-
-  public function asd()
-  {
-    return view('User.ablank');
-  }
 }
