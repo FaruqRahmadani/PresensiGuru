@@ -35,7 +35,7 @@
                             @php
                               $DumpTanggal = RekapAbsensi::Tanggal($DataPeriodeAbsensi->tanggal);
                             @endphp
-                            <option value="{{RekapAbsensi::Tanggal($DataPeriodeAbsensi->tanggal)}}" {{$SelectedPeriode == RekapAbsensi::Tanggal($DataPeriodeAbsensi->tanggal) ? 'selected' : ''}}>{{RekapAbsensi::Tanggal($DataPeriodeAbsensi->tanggal)}}</option>
+                            <option value="{{Carbon\Carbon::parse($DataPeriodeAbsensi->tanggal)->format('F Y')}}" {{$SelectedPeriode == Carbon\Carbon::parse($DataPeriodeAbsensi->tanggal)->format('F Y') ? 'selected' : ''}}>{{RekapAbsensi::Tanggal($DataPeriodeAbsensi->tanggal)}}</option>
                           @endif
                         @endforeach
                       </select>
@@ -86,7 +86,7 @@
                 </div>
                 @if (count($PeriodeAbsensi) != 0)
                   <div class="panel pull-right">
-                    <a href="/laporan-rekap-presensi/{{Crypt::encryptString(RekapAbsensi::Tanggal($DataPeriodeAbsensi->tanggal))}}/cetak" target="_blank">
+                    <a href="/laporan-rekap-presensi/{{Crypt::encryptString(Carbon\Carbon::parse($SelectedPeriode)->format('F Y'))}}/cetak" target="_blank">
                       <button class="btn btn-labeled btn-primary" type="button">
                         <span class="btn-label"><i class="fa fa-print"></i>
                       </span><b>Cetak</b></button>

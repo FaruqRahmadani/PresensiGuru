@@ -1,2 +1,0 @@
-[04-Jan-2018 09:45:49 UTC] PHP Fatal error:  Class 'Illuminate\Database\Eloquent\Model' not found in /home/alet9772/public_html/PresensiGuru/app/Absensi.php on line 8
-[04-Jan-2018 09:45:58 UTC] PHP Fatal error:  Class 'Illuminate\Database\Eloquent\Model' not found in /home/alet9772/public_html/PresensiGuru/app/Kecamatan.php on line 7
