@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
 use Carbon\Carbon;
+use RekapAbsensi;
 use Storage;
 use Excel;
 use Crypt;
@@ -1365,7 +1366,9 @@ class UserController extends Controller
 
     $Sekolah = Sekolah::find(Auth::user()->sekolah_id);
 
-    $pdf = PDF::loadView('Laporan.RekapPresensi', ['Pegawai' => $Pegawai, 'Absensi' => $Absensi, 'Periode' => $periodez, 'PeriodeLastTahun' => $PeriodeLastTahun, 'PeriodeLastBulan' => $PeriodeLastBulan, 'Sekolah' => $Sekolah, 'KategoriAbsen' => $KategoriAbsen]);
+    $Periode = RekapAbsensi::Tanggal($periodez);
+
+    $pdf = PDF::loadView('Laporan.RekapPresensi', ['Pegawai' => $Pegawai, 'Absensi' => $Absensi, 'Periode' => $Periode, 'PeriodeLastTahun' => $PeriodeLastTahun, 'PeriodeLastBulan' => $PeriodeLastBulan, 'Sekolah' => $Sekolah, 'KategoriAbsen' => $KategoriAbsen]);
     $pdf->setPaper('a4', 'potrait');
     return $pdf->stream('Rekap Presensi.pdf', ['Attachment' => 0]);
   }

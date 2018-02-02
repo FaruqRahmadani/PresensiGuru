@@ -2,22 +2,25 @@
 namespace App\Helpers;
 
 use App\Absensi;
-use Carbon;
+use Carbon\Carbon;
 
 class RekapAbsensi {
-    public static function Count($IdSekolah, $Tahun, $Bulan, $IdPegawai, $IdKategoriAbsensi){
-      return count(
-                  Absensi::where('sekolah_id', $IdSekolah)
-                              ->whereYear('tanggal', $Tahun)
-                              ->whereMonth('tanggal', $Bulan)
-                              ->where('pegawai_id', $IdPegawai)
-                              ->where('kategori_absen_id', $IdKategoriAbsensi)
-                              ->get()
-                  );
-    }
+  public static function Count($IdSekolah, $Tahun, $Bulan, $IdPegawai, $IdKategoriAbsensi){
+    $Absensi = Absensi::where('sekolah_id', $IdSekolah)
+                      ->whereYear('tanggal', $Tahun)
+                      ->whereMonth('tanggal', $Bulan)
+                      ->where('pegawai_id', $IdPegawai)
+                      ->where('kategori_absen_id', $IdKategoriAbsensi)
+                      ->get();
+    return count($Absensi);
+  }
 
-    public static function Tanggal($Tanggal)
-    {
-      return Carbon\Carbon::parse($Tanggal)->format('F Y');
-    }
+  public static function Tanggal($Tanggal)
+  {
+    $NamaBulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    $Bulan = $NamaBulan[Carbon::parse($Tanggal)->format('n')-1];
+    $Periode = $Bulan.' '.Carbon::parse($Tanggal)->format('Y');
+
+    return $Periode;
+  }
 }
