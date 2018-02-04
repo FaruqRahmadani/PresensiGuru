@@ -247,6 +247,10 @@ class UserController extends Controller
       $User->foto = $Foto;
     }
 
+    if ($request->Password != null) {
+      $User->Password   = bcrypt($request->Password);
+    }
+
     $User->nama     = $request->Nama;
     $User->email    = $request->Email;
     $User->username = $request->Username;
