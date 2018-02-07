@@ -1123,28 +1123,34 @@ class UserController extends Controller
 
   public function StorePostInputPresensiSekolah(Request $request)
   {
-    foreach ($request->Post as $DataRequest) {
-      $Keterangan = $DataRequest['Keterangan'] != null ? $DataRequest['Keterangan'] : '-';
-      $Pegawai    = Pegawai::where('sidikjari_id', $DataRequest['idSidikJari'])
-                           ->where('sekolah_id', Auth::user()->sekolah_id)
-                           ->first();
-      $IdPegawai  = $Pegawai != null ? $Pegawai->id : '0';
+    if (count($request->Post)) {
+      foreach ($request->Post as $DataRequest) {
+        $Keterangan = $DataRequest['Keterangan'] != null ? $DataRequest['Keterangan'] : '-';
+        $Pegawai    = Pegawai::where('sidikjari_id', $DataRequest['idSidikJari'])
+                             ->where('sekolah_id', Auth::user()->sekolah_id)
+                             ->first();
+        // $IdPegawai  = $Pegawai != null ? $Pegawai->id : '0';
 
-      $Absensi = new Absensi;
+        if ($Pegawai != null) {
+          $Absensi = new Absensi;
 
-      $Absensi->pegawai_id        = $IdPegawai;
-      $Absensi->tanggal           = $DataRequest['tanggal'];
-      $Absensi->sidikjari_id      = $DataRequest['idSidikJari'];
-      $Absensi->sekolah_id        = Auth::user()->sekolah_id;
-      $Absensi->jam_masuk         = $DataRequest['JamMasuk'];
-      $Absensi->jam_pulang        = $DataRequest['JamKeluar'];
-      $Absensi->kategori_absen_id = $DataRequest['Absensi'];
-      $Absensi->keterangan        = $Keterangan;
+          $Absensi->pegawai_id        = $Pegawai->id;
+          $Absensi->tanggal           = $DataRequest['tanggal'];
+          $Absensi->sidikjari_id      = $DataRequest['idSidikJari'];
+          $Absensi->sekolah_id        = Auth::user()->sekolah_id;
+          $Absensi->jam_masuk         = $DataRequest['JamMasuk'];
+          $Absensi->jam_pulang        = $DataRequest['JamKeluar'];
+          $Absensi->kategori_absen_id = $DataRequest['Absensi'];
+          $Absensi->keterangan        = $Keterangan;
 
-      $Absensi->save();
+          $Absensi->save();
+        }
+      }
+
+      return redirect('/data-presensi-sekolah')->with('success', 'Data Presensi Berhasil di Tambahkan');
     }
+    return redirect('/data-presensi-sekolah');
 
-    return redirect('/data-presensi-sekolah')->with('success', 'Data Presensi Berhasil di Tambahkan');
   }
 
   public function DataPresensiSekolah()
