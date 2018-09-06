@@ -2,6 +2,7 @@
 namespace App\Helpers;
 
 use App\Absensi;
+use App\Pegawai;
 use Carbon\Carbon;
 
 class RekapAbsensi {
@@ -30,5 +31,19 @@ class RekapAbsensi {
                       ->get();
     // return $Absensi;
     return count($Absensi) != null ? false : true;
+  }
+
+  public static function DataPegawaiRekap($IdSekolah, $IdSidikJari){
+    $Pegawai = Pegawai::where('sekolah_id', $IdSekolah)
+                      ->where('sidikjari_id', $IdSidikJari)
+                      ->first();
+
+    if ($Pegawai != null) {
+      $Result['nama'] = $Pegawai->nama;
+      $Result['status'] = true;
+      return $Result;
+    }
+    $Result['status'] = false;
+    return $Result;
   }
 }

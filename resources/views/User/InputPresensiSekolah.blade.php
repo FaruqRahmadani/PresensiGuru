@@ -25,11 +25,10 @@
               {!! Form::open(['url'=>Request::url(),'files'=>true,'class'=>'register-form', 'method' => 'POST', 'class' => 'form-horizontal', 'role' => 'form']) !!}
 
                 <div class="form-group">
-                  <a href="/TemplatePresensi.csv" class="btn btn-labeled btn-primary btn">
+                  <a href="/TemplatePresensi.xlsx" class="btn btn-labeled btn-primary btn">
                     <span class="btn-label"><i class="fa fa-file"></i>
                     </span>Download Template File Excel Presensi
                   </a>
-                  <!-- <a href="#" class="btn btn-success">Download Template File Excel Presensi</a> -->
                   <hr>
                 </div>
 

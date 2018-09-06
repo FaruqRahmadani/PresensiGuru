@@ -1,11 +1,17 @@
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
+import swal from 'sweetalert'
 require('./bootstrap');
+require('./Angle/modernizr.custom');
+require('matchMedia/index');
+require('bootstrap/dist/js/bootstrap');
+require('jQuery-Storage-API/jquery.storageapi');
+require('jquery.easing/jquery.easing');
+require('slimscroll');
+require('chosen');
+require('select2');
+require('datatables.net-bs/js/dataTables.bootstrap');
+require('./Angle/demo-datatable');
+require('./Angle/app');
+require('./custom');
 
 window.Vue = require('vue');
 

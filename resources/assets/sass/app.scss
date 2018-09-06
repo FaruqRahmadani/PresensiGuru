@@ -1,9 +1,11 @@
-
-// Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
-
-// Variables
 @import "variables";
-
-// Bootstrap
-@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+@import '~bootstrap/dist/css/bootstrap.css';
+@import "~font-awesome/css/font-awesome";
+@import "~simple-line-icons/css/simple-line-icons";
+@import "~animate.css/animate";
+@import "~select2/dist/css/select2";
+@import "~select2-bootstrap-theme/dist/select2-bootstrap";
+@import '~datatables.net-bs/css/dataTables.bootstrap';
+@import '~bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css';
+@import 'Angle/app';
+@import 'custom';

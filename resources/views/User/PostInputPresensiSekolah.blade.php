@@ -44,28 +44,32 @@
                         @foreach ($Presensi as $DataPresensi)
                           @if (RekapAbsensi::DoublePresensi(Auth::user()->sekolah_id, $DataPresensi->sidikjari_id, Carbon\Carbon::parse($DataPresensi->jammasuk)->format('Y-m-d')))
                             @if($DataPresensi->nama != null)
-                              <tr>
-                                <td>{{$no+=1}}</td>
-                                <td>{{$DataPresensi->nama}}</td>
-                                <td>{{$DataPresensi->jammasuk != null ? Carbon\Carbon::parse($DataPresensi->jammasuk)->format('d-m-Y') : '-'}}</td>
-                                <input class="form-control" type="text" name="Post[{{$no}}][idSidikJari]" value="{{$DataPresensi->sidikjari_id}}" style="display:none;">
-                                <input class="form-control" type="date" name="Post[{{$no}}][tanggal]" value="{{Carbon\Carbon::parse($DataPresensi->jammasuk)->format('Y-m-d')}}" style="display:none">
-                                <td>{{$DataPresensi->jammasuk != null ? Carbon\Carbon::parse($DataPresensi->jammasuk)->format('h:i:s A') : '-'}}</td>
-                                <input class="form-control" type="text" name="Post[{{$no}}][JamMasuk]" value="{{$DataPresensi->jammasuk != null ? Carbon\Carbon::parse($DataPresensi->jammasuk)->format('H:i:s') : ''}}" style="display:none">
-                                <td>{{$DataPresensi->jamkeluar != null ? Carbon\Carbon::parse($DataPresensi->jamkeluar)->format('h:i:s A') : '-'}}</td>
-                                <input class="form-control" type="text" name="Post[{{$no}}][JamKeluar]" value="{{$DataPresensi->jamkeluar != null ? Carbon\Carbon::parse($DataPresensi->jamkeluar)->format('H:i:s') : ''}}" style="display:none">
-                                <td>
-                                  <select class="form-control" name="Post[{{$no}}][Absensi]" style="width:100% !important" required>
-                                    <option value="" hidden>Pilih</option>
-                                    @foreach ($KategoriAbsen as $DataKategoriAbsen)
-                                      <option value="{{$DataKategoriAbsen->id}}"> {{$DataKategoriAbsen->keterangan}} </option>
-                                    @endforeach
-                                  </select>
-                                </td>
-                                <td>
-                                  <input class="form-control" type="text" name="Post[{{$no}}][Keterangan]" value="{{old('Keterangan[]')}}">
-                                </td>
-                              </tr>
+                              @php
+                                $DataPegawaiRekap = RekapAbsensi::DataPegawaiRekap(Auth::user()->sekolah_id, $DataPresensi->sidikjari_id);
+                              @endphp
+                              @if ($DataPegawaiRekap['status'])
+                                <tr>
+                                  <td>{{$no+=1}}</td>
+                                  <td>{{$DataPegawaiRekap['nama']}}</td>
+                                  <td>{{$DataPresensi->jammasuk != null ? Carbon\Carbon::parse($DataPresensi->jammasuk)->format('d-m-Y') : '-'}}</td>
+                                  <input class="form-control" type="text" name="Post[{{$no}}][idSidikJari]" value="{{$DataPresensi->sidikjari_id}}" style="display:none;">
+                                  <input class="form-control" type="date" name="Post[{{$no}}][tanggal]" value="{{Carbon\Carbon::parse($DataPresensi->jammasuk)->format('Y-m-d')}}" style="display:none">
+                                  <td>{{$DataPresensi->jammasuk != null ? Carbon\Carbon::parse($DataPresensi->jammasuk)->format('h:i:s A') : '-'}}</td>
+                                  <input class="form-control" type="text" name="Post[{{$no}}][JamMasuk]" value="{{$DataPresensi->jammasuk != null ? Carbon\Carbon::parse($DataPresensi->jammasuk)->format('H:i:s') : ''}}" style="display:none">
+                                  <td>{{$DataPresensi->jamkeluar != null ? Carbon\Carbon::parse($DataPresensi->jamkeluar)->format('h:i:s A') : '-'}}</td>
+                                  <input class="form-control" type="text" name="Post[{{$no}}][JamKeluar]" value="{{$DataPresensi->jamkeluar != null ? Carbon\Carbon::parse($DataPresensi->jamkeluar)->format('H:i:s') : ''}}" style="display:none">
+                                  <td>
+                                    <select class="form-control" name="Post[{{$no}}][Absensi]" style="width:100% !important" required>
+                                      @foreach ($KategoriAbsen as $DataKategoriAbsen)
+                                        <option value="{{$DataKategoriAbsen->id}}"> {{$DataKategoriAbsen->keterangan}} </option>
+                                      @endforeach
+                                    </select>
+                                  </td>
+                                  <td>
+                                    <input class="form-control" type="text" name="Post[{{$no}}][Keterangan]" value="{{old('Keterangan[]')}}">
+                                  </td>
+                                </tr>
+                              @endif
                             @endif
                           @endif
                         @endforeach

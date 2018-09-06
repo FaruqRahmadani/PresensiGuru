@@ -1157,6 +1157,7 @@ class UserController extends Controller
   {
     $Sekolah = Sekolah::find(Auth::user()->sekolah_id);
     $Absensi = Absensi::where('sekolah_id', Auth::user()->sekolah_id)
+                      ->orderBy('tanggal', 'asc')
                       ->get();
     return view('User.DataPresensiSekolah', ['Absensi' => $Absensi, 'Sekolah' => $Sekolah]);
   }

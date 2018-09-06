@@ -52,7 +52,7 @@
                           @endphp
                           <tr>
                             <td>{{$no+=1}}</td>
-                            <td>{{Carbon\Carbon::parse($DataAbsensi->tanggal)->format('d-m-Y')}}</td>
+                            <td>{{Carbon\Carbon::parse($DataAbsensi->tanggal)->format('d F Y')}}</td>
                             <td>
                               <button class="btn btn-labeled btn-primary btn-xs" type="button" onclick="Info('{{Crypt::encryptString(Auth::user()->sekolah_id)}}','{{Crypt::encryptString($DataAbsensi->tanggal)}}')">
                               <span class="btn-label"><i class="fa fa-info"></i>
