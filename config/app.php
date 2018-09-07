@@ -228,6 +228,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'RekapAbsensi' => App\Helpers\RekapAbsensi::class,
+        'HCrypt' => App\Helpers\CryptHelper::class,
 
     ],
 

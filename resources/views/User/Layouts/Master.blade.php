@@ -98,7 +98,7 @@
                 </div>
               </div>
             </li>
-            <li class="{{$Title == 'Dashboard' ? 'active' : ''}}">
+            <li>
               <a href="/home">
                 <em class="icon-home"></em>
                 <span>Dashboard</span>
@@ -113,17 +113,17 @@
                 </a>
                 <ul class="nav sidebar-subnav collapse" id="MasterData">
                   <li class="sidebar-subnav-header">Master Data</li>
-                  <li class="{{$Title == 'Data Jenjang' ? 'active' : ''}}">
+                  <li>
                     <a href="/data-jenjang">
                       <span>Jenjang</span>
                     </a>
                   </li>
-                  <li class="{{$Title == 'Data Status Sekolah' ? 'active' : ''}}">
+                  <li>
                     <a href="/data-status-sekolah">
                       <span>Status Sekolah</span>
                     </a>
                   </li>
-                  <li class="{{$Title == 'Data Kategori Presensi' ? 'active' : ''}}">
+                  <li>
                     <a href="/data-kategori-presensi">
                       <span>Kategori Presensi</span>
                     </a>
@@ -138,17 +138,17 @@
                 </a>
                 <ul class="nav sidebar-subnav collapse" id="DataSekolah">
                   <li class="sidebar-subnav-header">Data Sekolah</li>
-                  <li class="{{$Title == 'Data Sekolah' ? 'active' : ''}}">
+                  <li>
                     <a href="/data-sekolah">
                       <span>Sekolah</span>
                     </a>
                   </li>
-                  <li class="{{$Title == 'Data Admin Sekolah' ? 'active' : ''}}">
+                  <li>
                     <a href="/data-admin-sekolah">
                       <span>Admin Sekolah</span>
                     </a>
                   </li>
-                  <li class="{{$Title == 'Data Pegawai' ? 'active' : ''}}">
+                  <li>
                     <a href="/data-pegawai">
                       <span>Pegawai</span>
                     </a>
@@ -163,7 +163,7 @@
                 </a>
                 <ul class="nav sidebar-subnav collapse" id="DataPresensi">
                   <li class="sidebar-subnav-header">Data Presensi</li>
-                  <li class="{{$Title == 'Data Presensi' ? 'active' : ''}}">
+                  <li>
                     <a href="/data-presensi">
                       <span>Data Presensi</span>
                     </a>
@@ -171,7 +171,7 @@
                 </ul>
               </li>
               <li class=" ">
-                <a href="/data-admin">
+                <a href="{{Route('adminData')}}">
                   <em class="icon-user"></em>
                   <span>Data Admin</span>
                 </a>
@@ -186,12 +186,12 @@
                 </a>
                 <ul class="nav sidebar-subnav collapse" id="DataSekolahSaya">
                   <li class="sidebar-subnav-header">Data Sekolah</li>
-                  <li class="{{$Title == 'Data Pegawai Sekolah' ? 'active' : ''}}">
+                  <li>
                     <a href="/pegawai-sekolah">
                       <span>Pegawai</span>
                     </a>
                   </li>
-                  <li class="{{$Title == 'Data Sekolah Saya' ? 'active' : ''}}">
+                  <li>
                     <a href="/sekolah-saya">
                       <span>Sekolah</span>
                     </a>
@@ -206,12 +206,12 @@
                 </a>
                 <ul class="nav sidebar-subnav collapse" id="DataPresensiSekolahSaya">
                   <li class="sidebar-subnav-header">Data Presensi</li>
-                  <li class="{{$Title == 'Input Presensi Sekolah' ? 'active' : ''}}">
+                  <li>
                     <a href="/input-presensi-sekolah">
                       <span>Input Presensi</span>
                     </a>
                   </li>
-                  <li class="{{$Title == 'Data Presensi Sekolah' ? 'active' : ''}}">
+                  <li>
                     <a href="/data-presensi-sekolah">
                       <span>Data Presensi</span>
                     </a>
@@ -226,7 +226,7 @@
                 </a>
                 <ul class="nav sidebar-subnav collapse" id="Pengaturan">
                   <li class="sidebar-subnav-header">Pengaturan</li>
-                  <li class="{{$Title == 'Data Jam Kerja' ? 'active' : ''}}">
+                  <li>
                     <a href="/pengaturan-jam-kerja">
                       <span>Jam Kerja</span>
                     </a>
@@ -241,7 +241,7 @@
                 </a>
                 <ul class="nav sidebar-subnav collapse" id="Laporan">
                   <li class="sidebar-subnav-header">Laporan</li>
-                  <li class="{{$Title == 'Rekap Presensi' ? 'active' : ''}}">
+                  <li>
                     <a href="/laporan-rekap-presensi">
                       <span>Rekap Presensi</span>
                     </a>
@@ -260,6 +260,9 @@
   </div>
   @yield('bawahan')
   <script src="{{asset('js/app.js')}}"></script>
+  @if (session('alert'))
+    <script>notif('{{session('tipe')}}', '{{session('judul')}}', '{{session('pesan')}}')</script>
+  @endif
   @yield('jscustom')
 </body>
 

@@ -1,158 +1,143 @@
 <?php
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-// Route::get('/password', function()
-// {
-//   dd(bcrypt('123456'));
-// });
-
-Route::get('/', 'Auth\LoginController@showLoginForm')->name('login');
-Route::get('/lupa-password', 'UserController@LupaPassword');
-Route::POST('/lupa-password', 'UserController@PostLupaPassword');
-Route::get('/lupa-password/{id}/{token}', 'UserController@GetLupaPassword');
-Route::POST('/lupa-password/{id}/{token}', 'UserController@postGetLupaPassword');
+Route::GET('', 'Auth\LoginController@showLoginForm')->name('login');
+Route::GET('lupa-password', 'UserController@LupaPassword');
+Route::POST('lupa-password', 'UserController@PostLupaPassword');
+Route::GET('lupa-password/{id}/{token}', 'UserController@GetLupaPassword');
+Route::POST('lupa-password/{id}/{token}', 'UserController@postGetLupaPassword');
 
 // User
 Route::group(['middleware' => 'User'], function(){
-  Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
-  Route::get('/home', 'UserController@Dashboard')->name('home');
-  Route::get('/edit-profil', 'UserController@EditProfil');
-  Route::POST('/edit-profil', 'UserController@storeEditProfil');
+  Route::GET('logout', 'Auth\LoginController@logout')->name('logout');
+  Route::GET('home', 'UserController@Dashboard')->name('home');
+  Route::GET('edit-profil', 'UserController@EditProfil');
+  Route::POST('edit-profil', 'UserController@storeEditProfil');
 
   Route::group(['middleware' => 'SuperAdmin'], function(){
     // Super Admin
-    Route::get('/data-admin', 'UserController@DataAdmin');
-    Route::get('/data-admin/tambah', 'UserController@TambahAdmin');
-    Route::POST('/data-admin/tambah', 'UserController@storeTambahAdmin');
-    Route::get('/data-admin/{id}/edit', 'UserController@EditAdmin');
-    Route::POST('/data-admin/{id}/edit', 'UserController@storeEditAdmin');
-    Route::get('/data-admin/{id}/hapus', 'UserController@HapusAdmin');
+    Route::group(['prefix' => 'admin', 'as' => 'admin'], function () {
+      Route::GET('', 'AdminController@Data')->name('Data');
+      Route::GET('tambah', 'AdminController@Tambah')->name('Tambah');
+      Route::POST('tambah', 'AdminController@storeTambah')->name('TambahSubmit');
+      Route::GET('{id}/edit', 'AdminController@Edit')->name('Edit');
+      Route::POST('{id}/edit', 'AdminController@storeEdit')->name('EditSubmit');
+      Route::GET('{id}/hapus', 'AdminController@Hapus')->name('Hapus');
+    });
 
     // Data Kecamatan
-    Route::get('/data-kecamatan', 'UserController@DataKecamatan');
-    Route::get('/data-kecamatan/tambah', 'UserController@TambahKecamatan');
-    Route::POST('/data-kecamatan/tambah', 'UserController@storeTambahKecamatan');
-    Route::get('/data-kecamatan/{id}/edit', 'UserController@EditKecamatan');
-    Route::POST('/data-kecamatan/{id}/edit', 'UserController@storeEditKecamatan');
-    Route::get('/data-kecamatan/{id}/hapus', 'UserController@HapusKecamatan');
+    Route::GET('data-kecamatan', 'UserController@DataKecamatan');
+    Route::GET('data-kecamatan/tambah', 'UserController@TambahKecamatan');
+    Route::POST('data-kecamatan/tambah', 'UserController@storeTambahKecamatan');
+    Route::GET('data-kecamatan/{id}/edit', 'UserController@EditKecamatan');
+    Route::POST('data-kecamatan/{id}/edit', 'UserController@storeEditKecamatan');
+    Route::GET('data-kecamatan/{id}/hapus', 'UserController@HapusKecamatan');
 
     // Data Kelurahan
-    Route::get('/data-kelurahan', 'UserController@DataKelurahan');
-    Route::get('/data-kelurahan/tambah', 'UserController@TambahKelurahan');
-    Route::POST('/data-kelurahan/tambah', 'UserController@storeTambahKelurahan');
-    Route::get('/data-kelurahan/{id}/edit', 'UserController@EditKelurahan');
-    Route::POST('/data-kelurahan/{id}/edit', 'UserController@storeEditKelurahan');
-    Route::get('/data-kelurahan/{id}/hapus', 'UserController@HapusKelurahan');
+    Route::GET('data-kelurahan', 'UserController@DataKelurahan');
+    Route::GET('data-kelurahan/tambah', 'UserController@TambahKelurahan');
+    Route::POST('data-kelurahan/tambah', 'UserController@storeTambahKelurahan');
+    Route::GET('data-kelurahan/{id}/edit', 'UserController@EditKelurahan');
+    Route::POST('data-kelurahan/{id}/edit', 'UserController@storeEditKelurahan');
+    Route::GET('data-kelurahan/{id}/hapus', 'UserController@HapusKelurahan');
 
     // Data Jenjang
-    Route::get('/data-jenjang', 'UserController@DataJenjang');
-    Route::get('/data-jenjang/tambah', 'UserController@TambahJenjang');
-    Route::POST('/data-jenjang/tambah', 'UserController@storeTambahJenjang');
-    Route::get('/data-jenjang/{id}/edit', 'UserController@EditJenjang');
-    Route::POST('/data-jenjang/{id}/edit', 'UserController@storeEditJenjang');
-    Route::get('/data-jenjang/{id}/hapus', 'UserController@HapusJenjang');
+    Route::GET('data-jenjang', 'UserController@DataJenjang');
+    Route::GET('data-jenjang/tambah', 'UserController@TambahJenjang');
+    Route::POST('data-jenjang/tambah', 'UserController@storeTambahJenjang');
+    Route::GET('data-jenjang/{id}/edit', 'UserController@EditJenjang');
+    Route::POST('data-jenjang/{id}/edit', 'UserController@storeEditJenjang');
+    Route::GET('data-jenjang/{id}/hapus', 'UserController@HapusJenjang');
 
     // Data Status
-    Route::get('/data-status-sekolah', 'UserController@DataStatusSekolah');
-    Route::get('/data-status-sekolah/tambah', 'UserController@TambahStatusSekolah');
-    Route::POST('/data-status-sekolah/tambah', 'UserController@storeTambahStatusSekolah');
-    Route::get('/data-status-sekolah/{id}/edit', 'UserController@EditStatusSekolah');
-    Route::POST('/data-status-sekolah/{id}/edit', 'UserController@storeEditStatusSekolah');
-    Route::get('/data-status-sekolah/{id}/hapus', 'UserController@HapusStatusSekolah');
+    Route::GET('data-status-sekolah', 'UserController@DataStatusSekolah');
+    Route::GET('data-status-sekolah/tambah', 'UserController@TambahStatusSekolah');
+    Route::POST('data-status-sekolah/tambah', 'UserController@storeTambahStatusSekolah');
+    Route::GET('data-status-sekolah/{id}/edit', 'UserController@EditStatusSekolah');
+    Route::POST('data-status-sekolah/{id}/edit', 'UserController@storeEditStatusSekolah');
+    Route::GET('data-status-sekolah/{id}/hapus', 'UserController@HapusStatusSekolah');
 
     // Data Admin Sekolah
-    Route::get('/data-admin-sekolah', 'UserController@DataAdminSekolah');
-    Route::get('/data-admin-sekolah/tambah', 'UserController@TambahAdminSekolah');
-    Route::POST('/data-admin-sekolah/tambah', 'UserController@storeTambahAdminSekolah');
-    Route::get('/data-admin-sekolah/{id}/edit', 'UserController@EditAdminSekolah');
-    Route::POST('/data-admin-sekolah/{id}/edit', 'UserController@storeEditAdminSekolah');
-    Route::get('/data-admin-sekolah/{id}/hapus', 'UserController@HapusAdminSekolah');
+    Route::GET('data-admin-sekolah', 'UserController@DataAdminSekolah');
+    Route::GET('data-admin-sekolah/tambah', 'UserController@TambahAdminSekolah');
+    Route::POST('data-admin-sekolah/tambah', 'UserController@storeTambahAdminSekolah');
+    Route::GET('data-admin-sekolah/{id}/edit', 'UserController@EditAdminSekolah');
+    Route::POST('data-admin-sekolah/{id}/edit', 'UserController@storeEditAdminSekolah');
+    Route::GET('data-admin-sekolah/{id}/hapus', 'UserController@HapusAdminSekolah');
 
     // Data Sekolah
-    Route::get('/data-sekolah', 'UserController@DataSekolah');
-    Route::get('/data-sekolah/tambah', 'UserController@TambahSekolah');
-    Route::POST('/data-sekolah/tambah', 'UserController@storeTambahSekolah');
-    Route::get('/data-sekolah/{id}/edit', 'UserController@EditSekolah');
-    Route::POST('/data-sekolah/{id}/edit', 'UserController@storeEditSekolah');
-    Route::get('/data-sekolah/{id}/info', 'UserController@InfoSekolah');
-    Route::get('/data-pegawai', 'UserController@DataPegawai');
-    Route::get('/data-pegawai/tambah', 'UserController@TambahPegawai');
-    Route::POST('/data-pegawai/tambah', 'UserController@storeTambahPegawai');
-    Route::get('/data-pegawai/{id}/edit', 'UserController@EditPegawai');
-    Route::POST('/data-pegawai/{id}/edit', 'UserController@storeEditPegawai');
-    Route::get('/data-pegawai/{id}/info', 'UserController@InfoPegawai');
+    Route::GET('data-sekolah', 'UserController@DataSekolah');
+    Route::GET('data-sekolah/tambah', 'UserController@TambahSekolah');
+    Route::POST('data-sekolah/tambah', 'UserController@storeTambahSekolah');
+    Route::GET('data-sekolah/{id}/edit', 'UserController@EditSekolah');
+    Route::POST('data-sekolah/{id}/edit', 'UserController@storeEditSekolah');
+    Route::GET('data-sekolah/{id}/info', 'UserController@InfoSekolah');
+    Route::GET('data-pegawai', 'UserController@DataPegawai');
+    Route::GET('data-pegawai/tambah', 'UserController@TambahPegawai');
+    Route::POST('data-pegawai/tambah', 'UserController@storeTambahPegawai');
+    Route::GET('data-pegawai/{id}/edit', 'UserController@EditPegawai');
+    Route::POST('data-pegawai/{id}/edit', 'UserController@storeEditPegawai');
+    Route::GET('data-pegawai/{id}/info', 'UserController@InfoPegawai');
 
     // Presensi
-    Route::get('/data-presensi', 'UserController@DataPresensi');
-    Route::POST('/data-presensi', 'UserController@PostDataPresensi');
+    Route::GET('data-presensi', 'UserController@DataPresensi');
+    Route::POST('data-presensi', 'UserController@PostDataPresensi');
 
     // Kategori Presensi
-    Route::get('/data-kategori-presensi', 'UserController@DataKategoriPresensi');
-    Route::get('/data-kategori-presensi/tambah', 'UserController@TambahKategoriPresensi');
-    Route::POST('/data-kategori-presensi/tambah', 'UserController@storeTambahKategoriPresensi');
-    Route::get('/data-kategori-presensi/{id}/edit', 'UserController@EditKategoriPresensi');
-    Route::POST('/data-kategori-presensi/{id}/edit', 'UserController@storeEditKategoriPresensi');
+    Route::GET('data-kategori-presensi', 'UserController@DataKategoriPresensi');
+    Route::GET('data-kategori-presensi/tambah', 'UserController@TambahKategoriPresensi');
+    Route::POST('data-kategori-presensi/tambah', 'UserController@storeTambahKategoriPresensi');
+    Route::GET('data-kategori-presensi/{id}/edit', 'UserController@EditKategoriPresensi');
+    Route::POST('data-kategori-presensi/{id}/edit', 'UserController@storeEditKategoriPresensi');
 
   });
 
   Route::group(['middleware' => 'Admin'], function(){
     // Sekolah Saya
-    Route::get('/sekolah-saya', 'UserController@SekolahSaya');
-    Route::get('/sekolah-saya/edit', 'UserController@EditSekolahSaya');
-    Route::POST('/sekolah-saya/edit', 'UserController@storeEditSekolahSaya');
+    Route::GET('sekolah-saya', 'UserController@SekolahSaya');
+    Route::GET('sekolah-saya/edit', 'UserController@EditSekolahSaya');
+    Route::POST('sekolah-saya/edit', 'UserController@storeEditSekolahSaya');
 
     // Pegawai Sekolah Saya
-    Route::get('/pegawai-sekolah', 'UserController@DataPegawaiSekolah');
-    Route::get('/pegawai-sekolah/tambah', 'UserController@TambahPegawaiSekolah');
-    Route::POST('/pegawai-sekolah/tambah', 'UserController@storeTambahPegawaiSekolah');
-    Route::get('/pegawai-sekolah/{id}/edit', 'UserController@EditPegawaiSekolah');
-    Route::POST('/pegawai-sekolah/{id}/edit', 'UserController@storeEditPegawaiSekolah');
-    Route::get('/pegawai-sekolah/{id}/info', 'UserController@InfoPegawaiSekolah');
+    Route::GET('pegawai-sekolah', 'UserController@DataPegawaiSekolah');
+    Route::GET('pegawai-sekolah/tambah', 'UserController@TambahPegawaiSekolah');
+    Route::POST('pegawai-sekolah/tambah', 'UserController@storeTambahPegawaiSekolah');
+    Route::GET('pegawai-sekolah/{id}/edit', 'UserController@EditPegawaiSekolah');
+    Route::POST('pegawai-sekolah/{id}/edit', 'UserController@storeEditPegawaiSekolah');
+    Route::GET('pegawai-sekolah/{id}/info', 'UserController@InfoPegawaiSekolah');
 
     // Presensi
-    Route::get('/input-presensi-sekolah', 'UserController@InputPresensiSekolah');
-    Route::POST('/input-presensi-sekolah', 'UserController@PostInputPresensiSekolah');
-    Route::POST('/input-presensi-sekolah/submit', 'UserController@StorePostInputPresensiSekolah');
-    Route::get('/data-presensi-sekolah', 'UserController@DataPresensiSekolah');
-    Route::get('/data-presensi-sekolah/{idSekolah}/{tanggal}', 'UserController@DetailDataPresensiSekolah');
+    Route::GET('input-presensi-sekolah', 'UserController@InputPresensiSekolah');
+    Route::POST('input-presensi-sekolah', 'UserController@PostInputPresensiSekolah');
+    Route::POST('input-presensi-sekolah/submit', 'UserController@StorePostInputPresensiSekolah');
+    Route::GET('data-presensi-sekolah', 'UserController@DataPresensiSekolah');
+    Route::GET('data-presensi-sekolah/{idSekolah}/{tanggal}', 'UserController@DetailDataPresensiSekolah');
 
     // Pengaturan
-    Route::get('/pengaturan-jam-kerja', 'UserController@DataJamKerja');
-    Route::get('/pengaturan-jam-kerja/tambah', 'UserController@TambahDataJamKerja');
-    Route::POST('/pengaturan-jam-kerja/tambah', 'UserController@storeTambahDataJamKerja');
-    Route::get('/pengaturan-jam-kerja/{id}/edit', 'UserController@EditDataJamKerja');
-    Route::POST('/pengaturan-jam-kerja/{id}/edit', 'UserController@storeEditDataJamKerja');
+    Route::GET('pengaturan-jam-kerja', 'UserController@DataJamKerja');
+    Route::GET('pengaturan-jam-kerja/tambah', 'UserController@TambahDataJamKerja');
+    Route::POST('pengaturan-jam-kerja/tambah', 'UserController@storeTambahDataJamKerja');
+    Route::GET('pengaturan-jam-kerja/{id}/edit', 'UserController@EditDataJamKerja');
+    Route::POST('pengaturan-jam-kerja/{id}/edit', 'UserController@storeEditDataJamKerja');
 
     // Laporan
-    Route::get('/laporan-rekap-presensi', 'UserController@LaporanRekapPresensi');
-    Route::POST('/laporan-rekap-presensi', 'UserController@LaporanRekapPresensiFilter');
-    Route::get('/laporan-rekap-presensi/{periode}/cetak', 'UserController@PrintLaporanRekapPresensi');
+    Route::GET('laporan-rekap-presensi', 'UserController@LaporanRekapPresensi');
+    Route::POST('laporan-rekap-presensi', 'UserController@LaporanRekapPresensiFilter');
+    Route::GET('laporan-rekap-presensi/{periode}/cetak', 'UserController@PrintLaporanRekapPresensi');
 
   });
 
   // JSON !!!!!!!!
-  Route::get('/json/kecamatan/{id}/kelurahan.json', 'UserController@JsonKelurahan');
-  Route::get('/json/infosekolah/{id}/sekolah.json', 'UserController@JsonSekolah');
-  Route::get('/json/infopegawai/{id}/pegawai.json', 'UserController@JsonPegawai');
-  Route::get('/json/infoabsen/{tanggal}/{idSekolah}/absensi.json', 'UserController@JsonAbsensi');
+  Route::GET('json/kecamatan/{id}/kelurahan.json', 'UserController@JsonKelurahan');
+  Route::GET('json/infosekolah/{id}/sekolah.json', 'UserController@JsonSekolah');
+  Route::GET('json/infopegawai/{id}/pegawai.json', 'UserController@JsonPegawai');
+  Route::GET('json/infoabsen/{tanggal}/{idSekolah}/absensi.json', 'UserController@JsonAbsensi');
 });
 
-Route::get('/asd', 'UserController@asd');
+Route::GET('asd', 'UserController@asd');
 
-// Route::get('/', function () {
+// Route::GET('', function () {
 //     return view('welcome');
 // });
 
 Auth::routes();
 
-// Route::get('/home', 'HomeController@index')->name('home');
+// Route::GET('home', 'HomeController@index')->name('home');
