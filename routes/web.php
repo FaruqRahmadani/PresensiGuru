@@ -52,12 +52,14 @@ Route::group(['middleware' => 'User'], function(){
     });
 
     // Data Status
-    Route::GET('data-status-sekolah', 'UserController@DataStatusSekolah');
-    Route::GET('data-status-sekolah/tambah', 'UserController@TambahStatusSekolah');
-    Route::POST('data-status-sekolah/tambah', 'UserController@storeTambahStatusSekolah');
-    Route::GET('data-status-sekolah/{id}/edit', 'UserController@EditStatusSekolah');
-    Route::POST('data-status-sekolah/{id}/edit', 'UserController@storeEditStatusSekolah');
-    Route::GET('data-status-sekolah/{id}/hapus', 'UserController@HapusStatusSekolah');
+    Route::group(['prefix' => 'status-sekolah', 'as' => 'statusSekolah'], function () {
+      Route::GET('', 'StatusSekolahController@Data')->name('Data');
+      Route::GET('tambah', 'StatusSekolahController@Tambah')->name('Tambah');
+      Route::POST('tambah', 'StatusSekolahController@storeTambah')->name('TambahSubmit');
+      Route::GET('{id}/edit', 'StatusSekolahController@Edit')->name('Edit');
+      Route::POST('{id}/edit', 'StatusSekolahController@storeEdit')->name('EditSubmit');
+      Route::GET('{id}/hapus', 'StatusSekolahController@Hapus')->name('Hapus');
+    });
 
     // Data Admin Sekolah
     Route::GET('data-admin-sekolah', 'UserController@DataAdminSekolah');

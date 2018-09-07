@@ -119,7 +119,7 @@
                     </a>
                   </li>
                   <li>
-                    <a href="/data-status-sekolah">
+                    <a href="{{Route('statusSekolahData')}}">
                       <span>Status Sekolah</span>
                     </a>
                   </li>
