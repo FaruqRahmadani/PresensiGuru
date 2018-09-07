@@ -26,12 +26,9 @@
                       </tr>
                     </thead>
                     <tbody>
-                      @php
-                      $no = 0;
-                      @endphp
-                      @foreach ($User as $DataUser)
+                      @foreach ($User as $Index=>$DataUser)
                         <tr>
-                          <td>{{$no+=1}}</td>
+                          <td>{{$Index+1}}</td>
                           <td><img class="img-thumbnail img-circle thumb30" src="{{asset("images/user/{$DataUser->foto}")}}"> {{$DataUser->nama}}</td>
                           <td>{{$DataUser->email}}</td>
                           <td>{{$DataUser->username}}</td>

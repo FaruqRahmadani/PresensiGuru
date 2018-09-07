@@ -25913,3 +25913,8 @@ footer {
   padding: 10px;
 }
 
+.btn-label {
+  padding: 0;
+  left: -12px;
+}
+

@@ -114,7 +114,7 @@
                 <ul class="nav sidebar-subnav collapse" id="MasterData">
                   <li class="sidebar-subnav-header">Master Data</li>
                   <li>
-                    <a href="/data-jenjang">
+                    <a href="{{Route('jenjangData')}}">
                       <span>Jenjang</span>
                     </a>
                   </li>

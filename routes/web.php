@@ -10,14 +10,12 @@ Route::group(['prefix' => 'lupa-password', 'as' => 'lupaPassword'], function () 
   Route::POST('{id}/{token}', 'Auth\LupaPasswordController@ResetFormSubmit')->name('ResetFormSubmit');
 });
 
-// User
 Route::group(['middleware' => 'User'], function(){
   Route::GET('home', 'UserController@Dashboard')->name('home');
   Route::GET('edit-profil', 'UserController@EditProfil');
   Route::POST('edit-profil', 'UserController@storeEditProfil');
 
   Route::group(['middleware' => 'SuperAdmin'], function(){
-    // Super Admin
     Route::group(['prefix' => 'admin', 'as' => 'admin'], function () {
       Route::GET('', 'AdminController@Data')->name('Data');
       Route::GET('tambah', 'AdminController@Tambah')->name('Tambah');
@@ -44,12 +42,14 @@ Route::group(['middleware' => 'User'], function(){
     Route::GET('data-kelurahan/{id}/hapus', 'UserController@HapusKelurahan');
 
     // Data Jenjang
-    Route::GET('data-jenjang', 'UserController@DataJenjang');
-    Route::GET('data-jenjang/tambah', 'UserController@TambahJenjang');
-    Route::POST('data-jenjang/tambah', 'UserController@storeTambahJenjang');
-    Route::GET('data-jenjang/{id}/edit', 'UserController@EditJenjang');
-    Route::POST('data-jenjang/{id}/edit', 'UserController@storeEditJenjang');
-    Route::GET('data-jenjang/{id}/hapus', 'UserController@HapusJenjang');
+    Route::group(['prefix' => 'jenjang', 'as' => 'jenjang'], function () {
+      Route::GET('', 'JenjangController@Data')->name('Data');
+      Route::GET('tambah', 'JenjangController@Tambah')->name('Tambah');
+      Route::POST('tambah', 'JenjangController@storeTambah')->name('TambahSubmit');
+      Route::GET('{id}/edit', 'JenjangController@Edit')->name('Edit');
+      Route::POST('{id}/edit', 'JenjangController@storeEdit')->name('EditSubmit');
+      Route::GET('{id}/hapus', 'JenjangController@Hapus')->name('Hapus');
+    });
 
     // Data Status
     Route::GET('data-status-sekolah', 'UserController@DataStatusSekolah');
