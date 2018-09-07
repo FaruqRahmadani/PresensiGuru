@@ -5,7 +5,11 @@
 .panel-login {
   padding-top: 30px;
   height: 100vh;
-  background: $gray;
+  background: darken($gray,10%);
+}
+
+.panel-lostpass{
+  border: 1px solid #cfdbe2;
 }
 
 .no-padding {
@@ -56,4 +60,10 @@ footer{
 
 .wrapper{
   background-color: $gray;
+}
+
+.form-group{
+  .fa{
+    padding: 10px;
+  }
 }

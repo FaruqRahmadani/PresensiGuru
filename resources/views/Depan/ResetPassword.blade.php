@@ -6,11 +6,21 @@
         <h4>LUPA PASSWORD</h4>
       </div>
       <div class="panel-body">
-        <form class="mb-lg" role="form" method="POST" action="{{Route('lupaPasswordFormSubmit')}}">
+        <form class="mb-lg" role="form" method="POST" action="{{Route('lupaPasswordResetFormSubmit', ['Id' => $User->UUID, 'Token' => HCrypt::Encrypt($Token)])}}">
           {{ csrf_field() }}
+          <div class="text-center">
+            <label>
+              {{$User->nama}}
+            </label>
+          </div>
+          <div class="text-center">
+            <label>
+              {{$User->username}}
+            </label>
+          </div>
           <div class="form-group has-feedback">
-            <input class="form-control" type="email" name="email" placeholder="Email" autocomplete="off" required>
-            <span class="fa fa-envelope form-control-feedback text-muted"></span>
+            <input class="form-control" id="exampleInputEmail1" type="password" name="password" placeholder="Password Baru" autocomplete="off" required>
+            <span class="fa fa-lock form-control-feedback text-muted"></span>
           </div>
           <button class="mb-sm btn btn-danger btn-block" type="submit">Reset Password</button>
         </form>
@@ -25,13 +35,4 @@
       </div>
     </div>
   </div>
-  <script>
-  @if (session('warning'))
-  swal({
-    title   : "Warning",
-    text    : "{{session('warning')}}",
-    icon    : "warning",
-  })
-  @endif
-  </script>
 @endsection

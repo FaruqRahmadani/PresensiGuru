@@ -1,13 +1,17 @@
 <?php
-Route::GET('', 'Auth\LoginController@showLoginForm')->name('login');
-Route::GET('lupa-password', 'UserController@LupaPassword');
-Route::POST('lupa-password', 'UserController@PostLupaPassword');
-Route::GET('lupa-password/{id}/{token}', 'UserController@GetLupaPassword');
-Route::POST('lupa-password/{id}/{token}', 'UserController@postGetLupaPassword');
+Route::GET('', 'Auth\LoginController@showLoginForm')->name('loginForm');
+Route::POST('', 'Auth\LoginController@Login')->name('login');
+Route::GET('logout', 'Auth\LoginController@logout')->name('logout');
+
+Route::group(['prefix' => 'lupa-password', 'as' => 'lupaPassword'], function () {
+  Route::GET('', 'Auth\LupaPasswordController@Form')->name('Form');
+  Route::POST('', 'Auth\LupaPasswordController@FormSubmit')->name('FormSubmit');
+  Route::GET('{id}/{token}', 'Auth\LupaPasswordController@ResetForm')->name('ResetForm');
+  Route::POST('{id}/{token}', 'Auth\LupaPasswordController@ResetFormSubmit')->name('ResetFormSubmit');
+});
 
 // User
 Route::group(['middleware' => 'User'], function(){
-  Route::GET('logout', 'Auth\LoginController@logout')->name('logout');
   Route::GET('home', 'UserController@Dashboard')->name('home');
   Route::GET('edit-profil', 'UserController@EditProfil');
   Route::POST('edit-profil', 'UserController@storeEditProfil');
@@ -131,13 +135,3 @@ Route::group(['middleware' => 'User'], function(){
   Route::GET('json/infopegawai/{id}/pegawai.json', 'UserController@JsonPegawai');
   Route::GET('json/infoabsen/{tanggal}/{idSekolah}/absensi.json', 'UserController@JsonAbsensi');
 });
-
-Route::GET('asd', 'UserController@asd');
-
-// Route::GET('', function () {
-//     return view('welcome');
-// });
-
-Auth::routes();
-
-// Route::GET('home', 'HomeController@index')->name('home');

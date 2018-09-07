@@ -25851,7 +25851,11 @@ fieldset[disabled] .flatdoc-wrapper .button.focus {
 .panel-login {
   padding-top: 30px;
   height: 100vh;
-  background: #f5f7fa;
+  background: #d3dce9;
+}
+
+.panel-lostpass {
+  border: 1px solid #cfdbe2;
 }
 
 .no-padding {
@@ -25903,5 +25907,9 @@ footer {
 
 .wrapper {
   background-color: #f5f7fa;
+}
+
+.form-group .fa {
+  padding: 10px;
 }
 
